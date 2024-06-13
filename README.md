@@ -2,6 +2,7 @@
 
 ## Descripción general
 La idea de esta app es facilitar al usuario la recolección de datos sobre algún partido o competición del deporte seleccionado (en principio handball o futbol).
+En principio tendría que estar disponible para dispositivo móvil.
 
 ## Funcionalidades
 **DEPORTES**:
