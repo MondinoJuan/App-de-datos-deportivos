@@ -13,6 +13,7 @@ En principio tendría que estar disponible para dispositivo móvil.
 **HANDBALL**:
 - 4- Cargar jugadores.
 - 5- Seleccionar en un arco dónde fueron lanzados los tiros y en una cancha de dónde fueron lanzados (podría ser una foto como background de una grilla y que se seleccione en dicha grilla donde uno requiera).
+- 6- Al cargar los datos en un archivo PDF, hacer una página por jugador y una página con el total del equipo. Total a la hora de imprimir dicho PDF el usuario puede seleccionar qué paginas imprimir o no.
 
 
 ## A futuro
