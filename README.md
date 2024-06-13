@@ -8,7 +8,14 @@ En principio tendría que estar disponible para dispositivo móvil.
 **DEPORTES**:
 - 1- Seleccionar el deporte del que se quiere almacenar datos.
 - 2- Permitir la generación de un archivo PDF con los datos recolectados.
+- 3- Por ahora no habrían perfiles, entonces los datos quedarían guardados en un PDF.
 
 **HANDBALL**:
-- 3- Cargar jugadores.
-- 4- Seleccionar en un arco dónde fueron lanzados los tiros y en una cancha de dónde fueron lanzados (podría ser una foto como background de una grilla y que se seleccione en dicha grilla donde uno requiera).
+- 4- Cargar jugadores.
+- 5- Seleccionar en un arco dónde fueron lanzados los tiros y en una cancha de dónde fueron lanzados (podría ser una foto como background de una grilla y que se seleccione en dicha grilla donde uno requiera).
+
+
+## A futuro
+- Crear perfiles de cada jugador y entrenador.
+- Un jugador puede pasar a ser entrenador.
+- Cargar datos sobre un partido, tal vez agregar la opción de agregar de una el fixture.
