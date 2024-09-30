@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35312.102
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phoneword", "Phoneword\Phoneword.csproj", "{A2E856CC-7C3D-4D9B-8D12-54C096423209}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phoneword", "Phoneword\Phoneword.csproj", "{C6F7DBF2-72A3-4FC6-BF17-DF6409AE943E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,17 +11,17 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A2E856CC-7C3D-4D9B-8D12-54C096423209}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A2E856CC-7C3D-4D9B-8D12-54C096423209}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A2E856CC-7C3D-4D9B-8D12-54C096423209}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{A2E856CC-7C3D-4D9B-8D12-54C096423209}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A2E856CC-7C3D-4D9B-8D12-54C096423209}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A2E856CC-7C3D-4D9B-8D12-54C096423209}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{C6F7DBF2-72A3-4FC6-BF17-DF6409AE943E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6F7DBF2-72A3-4FC6-BF17-DF6409AE943E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6F7DBF2-72A3-4FC6-BF17-DF6409AE943E}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{C6F7DBF2-72A3-4FC6-BF17-DF6409AE943E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6F7DBF2-72A3-4FC6-BF17-DF6409AE943E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6F7DBF2-72A3-4FC6-BF17-DF6409AE943E}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {F9AF12FB-8821-4159-8730-6F38FA5BBE38}
+		SolutionGuid = {7FE541D4-D9EA-4005-938F-3F346CA7D8BC}
 	EndGlobalSection
 EndGlobal
