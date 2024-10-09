@@ -21,6 +21,7 @@ En principio tendría que estar disponible para dispositivo móvil.
 - Un jugador puede pasar a ser entrenador.
 - Cargar datos sobre un partido, tal vez agregar la opción de agregar de una el fixture.
 - En la parte de handball, cuando ya pueda implementar una base de datos a la que se accede mediante wifi, podria hacer que ambos equipos y la mesa carguen los datos al mismo tiempo; con esto se podria mejorar la consistencia de datos.
+- Agregar tablero pizarra digital para mostrar jugadas.
 
 # Enlaces de aprendisaje
 - https://learn.microsoft.com/es-es/training/modules/build-mobile-and-desktop-apps/3-create-a-maui-project-visual-studio
