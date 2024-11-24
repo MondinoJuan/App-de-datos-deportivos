@@ -1,0 +1,139 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\juanc\\OneDrive\\Escritorio\\App\\App\\App\\Datos_Deportivos\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{07B28D2C-6DC9-485C-AE6F-A88519E05C7A}|Entities\\Entities.csproj|c:\\users\\juanc\\onedrive\\escritorio\\app\\app\\app\\datos_deportivos\\entities\\match.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{07B28D2C-6DC9-485C-AE6F-A88519E05C7A}|Entities\\Entities.csproj|solutionrelative:entities\\match.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{07B28D2C-6DC9-485C-AE6F-A88519E05C7A}|Entities\\Entities.csproj|c:\\users\\juanc\\onedrive\\escritorio\\app\\app\\app\\datos_deportivos\\entities\\action.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{07B28D2C-6DC9-485C-AE6F-A88519E05C7A}|Entities\\Entities.csproj|solutionrelative:entities\\action.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{07B28D2C-6DC9-485C-AE6F-A88519E05C7A}|Entities\\Entities.csproj|c:\\users\\juanc\\onedrive\\escritorio\\app\\app\\app\\datos_deportivos\\entities\\playermatch.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{07B28D2C-6DC9-485C-AE6F-A88519E05C7A}|Entities\\Entities.csproj|solutionrelative:entities\\playermatch.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{07B28D2C-6DC9-485C-AE6F-A88519E05C7A}|Entities\\Entities.csproj|c:\\users\\juanc\\onedrive\\escritorio\\app\\app\\app\\datos_deportivos\\entities\\player.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{07B28D2C-6DC9-485C-AE6F-A88519E05C7A}|Entities\\Entities.csproj|solutionrelative:entities\\player.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{07B28D2C-6DC9-485C-AE6F-A88519E05C7A}|Entities\\Entities.csproj|c:\\users\\juanc\\onedrive\\escritorio\\app\\app\\app\\datos_deportivos\\entities\\club.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{07B28D2C-6DC9-485C-AE6F-A88519E05C7A}|Entities\\Entities.csproj|solutionrelative:entities\\club.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{07B28D2C-6DC9-485C-AE6F-A88519E05C7A}|Entities\\Entities.csproj|c:\\users\\juanc\\onedrive\\escritorio\\app\\app\\app\\datos_deportivos\\entities\\tournament.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{07B28D2C-6DC9-485C-AE6F-A88519E05C7A}|Entities\\Entities.csproj|solutionrelative:entities\\tournament.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{07B28D2C-6DC9-485C-AE6F-A88519E05C7A}|Entities\\Entities.csproj|c:\\users\\juanc\\onedrive\\escritorio\\app\\app\\app\\datos_deportivos\\entities\\entitybase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{07B28D2C-6DC9-485C-AE6F-A88519E05C7A}|Entities\\Entities.csproj|solutionrelative:entities\\entitybase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 5,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Action.cs",
+              "DocumentMoniker": "C:\\Users\\juanc\\OneDrive\\Escritorio\\App\\App\\App\\Datos_Deportivos\\Entities\\Action.cs",
+              "RelativeDocumentMoniker": "Entities\\Action.cs",
+              "ToolTip": "C:\\Users\\juanc\\OneDrive\\Escritorio\\App\\App\\App\\Datos_Deportivos\\Entities\\Action.cs",
+              "RelativeToolTip": "Entities\\Action.cs",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAkwCQAAAA3AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-24T04:17:26.486Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "PlayerMatch.cs",
+              "DocumentMoniker": "C:\\Users\\juanc\\OneDrive\\Escritorio\\App\\App\\App\\Datos_Deportivos\\Entities\\PlayerMatch.cs",
+              "RelativeDocumentMoniker": "Entities\\PlayerMatch.cs",
+              "ToolTip": "C:\\Users\\juanc\\OneDrive\\Escritorio\\App\\App\\App\\Datos_Deportivos\\Entities\\PlayerMatch.cs",
+              "RelativeToolTip": "Entities\\PlayerMatch.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAA3AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-24T04:03:42.858Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "EntityBase.cs",
+              "DocumentMoniker": "C:\\Users\\juanc\\OneDrive\\Escritorio\\App\\App\\App\\Datos_Deportivos\\Entities\\EntityBase.cs",
+              "RelativeDocumentMoniker": "Entities\\EntityBase.cs",
+              "ToolTip": "C:\\Users\\juanc\\OneDrive\\Escritorio\\App\\App\\App\\Datos_Deportivos\\Entities\\EntityBase.cs",
+              "RelativeToolTip": "Entities\\EntityBase.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-24T03:53:09.948Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Tournament.cs",
+              "DocumentMoniker": "C:\\Users\\juanc\\OneDrive\\Escritorio\\App\\App\\App\\Datos_Deportivos\\Entities\\Tournament.cs",
+              "RelativeDocumentMoniker": "Entities\\Tournament.cs",
+              "ToolTip": "C:\\Users\\juanc\\OneDrive\\Escritorio\\App\\App\\App\\Datos_Deportivos\\Entities\\Tournament.cs",
+              "RelativeToolTip": "Entities\\Tournament.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAABCAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-24T03:51:06.203Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Club.cs",
+              "DocumentMoniker": "C:\\Users\\juanc\\OneDrive\\Escritorio\\App\\App\\App\\Datos_Deportivos\\Entities\\Club.cs",
+              "RelativeDocumentMoniker": "Entities\\Club.cs",
+              "ToolTip": "C:\\Users\\juanc\\OneDrive\\Escritorio\\App\\App\\App\\Datos_Deportivos\\Entities\\Club.cs",
+              "RelativeToolTip": "Entities\\Club.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-24T03:50:50.301Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Match.cs",
+              "DocumentMoniker": "C:\\Users\\juanc\\OneDrive\\Escritorio\\App\\App\\App\\Datos_Deportivos\\Entities\\Match.cs",
+              "RelativeDocumentMoniker": "Entities\\Match.cs",
+              "ToolTip": "C:\\Users\\juanc\\OneDrive\\Escritorio\\App\\App\\App\\Datos_Deportivos\\Entities\\Match.cs",
+              "RelativeToolTip": "Entities\\Match.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-24T03:50:39.574Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Player.cs",
+              "DocumentMoniker": "C:\\Users\\juanc\\OneDrive\\Escritorio\\App\\App\\App\\Datos_Deportivos\\Entities\\Player.cs",
+              "RelativeDocumentMoniker": "Entities\\Player.cs",
+              "ToolTip": "C:\\Users\\juanc\\OneDrive\\Escritorio\\App\\App\\App\\Datos_Deportivos\\Entities\\Player.cs",
+              "RelativeToolTip": "Entities\\Player.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-24T03:49:40.118Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
