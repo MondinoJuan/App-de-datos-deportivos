@@ -3,8 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\Pc\\Desktop\\App\\2\\Phoneword\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{C6F7DBF2-72A3-4FC6-BF17-DF6409AE943E}|Phoneword\\Phoneword.csproj|c:\\users\\pc\\desktop\\app\\2\\phoneword\\phoneword\\platforms\\android\\androidmanifest.xml||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{C6F7DBF2-72A3-4FC6-BF17-DF6409AE943E}|Phoneword\\Phoneword.csproj|solutionrelative:phoneword\\platforms\\android\\androidmanifest.xml||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{C6F7DBF2-72A3-4FC6-BF17-DF6409AE943E}|Phoneword\\Phoneword.csproj|c:\\users\\pc\\desktop\\app\\2\\phoneword\\phoneword\\mainpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{C6F7DBF2-72A3-4FC6-BF17-DF6409AE943E}|Phoneword\\Phoneword.csproj|solutionrelative:phoneword\\mainpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C6F7DBF2-72A3-4FC6-BF17-DF6409AE943E}|Phoneword\\Phoneword.csproj|c:\\users\\pc\\desktop\\app\\2\\phoneword\\phoneword\\mainpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{C6F7DBF2-72A3-4FC6-BF17-DF6409AE943E}|Phoneword\\Phoneword.csproj|solutionrelative:phoneword\\mainpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C6F7DBF2-72A3-4FC6-BF17-DF6409AE943E}|Phoneword\\Phoneword.csproj|c:\\users\\pc\\desktop\\app\\2\\phoneword\\phoneword\\phonewordtranslator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C6F7DBF2-72A3-4FC6-BF17-DF6409AE943E}|Phoneword\\Phoneword.csproj|solutionrelative:phoneword\\phonewordtranslator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -19,12 +31,51 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "AndroidManifest.xml",
+              "DocumentMoniker": "C:\\Users\\Pc\\Desktop\\App\\2\\Phoneword\\Phoneword\\Platforms\\Android\\AndroidManifest.xml",
+              "RelativeDocumentMoniker": "Phoneword\\Platforms\\Android\\AndroidManifest.xml",
+              "ToolTip": "C:\\Users\\Pc\\Desktop\\App\\2\\Phoneword\\Phoneword\\Platforms\\Android\\AndroidManifest.xml",
+              "RelativeToolTip": "Phoneword\\Platforms\\Android\\AndroidManifest.xml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAALAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003576|",
+              "WhenOpened": "2024-10-01T18:02:53.179Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "MainPage.xaml",
+              "DocumentMoniker": "C:\\Users\\Pc\\Desktop\\App\\2\\Phoneword\\Phoneword\\MainPage.xaml",
+              "RelativeDocumentMoniker": "Phoneword\\MainPage.xaml",
+              "ToolTip": "C:\\Users\\Pc\\Desktop\\App\\2\\Phoneword\\Phoneword\\MainPage.xaml",
+              "RelativeToolTip": "Phoneword\\MainPage.xaml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2024-10-01T17:34:37.196Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "PhonewordTranslator.cs",
+              "DocumentMoniker": "C:\\Users\\Pc\\Desktop\\App\\2\\Phoneword\\Phoneword\\PhonewordTranslator.cs",
+              "RelativeDocumentMoniker": "Phoneword\\PhonewordTranslator.cs",
+              "ToolTip": "C:\\Users\\Pc\\Desktop\\App\\2\\Phoneword\\Phoneword\\PhonewordTranslator.cs",
+              "RelativeToolTip": "Phoneword\\PhonewordTranslator.cs",
+              "ViewState": "AgIAABYAAAAAAAAAAAAgwCwAAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-01T17:24:00.235Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "MainPage.xaml.cs",
               "DocumentMoniker": "C:\\Users\\Pc\\Desktop\\App\\2\\Phoneword\\Phoneword\\MainPage.xaml.cs",
               "RelativeDocumentMoniker": "Phoneword\\MainPage.xaml.cs",
               "ToolTip": "C:\\Users\\Pc\\Desktop\\App\\2\\Phoneword\\Phoneword\\MainPage.xaml.cs",
               "RelativeToolTip": "Phoneword\\MainPage.xaml.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAABIAAAAAAAAAAAAAACYAAAA/AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-09-30T21:54:07.731Z",
               "EditorCaption": ""

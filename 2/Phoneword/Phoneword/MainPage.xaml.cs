@@ -1,25 +1,53 @@
-﻿namespace Phoneword
+﻿namespace Phoneword;
+public partial class MainPage : ContentPage
 {
-    public partial class MainPage : ContentPage
+    public MainPage()
     {
-        int count = 0;
+        InitializeComponent();
+    }
 
-        public MainPage()
+    string translatedNumber;
+
+    private void OnTranslate(object sender, EventArgs e)
+    {
+        string enteredNumber = PhoneNumberText.Text;
+        translatedNumber = Core.PhonewordTranslator.ToNumber(enteredNumber);
+
+        if (!string.IsNullOrEmpty(translatedNumber))
         {
-            InitializeComponent();
+            CallButton.IsEnabled = true;
+            CallButton.Text = "Call " + translatedNumber;
         }
-
-        private void OnCounterClicked(object sender, EventArgs e)
+        else
         {
-            count += 5;
-
-            if (count == 1)
-                CounterBtn.Text = $"Clicked {count} time";
-            else
-                CounterBtn.Text = $"Clicked {count} times";
-
-            SemanticScreenReader.Announce(CounterBtn.Text);
+            CallButton.IsEnabled = false;
+            CallButton.Text = "Call";
         }
     }
 
+    async void OnCall (object sender, System.EventArgs e)
+    {
+        if (await this.DisplayAlert(
+        "Dial a Number",
+        "Would you like to call " + translatedNumber + "?",
+        "Yes",
+        "No"))
+        {
+            try
+            {
+                if (PhoneDialer.Default.IsSupported)
+                    PhoneDialer.Default.Open(translatedNumber);
+            }
+            catch (ArgumentNullException)
+            {
+                await DisplayAlert("Unable to dial", "Phone number was not valid.", "OK");
+            }
+            catch (Exception)
+            {
+                // Other error has occurred.
+                await DisplayAlert("Unable to dial", "Phone dialing failed.", "OK");
+            }
+        }
+    }
 }
+
