@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Entities.Entities
 {
@@ -25,10 +26,37 @@ namespace Entities.Entities
 
         public Ending Ending { get; set; }
 
-        public Coordenates ActionPosition { get; set; }          // Foto de media cancha como fondo de la matriz.
+        public int ActionPositionX { get; set; }              // Coordenada X de ActionPosition
+        public int ActionPositionY { get; set; }              // Coordenada Y de ActionPosition
 
-        public Coordenates? DefinitionPlace { get; set; }        // Foto de un arco como fondo de la matriz.
+        public int? DefinitionPlaceX { get; set; }            // Coordenada X de DefinitionPlace (opcional)
+        public int? DefinitionPlaceY { get; set; }            // Coordenada Y de DefinitionPlace (opcional)
 
-        public string? Description { get; set; }                 // Si es de contra o de alguna forma en especial.
+        public string? Description { get; set; }             // Si es de contra o de alguna forma en especial.
+
+        // Propiedades de conveniencia para trabajar con Coordenates en el código
+        [NotMapped]
+        public Coordenates ActionPosition
+        {
+            get => new Coordenates { X = ActionPositionX, Y = ActionPositionY };
+            set
+            {
+                ActionPositionX = value.X;
+                ActionPositionY = value.Y;
+            }
+        }
+
+        [NotMapped]
+        public Coordenates? DefinitionPlace
+        {
+            get => DefinitionPlaceX.HasValue && DefinitionPlaceY.HasValue
+                ? new Coordenates { X = DefinitionPlaceX.Value, Y = DefinitionPlaceY.Value }
+                : (Coordenates?)null;
+            set
+            {
+                DefinitionPlaceX = value?.X;
+                DefinitionPlaceY = value?.Y;
+            }
+        }
     }
 }

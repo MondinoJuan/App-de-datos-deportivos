@@ -8,7 +8,6 @@ namespace Entities.Entities
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public string Id;
-
+        public string Id { get; set; }
     }
 }

@@ -228,7 +228,7 @@ namespace API
 
             app.MapGet("/playersActions", () =>
             {
-                return PlayerAction_Services.GetAllPlayerAction();
+                return PlayerAction_Services.GetAllPlayerActions();
             })
             .WithName("GetAllPlayersActions");
 

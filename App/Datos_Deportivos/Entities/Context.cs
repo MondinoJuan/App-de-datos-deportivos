@@ -20,7 +20,7 @@ namespace Entities
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"aaaaa");
+            optionsBuilder.UseSqlServer(@"Data Source=DESKTOP-6HBL1R6\SQLEXPRESS;Initial Catalog=Datos_Deportivos;Integrated Security=True;Encrypt=False");
         }
     }
 }
