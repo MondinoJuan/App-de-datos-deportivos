@@ -1,7 +1,14 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Entities
+namespace Entities.Entities
 {
+    public enum Sanction
+    {
+        Blue,
+        Red,
+        Two_Minutes
+    }
+
     public class PlayerMatch : EntityBase
     {
         [Required]
@@ -12,14 +19,8 @@ namespace Entities
 
         public static string[]? IdActions { get; set; }
 
-        public static Boolean? Blue { get; set; }
-
-        public static Boolean? Red { get; set; }
-
-        public static MinutesSeconds[]? TwoMinutes { get; set; }
-
         [Required]
-        public static string State { get; set; }
+        public static Sanction[] State { get; set; }
 
     }
 }

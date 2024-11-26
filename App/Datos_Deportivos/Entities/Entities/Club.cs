@@ -1,10 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Entities
+namespace Entities.Entities
 {
     public class Club : EntityBase
     {
         [Required]
-        public static string Name { get; set; }
+        public string Name { get; set; }
+
+        public string[] IdPlayers { get; set; }
     }
 }
