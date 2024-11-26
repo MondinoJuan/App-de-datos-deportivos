@@ -15,7 +15,8 @@ namespace Entities.Entities
         Miss,
         Blocked,
         Steal_W,
-        Steal_L
+        Steal_L,
+        Foul
     }
 
     public class PlayerAction : EntityBase

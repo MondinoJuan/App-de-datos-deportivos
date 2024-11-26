@@ -11,7 +11,7 @@ namespace Entities
             this.Database.EnsureCreated();
         }
 
-        public DbSet<PlayerAction> Actions { get; set; }
+        public DbSet<PlayerAction> PlayersActions { get; set; }
         public DbSet<Club> Clubs { get; set; }
         public DbSet<Match> Matchs { get; set; }
         public DbSet<Player> Players { get; set; }

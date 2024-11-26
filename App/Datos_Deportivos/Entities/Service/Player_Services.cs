@@ -7,54 +7,53 @@ using Entities.Entities;
 
 namespace Entities.Service
 {
-    public class Club_Service
+    public class Player_Services
     {
-        public static void CreateClub(Club club)
+        public static void CreatePlayer(Player player)
         {
             using var context = new Context();
 
             // Validaciones.
 
-            context.Clubs.Add(club);
+            context.Players.Add(player);
             context.SaveChanges();
         }
 
-        public static Club? GetClub(int id)
+        public static Player? GetPlayer(int id)
         {
             using var context = new Context();
-            return context.Clubs.Find(id);
+            return context.Players.Find(id);
         }
 
-        public static IEnumerable<Club> GetAllClub()
+        public static IEnumerable<Player> GetAllPlayer()
         {
             using var context = new Context();
-            return context.Clubs.ToList();
+            return context.Players.ToList();
         }
 
-        public static void UpdateClub(Club club)
+        public static void UpdatePlayer(Player player)
         {
             using var context = new Context();
 
-            var clubToUpdate = context.Clubs.Find(club.Id);
+            var playerToUpdate = context.Players.Find(player.Id);
 
-            if (clubToUpdate != null)
+            if (playerToUpdate != null)
             {
                 // Validaciones por separado
 
-                clubToUpdate.Name = club.Name;
-                clubToUpdate.IdPlayers = club.IdPlayers;
-                clubToUpdate.Id = club.Id;
+                playerToUpdate.Number = player.Number;
+                playerToUpdate.Id = player.Id;
                 context.SaveChanges();
             }
         }
 
-        public static void DeleteClub(int id)
+        public static void DeletePlayer(int id)
         {
             using var context = new Context();
-            var club = context.Clubs.Find(id); 
-            if (club != null)
+            var player = context.Players.Find(id); 
+            if (player != null)
             {
-                context.Clubs.Remove(club);
+                context.Players.Remove(player);
                 context.SaveChanges();
             }
         }

@@ -8,7 +8,7 @@ namespace Entities.Entities
         public string Name { get; set; }
 
         [Required]
-        public int MaxAmountOfPlayersPerMatch { get; set; }
+        public int Cupo { get; set; }
 
         [Required]
         public string[] IdClubs { get; set; }

@@ -12,15 +12,15 @@ namespace Entities.Entities
     public class PlayerMatch : EntityBase
     {
         [Required]
-        public static string IdPlayer { get; set; }
+        public string IdPlayer { get; set; }
 
         [Required]
-        public static string IdMatch { get; set; }
+        public string IdMatch { get; set; }
 
-        public static string[]? IdActions { get; set; }
+        public string[]? IdActions { get; set; }
 
         [Required]
-        public static Sanction[] State { get; set; }
+        public Sanction[]? State { get; set; }
 
     }
 }
