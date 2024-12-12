@@ -16,6 +16,11 @@ En principio tendría que estar disponible para dispositivo móvil.
 - 6- Al cargar los datos en un archivo PDF, hacer una página por jugador, una página por tiempo y una página con el total del equipo. Total a la hora de imprimir dicho PDF el usuario puede seleccionar qué paginas imprimir o no.
 
 
+## Funcionalidades más pequeñas
+- Cuando se agregan acciones en un partido estaría bueno mostrar un historial de las ultimos acciones agregadas con un resumen para idenificar la última cargada.
+- En un principio que cada vez que se cree un partido nuevo se vaya sobreescribiendo los datos, pero al final de cada partido te haga imprimir un pdf con los datos del partido entero, ambas mitades y jugador por jugador.
+
+
 ## A futuro
 - Crear perfiles de cada jugador y entrenador.
 - Un jugador puede pasar a ser entrenador.
