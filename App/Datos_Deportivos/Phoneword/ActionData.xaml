@@ -47,7 +47,7 @@
                      AbsoluteLayout.LayoutBounds="0,0,1,1"
                    AbsoluteLayout.LayoutFlags="All">
                 <BoxView.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="OnBoxViewTapped" />
+                    <TapGestureRecognizer Tapped="OnBoxViewTapped_Field" />
                 </BoxView.GestureRecognizers>
             </BoxView>
 
@@ -70,14 +70,20 @@
              AbsoluteLayout.LayoutBounds="0,0,1,1"
            AbsoluteLayout.LayoutFlags="All">
                 <BoxView.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="OnBoxViewTapped" />
+                    <TapGestureRecognizer Tapped="OnBoxViewTapped_Goal" />
                 </BoxView.GestureRecognizers>
             </BoxView>
 
         </AbsoluteLayout>
-        
+
         <Entry x:Name="description"
-               Text="Ingrese descripción (opcional)."/>
+               Text="Ingrese descripción (opcional)."
+               TextChanged="OnDescriptionTextChanged"/>
+
+        <Button x:Name="buttonSubmit"
+                Text="Guardar"
+                Clicked="OnSubmit"/>
+
 
     </VerticalStackLayout>
 

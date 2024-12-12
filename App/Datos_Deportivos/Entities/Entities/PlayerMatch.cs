@@ -19,7 +19,6 @@ namespace Entities.Entities
 
         public string[]? IdActions { get; set; }
 
-        [Required]
         public Sanction[]? State { get; set; }
 
     }

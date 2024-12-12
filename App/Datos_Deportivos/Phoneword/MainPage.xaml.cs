@@ -11,7 +11,7 @@ public partial class MainPage : ContentPage
     private void OnTranslate(object sender, EventArgs e)
     {
         string enteredNumber = PhoneNumberText.Text;
-        translatedNumber = Core.PhonewordTranslator.ToNumber(enteredNumber);
+        translatedNumber = Core.FrontendTranslator.ToNumber(enteredNumber);
 
         if (!string.IsNullOrEmpty(translatedNumber))
         {

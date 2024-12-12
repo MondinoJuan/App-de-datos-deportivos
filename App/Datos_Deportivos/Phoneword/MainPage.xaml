@@ -5,7 +5,7 @@
 
     <VerticalStackLayout Spacing="15" Padding="20">
         
-        <Label Text="Enter a Phoneword"
+        <Label Text="Enter a Frontend"
                FontSize="20"/>
         
         <Entry x:Name="PhoneNumberText"

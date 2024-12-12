@@ -2,7 +2,7 @@
 
 namespace Core;
 
-public static class PhonewordTranslator
+public static class FrontendTranslator
 {
     public static string ToNumber(string raw)
     {

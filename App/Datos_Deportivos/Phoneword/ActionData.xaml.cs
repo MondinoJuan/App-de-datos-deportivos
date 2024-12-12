@@ -1,22 +1,16 @@
 ﻿using Microsoft.Maui.Controls;
+using Frontend.Resources;
+using Frontend.Resources.Entities;
 
 namespace Frontend;
 public partial class ActionData : ContentPage
 {
+    private PlayerAction_Dto action1 { get; set; }
+
     public ActionData()
     {
         //InitializeComponent();
-    }
-
-    public enum Ending
-    {
-        Goal,
-        Save,
-        Miss,
-        Blocked,
-        Steal_W,
-        Steal_L,
-        Foul
+        action1 = new PlayerAction_Dto();
     }
 
     private void OnPickerSelectedIndexChanged(object sender, EventArgs e)
@@ -24,9 +18,9 @@ public partial class ActionData : ContentPage
         var picker = (Picker)sender; 
         int selectedIndex = picker.SelectedIndex; 
         if (selectedIndex != -1) 
-        { 
-            Ending selectedEnding = (Ending)selectedIndex; 
-            DisplayAlert("Elemento Seleccionado", "Has seleccionado: " + selectedEnding, "OK");
+        {
+            action1.Ending = (Ending)selectedIndex;
+            DisplayAlert("Elemento Seleccionado", "Has seleccionado: " + action1.Ending, "OK");
         } 
     }
 
@@ -34,25 +28,51 @@ public partial class ActionData : ContentPage
     { 
         bool isToggled = e.Value; 
         if (isToggled) 
-        { 
-            DisplayAlert("Interruptor", "El interruptor está activado", "OK"); 
+        {
+            action1.WhichHalf = true;
+            DisplayAlert("Interruptor", "El interruptor está activado", "OK");
         }
         else 
         {
+            action1.WhichHalf = false;
             DisplayAlert("Interruptor", "El interruptor está desactivado", "OK"); 
         } 
     }
 
-    private void OnBoxViewTapped(object sender, TappedEventArgs e)
+    private void OnBoxViewTapped_Field(object sender, TappedEventArgs e)
     {
         var touchPosition = e.GetPosition((VisualElement)sender);
-        
-        if(touchPosition is not null)
+
+        if (touchPosition is not null)
         {
-            double x = touchPosition.Value.X;
-            double y = touchPosition.Value.Y;
-            DisplayAlert("Coordenadas", $"X: {x}, Y: {y}", "OK");
+            action1.ActionPositionX = touchPosition.Value.X;
+            action1.ActionPositionY = touchPosition.Value.Y;
+            DisplayAlert("Coordenadas", $"X: {action1.ActionPositionX}, Y: {action1.ActionPositionY}", "OK");
         }
     }
+
+    private void OnBoxViewTapped_Goal(object sender, TappedEventArgs e)
+    {
+        var touchPosition = e.GetPosition((VisualElement)sender);
+
+        if (touchPosition is not null)
+        {
+            action1.DefinitionPlaceX = touchPosition.Value.X;
+            action1.DefinitionPlaceY = touchPosition.Value.Y;
+            DisplayAlert("Coordenadas", $"X: {action1.DefinitionPlaceX}, Y: {action1.DefinitionPlaceY}", "OK");
+        }
+    }
+
+    private void OnDescriptionTextChanged(object sender, TextChangedEventArgs e)
+    {
+        action1.Description = e.NewTextValue;
+        DisplayAlert("Descripción", $"Descripción actualizada: {action1.Description}", "OK");
+    }
+
+    private void OnSubmit(object sender, TextChangedEventArgs e)
+    {
+        //Guardo Id de la PlayerAction en el Match
+    }
+
 }
 

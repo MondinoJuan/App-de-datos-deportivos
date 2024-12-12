@@ -26,37 +26,37 @@ namespace Entities.Entities
 
         public Ending Ending { get; set; }
 
-        public int ActionPositionX { get; set; }              // Coordenada X de ActionPosition
-        public int ActionPositionY { get; set; }              // Coordenada Y de ActionPosition
+        public double ActionPositionX { get; set; }              // Coordenada X de ActionPosition
+        public double ActionPositionY { get; set; }              // Coordenada Y de ActionPosition
 
-        public int? DefinitionPlaceX { get; set; }            // Coordenada X de DefinitionPlace (opcional)
-        public int? DefinitionPlaceY { get; set; }            // Coordenada Y de DefinitionPlace (opcional)
+        public double? DefinitionPlaceX { get; set; }            // Coordenada X de DefinitionPlace (opcional)
+        public double? DefinitionPlaceY { get; set; }            // Coordenada Y de DefinitionPlace (opcional)
 
         public string? Description { get; set; }             // Si es de contra o de alguna forma en especial.
 
         // Propiedades de conveniencia para trabajar con Coordenates en el código
-        [NotMapped]
-        public Coordenates ActionPosition
-        {
-            get => new Coordenates { X = ActionPositionX, Y = ActionPositionY };
-            set
-            {
-                ActionPositionX = value.X;
-                ActionPositionY = value.Y;
-            }
-        }
+        //[NotMapped]
+        //public Coordenates ActionPosition
+        //{
+        //    get => new Coordenates { X = ActionPositionX, Y = ActionPositionY };
+        //    set
+        //    {
+        //        ActionPositionX = value.X;
+        //        ActionPositionY = value.Y;
+        //    }
+        //}
 
-        [NotMapped]
-        public Coordenates? DefinitionPlace
-        {
-            get => DefinitionPlaceX.HasValue && DefinitionPlaceY.HasValue
-                ? new Coordenates { X = DefinitionPlaceX.Value, Y = DefinitionPlaceY.Value }
-                : (Coordenates?)null;
-            set
-            {
-                DefinitionPlaceX = value?.X;
-                DefinitionPlaceY = value?.Y;
-            }
-        }
+        //[NotMapped]
+        //public Coordenates? DefinitionPlace
+        //{
+        //    get => DefinitionPlaceX.HasValue && DefinitionPlaceY.HasValue
+        //        ? new Coordenates { X = DefinitionPlaceX.Value, Y = DefinitionPlaceY.Value }
+        //        : (Coordenates?)null;
+        //    set
+        //    {
+        //        DefinitionPlaceX = value?.X;
+        //        DefinitionPlaceY = value?.Y;
+        //    }
+        //}
     }
 }

@@ -2,7 +2,7 @@ using Microsoft.Maui;
 using Microsoft.Maui.Hosting;
 using System;
 
-namespace Phoneword
+namespace Frontend
 {
     internal class Program : MauiApplication
     {
