@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Frontend.ActionData">
+
+    <VerticalStackLayout Spacing="15" Padding="20">
+        
+        <Label Text="Ingrese los datos de la acción"
+               FontSize="20"/>
+
+        <Picker x:Name="ending" 
+                Title="Seleccione una opción" 
+                VerticalOptions="Start" 
+                SelectedIndexChanged="OnPickerSelectedIndexChanged">
+            <Picker.ItemsSource>
+                <x:Array Type="{x:Type x:String}">
+                    <x:String>Goal</x:String>
+                    <x:String>Save</x:String>
+                    <x:String>Miss</x:String>
+                    <x:String>Blocked</x:String>
+                    <x:String>Steal_W</x:String>
+                    <x:String>Steal_L</x:String>
+                    <x:String>Foul</x:String>
+                </x:Array>
+            </Picker.ItemsSource>
+        </Picker>
+
+        <Switch x:Name="whichHalf" 
+                IsToggled="false" 
+                Toggled="OnSwitchToggled" 
+                VerticalOptions="Start" />
+
+        <!-- AbsoluteLayout para la matriz con imagen de fondo -->
+        <AbsoluteLayout x:Name="fieldPlace"
+                        VerticalOptions="FillAndExpand" 
+                        HorizontalOptions="FillAndExpand"
+                        HeightRequest="300"
+                        WidthRequest="300">
+            <!-- Imagen de fondo -->
+            <Image Source="cancha.jpg" 
+                   Aspect="AspectFill"
+                   AbsoluteLayout.LayoutBounds="0,0,1,1" 
+                   AbsoluteLayout.LayoutFlags="All" />
+            
+            <!--Area para capturar toques-->
+            <BoxView BackgroundColor="Transparent"
+                     AbsoluteLayout.LayoutBounds="0,0,1,1"
+                   AbsoluteLayout.LayoutFlags="All">
+                <BoxView.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnBoxViewTapped" />
+                </BoxView.GestureRecognizers>
+            </BoxView>
+
+        </AbsoluteLayout>
+
+        <!-- AbsoluteLayout para la matriz con imagen de fondo -->
+        <AbsoluteLayout x:Name="goalPlace"
+                VerticalOptions="FillAndExpand" 
+                HorizontalOptions="FillAndExpand"
+                HeightRequest="300"
+                WidthRequest="300">
+            <!-- Imagen de fondo -->
+            <Image Source="arco.jpg" 
+           Aspect="AspectFill"
+           AbsoluteLayout.LayoutBounds="0,0,1,1" 
+           AbsoluteLayout.LayoutFlags="All" />
+
+            <!--Area para capturar toques-->
+            <BoxView BackgroundColor="Transparent"
+             AbsoluteLayout.LayoutBounds="0,0,1,1"
+           AbsoluteLayout.LayoutFlags="All">
+                <BoxView.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnBoxViewTapped" />
+                </BoxView.GestureRecognizers>
+            </BoxView>
+
+        </AbsoluteLayout>
+        
+        <Entry x:Name="description"
+               Text="Ingrese descripción (opcional)."/>
+
+    </VerticalStackLayout>
+
+</ContentPage>
