@@ -37,7 +37,7 @@
                         HeightRequest="300"
                         WidthRequest="300">
             <!-- Imagen de fondo -->
-            <Image Source="cancha.jpg" 
+            <Image Source="Images/cancha.jpg" 
                    Aspect="AspectFill"
                    AbsoluteLayout.LayoutBounds="0,0,1,1" 
                    AbsoluteLayout.LayoutFlags="All" />
@@ -45,7 +45,7 @@
             <!--Area para capturar toques-->
             <BoxView BackgroundColor="Transparent"
                      AbsoluteLayout.LayoutBounds="0,0,1,1"
-                   AbsoluteLayout.LayoutFlags="All">
+                     AbsoluteLayout.LayoutFlags="All">
                 <BoxView.GestureRecognizers>
                     <TapGestureRecognizer Tapped="OnBoxViewTapped_Field" />
                 </BoxView.GestureRecognizers>
@@ -55,20 +55,20 @@
 
         <!-- AbsoluteLayout para la matriz con imagen de fondo -->
         <AbsoluteLayout x:Name="goalPlace"
-                VerticalOptions="FillAndExpand" 
-                HorizontalOptions="FillAndExpand"
-                HeightRequest="300"
-                WidthRequest="300">
+                        VerticalOptions="FillAndExpand" 
+                        HorizontalOptions="FillAndExpand"
+                        HeightRequest="300"
+                        WidthRequest="300">
             <!-- Imagen de fondo -->
-            <Image Source="arco.jpg" 
-           Aspect="AspectFill"
-           AbsoluteLayout.LayoutBounds="0,0,1,1" 
-           AbsoluteLayout.LayoutFlags="All" />
+            <Image Source="Images/arco.jpg" 
+                   Aspect="AspectFill"
+                   AbsoluteLayout.LayoutBounds="0,0,1,1" 
+                   AbsoluteLayout.LayoutFlags="All" />
 
             <!--Area para capturar toques-->
             <BoxView BackgroundColor="Transparent"
-             AbsoluteLayout.LayoutBounds="0,0,1,1"
-           AbsoluteLayout.LayoutFlags="All">
+                     AbsoluteLayout.LayoutBounds="0,0,1,1"
+                     AbsoluteLayout.LayoutFlags="All">
                 <BoxView.GestureRecognizers>
                     <TapGestureRecognizer Tapped="OnBoxViewTapped_Goal" />
                 </BoxView.GestureRecognizers>
