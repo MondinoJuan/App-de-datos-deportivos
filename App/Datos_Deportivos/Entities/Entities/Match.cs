@@ -15,5 +15,23 @@ namespace Entities.Entities
 
         [Required]
         public string State { get; set; }
+
+        [Required]
+        public int MatchWeek {get; set;}
+        
+        [Required]
+        public string IdTournament { get; set; }
+
+        [Required]
+        public string IdTeamA {  get; set; }
+
+        [Required]
+        public int GoalsTeamA { get; set; }
+
+        [Required]
+        public string IdTeamB { get; set; }
+
+        [Required]
+        public int GoalsTeamB { get; set; }
     }
 }
