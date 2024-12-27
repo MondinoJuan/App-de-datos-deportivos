@@ -1,42 +1,42 @@
-Ôªøusing Microsoft.Maui.Controls;
+using Microsoft.Maui.Controls;
 using Frontend.Resources;
 using Frontend.Resources.Entities;
 
 namespace Frontend;
-public partial class ActionData : ContentPage
+public partial class ActionInfo : ContentPage
 {
     private PlayerAction_Dto action1 { get; set; }
 
-    public ActionData()
+    public ActionInfo()
     {
         //InitializeComponent();
         action1 = new PlayerAction_Dto();
     }
 
     private void OnPickerSelectedIndexChanged(object sender, EventArgs e)
-    { 
-        var picker = (Picker)sender; 
-        int selectedIndex = picker.SelectedIndex; 
-        if (selectedIndex != -1) 
+    {
+        var picker = (Picker)sender;
+        int selectedIndex = picker.SelectedIndex;
+        if (selectedIndex != -1)
         {
             action1.Ending = (Ending)selectedIndex;
             DisplayAlert("Elemento Seleccionado", "Has seleccionado: " + action1.Ending, "OK");
-        } 
+        }
     }
 
-    private void OnSwitchToggled(object sender, ToggledEventArgs e) 
-    { 
-        bool isToggled = e.Value; 
-        if (isToggled) 
+    private void OnSwitchToggled(object sender, ToggledEventArgs e)
+    {
+        bool isToggled = e.Value;
+        if (isToggled)
         {
             action1.WhichHalf = true;
-            DisplayAlert("Interruptor", "El interruptor est√° activado", "OK");
+            DisplayAlert("Interruptor", "El interruptor est· activado", "OK");
         }
-        else 
+        else
         {
             action1.WhichHalf = false;
-            DisplayAlert("Interruptor", "El interruptor est√° desactivado", "OK"); 
-        } 
+            DisplayAlert("Interruptor", "El interruptor est· desactivado", "OK");
+        }
     }
 
     private void OnBoxViewTapped_Field(object sender, TappedEventArgs e)
@@ -66,7 +66,7 @@ public partial class ActionData : ContentPage
     private void OnDescriptionTextChanged(object sender, TextChangedEventArgs e)
     {
         action1.Description = e.NewTextValue;
-        DisplayAlert("Descripci√≥n", $"Descripci√≥n actualizada: {action1.Description}", "OK");
+        DisplayAlert("DescripciÛn", $"DescripciÛn actualizada: {action1.Description}", "OK");
     }
 
     private void OnSubmit(object sender, TextChangedEventArgs e)

@@ -55,13 +55,13 @@ namespace Entities.Service
             // Actualizar propiedades
             playerActionToUpdate.WhichHalf = playerAction.WhichHalf;
             playerActionToUpdate.Ending = playerAction.Ending;
-            playerActionToUpdate.ActionPositionX = playerAction.ActionPosition.X;
-            playerActionToUpdate.ActionPositionY = playerAction.ActionPosition.Y;
+            playerActionToUpdate.ActionPositionX = playerAction.ActionPositionX;
+            playerActionToUpdate.ActionPositionY = playerAction.ActionPositionY;
 
-            if (playerAction.DefinitionPlace.HasValue)
+            if (playerAction.DefinitionPlaceX != null && playerAction.DefinitionPlaceY != null)
             {
-                playerActionToUpdate.DefinitionPlaceX = playerAction.DefinitionPlace.Value.X;
-                playerActionToUpdate.DefinitionPlaceY = playerAction.DefinitionPlace.Value.Y;
+                playerActionToUpdate.DefinitionPlaceX = playerAction.DefinitionPlaceX;
+                playerActionToUpdate.DefinitionPlaceY = playerAction.DefinitionPlaceY;
             }
             else
             {

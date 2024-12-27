@@ -5,20 +5,40 @@
 
     <VerticalStackLayout Spacing="15" Padding="20">
         
-        <Label Text="Enter a Frontend"
+        <Label Text="STAT-BOARD"
                FontSize="20"/>
-        
-        <Entry x:Name="PhoneNumberText"
-               Text="1-555-NETMAUI"/>
 
-        <Button x:Name="TranslateButton"
-                Text="Translate"
-                Clicked="OnTranslate"/>
+        <Label Text="Login"
+               FontSize="10"/>
 
-        <Button x:Name="CallButton"
-                Text="Call"
+        <Label Text="Usuario no existe"
+               FontSize="10"
+               TextColor="Red"
+               IsVisible="{Binding userNotExists}"/>
+
+        <Entry x:Name="UsernameText"
+               Text="Username"/>
+
+        <Label Text="Contraseña incorrecta"
+               FontSize="10"
+               TextColor="Red"
+               IsVisible="{Binding passwordWrong}"/>
+
+        <Entry x:Name="PasswordText"
+               Text="Password"/>
+
+        <Button x:Name="ForgetPasswordButton"
+                Text="¿Olvidaste tu contraseña?"
+                Clicked="OnForget"/>
+
+        <Button x:Name="CraeteAccountButton"
+                Text="Crear cuenta"
+                Clicked="OnCreateAccount"/>
+
+        <Button x:Name="LoginButton"
+                Text="Ingresar"
                 IsEnabled="False"
-                Clicked="OnCall"/>
+                Clicked="OnLogin"/>
 
     </VerticalStackLayout>
 

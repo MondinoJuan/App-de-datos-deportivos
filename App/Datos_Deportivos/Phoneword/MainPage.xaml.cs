@@ -1,11 +1,52 @@
 ﻿namespace Frontend;
 public partial class MainPage : ContentPage
 {
+
+    private bool userNotExists = false;
+    private bool passwordWrong = false;
     public MainPage()
     {
         InitializeComponent();
     }
 
+    private void OnCreateAccount(object sender, EventArgs e)
+    {
+        // Redirigir a la pagina de crear cuenta cuando esté hecha.
+    }
+
+    private void OnForget(object sender, EventArgs e)
+    {
+        // Redirigir a la pagina de olvidar contraseña cuando esté hecha.
+    }
+
+    private void OnLogin(object sender, EventArgs e)
+    {
+        string username = UsernameText.Text;
+        string password = PasswordText.Text;
+
+        var user = getUserByUsername(username);
+
+        if (user != null)
+        {
+            if (user.Password == password)
+            {
+                // Redirigir a la pagina de inicio cuando esté hecha.
+            }
+            else
+            {
+                passwordWrong = true;
+                DisplayAlert("Error", "Contraseña incorrecta", "OK");
+            }
+        }
+        else
+        {
+            userNotExists = true;
+            DisplayAlert("Error", "Usuario no encontrado", "OK");
+        }
+    }
+
+
+    // PhoneWord ejemplo.
     string translatedNumber;
 
     private void OnTranslate(object sender, EventArgs e)

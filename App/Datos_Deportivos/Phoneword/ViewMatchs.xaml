@@ -5,16 +5,28 @@
              x:Class="Frontend.ViewMatchs"
              Title="ViewMatchs">
     <VerticalStackLayout>
-        <VerticalStackLayout>
-            <components:MenuBar/>
+        <components:MenuBar />
 
-            <Button x:Name="btnCreateNew"
-            Text="Create new +"/>
+        <Button x:Name="btnCreateNew"
+                Text="Create new +"
+                Margin="10" />
 
-            <Grid>
-                <components:MatchSummary x:Name="matchSummary"/>
+        <ScrollView>
+            <Grid x:Name="MatchesGrid" 
+                  Margin="10"
+                  ColumnSpacing="10" 
+                  RowSpacing="10">
+                <!-- Las celdas del grid se llenarán dinámicamente -->
             </Grid>
-            
-        </VerticalStackLayout>
+        </ScrollView>
+
+        <Label Text="No hay partidos cargados."
+               IsVisible="False">
+            <Label.Triggers>
+                <DataTrigger TargetType="Label" Binding="{Binding MatchesEmpty}" Value="true">
+                    <Setter Property="IsVisible" Value="True" />
+                </DataTrigger>
+            </Label.Triggers>
+        </Label>
     </VerticalStackLayout>
 </ContentPage>

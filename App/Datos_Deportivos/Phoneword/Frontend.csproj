@@ -57,19 +57,17 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.Maui.Controls" Version="8.0.91" />
-		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.91" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
+		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.21" />
+		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="9.0.21" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="ActionData.xaml.cs">
-	    <DependentUpon>ActionData.xaml</DependentUpon>
-	  </Compile>
+	  <ProjectReference Include="..\Api\Api.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="ActionData.xaml">
+	  <MauiXaml Update="ActionInfo.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Resources\Components\MatchSummary.xaml">
