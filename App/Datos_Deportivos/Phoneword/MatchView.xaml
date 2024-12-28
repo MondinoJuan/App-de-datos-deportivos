@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Frontend.MatchView"
+             Title="MatchView">
+    <HorizontalStackLayout>
+
+        <Label 
+            Text="Partido de la fecha ...... dia ....."
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+
+        <ScrollView>
+            <StackLayout Padding="10" Spacing="10">
+                <!-- Team Header -->
+                <Grid ColumnSpacing="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Grid.ColumnSpan="2" Text="Team A" FontAttributes="Bold" HorizontalOptions="Center" />
+                    <Label Grid.Column="2" Text="Score A" FontAttributes="Bold" HorizontalOptions="Center" />
+                    <Label Grid.Column="3" Text="Score B" FontAttributes="Bold" HorizontalOptions="Center" />
+                    <Label Grid.Column="4" Grid.ColumnSpan="2" Text="Team B" FontAttributes="Bold" HorizontalOptions="Center" />
+                </Grid>
+
+                <!-- Subtitles -->
+                <Grid ColumnSpacing="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Text="N°" FontAttributes="Bold" HorizontalOptions="Center" />
+                    <Label Grid.Column="1" Text="Nombre" FontAttributes="Bold" HorizontalOptions="Center" />
+                    <Label Grid.Column="2" Text="Acción" FontAttributes="Bold" HorizontalOptions="Center" />
+                    <Label Grid.Column="3" Text="Acción" FontAttributes="Bold" HorizontalOptions="Center" />
+                    <Label Grid.Column="4" Text="Nombre" FontAttributes="Bold" HorizontalOptions="Center" />
+                    <Label Grid.Column="5" Text="N°" FontAttributes="Bold" HorizontalOptions="Center" />
+                </Grid>
+
+                <!-- Dynamic Player Rows -->
+                <StackLayout x:Name="PlayerList" BindableLayout.ItemsSource="{Binding Players}">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <Grid ColumnSpacing="10" RowSpacing="5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="2*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="2*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0" Text="{Binding TeamANumber}" HorizontalOptions="Center" />
+                                <Label Grid.Column="1" Text="{Binding TeamAName}" HorizontalOptions="Center" />
+                                <Picker Grid.Column="2" Title="Acción" HorizontalOptions="Center">
+                                    <Picker.ItemsSource>
+                                        <x:Array Type="{x:Type x:String}">
+                                            <x:String>Goal</x:String>
+                                            <x:String>Save</x:String>
+                                            <x:String>Miss</x:String>
+                                            <x:String>Blocked</x:String>
+                                            <x:String>Steal_W</x:String>
+                                            <x:String>Steal_L</x:String>
+                                            <x:String>Foul</x:String>
+                                        </x:Array>
+                                    </Picker.ItemsSource>
+                                </Picker>
+                                <Picker Grid.Column="3" Title="Acción" HorizontalOptions="Center">
+                                    <Picker.ItemsSource>
+                                        <x:Array Type="{x:Type x:String}">
+                                            <x:String>Goal</x:String>
+                                            <x:String>Save</x:String>
+                                            <x:String>Miss</x:String>
+                                            <x:String>Blocked</x:String>
+                                            <x:String>Steal_W</x:String>
+                                            <x:String>Steal_L</x:String>
+                                            <x:String>Foul</x:String>
+                                        </x:Array>
+                                    </Picker.ItemsSource>
+                                </Picker>
+                                <Label Grid.Column="4" Text="{Binding TeamBName}" HorizontalOptions="Center" />
+                                <Label Grid.Column="5" Text="{Binding TeamBNumber}" HorizontalOptions="Center" />
+                            </Grid>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
+
+        <Button x:Name="btnModify"
+                Text="Modificar"
+                Margin="10" />
+
+        <Button x:Name="btnAddAction"
+                Text="Agregar acción"
+                Margin="10" />
+
+        <Button x:Name="btnFinish"
+                HorizontalOptions="End"
+                VerticalOptions="End"
+                Text="Finalizar"
+                BackgroundColor="Red"
+                TextColor="White"
+                Margin="15" />
+
+    </HorizontalStackLayout>
+</ContentPage>

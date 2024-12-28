@@ -5,9 +5,8 @@ namespace Entities.Entities
 {
     public class Player : EntityBase
     {
-        /*
-        public static string? CompleteName { get; set; }         
-
+        public static string? CompleteName { get; set; }     
+/*
         public static string? Birthdate { get; set; }
 
         public static decimal? Hight { get; set; }
