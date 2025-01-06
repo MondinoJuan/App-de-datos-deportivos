@@ -1,4 +1,6 @@
-﻿namespace Frontend;
+﻿using Microsoft.Maui.Controls;
+
+namespace Frontend;
 public partial class MainPage : ContentPage
 {
 

@@ -100,9 +100,17 @@
                 Text="Modificar"
                 Margin="10" />
 
+        <Button x:Name="btnAddPlayer"
+                Text="Agregar jugador"
+                Backgroundcolor="Blue"
+                Margin="10"
+                Clicked="OnAddPLayer"/>
+
         <Button x:Name="btnAddAction"
                 Text="Agregar acción"
-                Margin="10" />
+                Backgroundcolor="Green"
+                Margin="10"
+                Clicked="OnAddAction"/>
 
         <Button x:Name="btnFinish"
                 HorizontalOptions="End"

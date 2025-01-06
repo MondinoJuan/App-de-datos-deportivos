@@ -14,6 +14,17 @@ public partial class MatchView : ContentPage
         BindingContext = new MainViewModel();
     }
 
+    private void OnAddPlayer(object sender, EventArgs e)
+    {
+        // Abrir pagina modal para agregar un jugador
+    }
+
+    private void OnAddAction(object sender, EventArgs e)
+    {
+        // Abrir pagina modal para agregar un jugador
+        // Esta creada la content page de ActionCreate, podria cambiarla a modal.
+    }
+
     public class MainViewModel
     {
         public ObservableCollection<Player_Dto> Players { get; set; }

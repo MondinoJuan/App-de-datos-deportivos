@@ -6,9 +6,16 @@ using System.Threading.Tasks;
 
 namespace Frontend.Resources
 {
+    public class Result<T>
+    {
+        public bool Success { get; set; }
+        public string Message { get; set; }
+        public T Data { get; set; }
+    }
+
     public class CreatedVariablesTypes
     {
-        
+        public int QuantityOfPlayersPerClub { get; set; } = 16;
     }
 
     public enum Ending
