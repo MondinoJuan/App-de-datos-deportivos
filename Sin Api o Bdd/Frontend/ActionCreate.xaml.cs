@@ -8,14 +8,20 @@ namespace Frontend;
 public partial class ActionCreate : ContentPage
 {
     private PlayerAction_Dto action1 { get; set; }
+    private Guid IdPlayerPasado { get; set; }
+    private Match_Dto MatchActual { get; set; }
     private TaskCompletionSource<bool> _taskCompletionSource;
 
-    public ActionCreate(PlayerAction_Dto newAction)
-	{
-		InitializeComponent();
-        action1 = newAction;
-        BindingContext = this;
+    public ActionCreate(Guid Id_Player)
+    {
+        InitializeComponent();
+        action1 = new PlayerAction_Dto { Id = Guid.NewGuid() };
         _taskCompletionSource = new TaskCompletionSource<bool>();
+        IdPlayerPasado = Id_Player;
+
+        MatchActual = Simulo_BdD.GetAllMatches().Data.First();
+
+        BindingContext = this;
     }
 
     private void OnPickerSelectedIndexChanged(object sender, EventArgs e)
@@ -25,58 +31,67 @@ public partial class ActionCreate : ContentPage
         if (selectedIndex != -1)
         {
             action1.Ending = (Ending)selectedIndex;
-            DisplayAlert("Elemento Seleccionado", "Has seleccionado: " + action1.Ending, "OK");          // Cambiar, pero no me sale el nombre de la funcion o metodo.
         }
     }
 
     private void OnSwitchToggled(object sender, ToggledEventArgs e)
     {
-        bool isToggled = e.Value;
-        if (isToggled)
-        {
-            action1.WhichHalf = true;
-            DisplayAlert("Interruptor", "El interruptor está activado", "OK");          // Cambiar, pero no me sale el nombre de la funcion o metodo.
-        }
-        else
-        {
-            action1.WhichHalf = false;
-            DisplayAlert("Interruptor", "El interruptor está desactivado", "OK");          // Cambiar, pero no me sale el nombre de la funcion o metodo.
-        }
+        action1.WhichHalf = e.Value;
     }
 
     private void OnBoxViewTapped_Field(object sender, TappedEventArgs e)
     {
         var touchPosition = e.GetPosition((VisualElement)sender);
-
         if (touchPosition is not null)
         {
             action1.ActionPositionX = touchPosition.Value.X;
             action1.ActionPositionY = touchPosition.Value.Y;
-            DisplayAlert("Coordenadas", $"X: {action1.ActionPositionX}, Y: {action1.ActionPositionY}", "OK");
         }
     }
 
     private void OnBoxViewTapped_Goal(object sender, TappedEventArgs e)
     {
         var touchPosition = e.GetPosition((VisualElement)sender);
-
         if (touchPosition is not null)
         {
             action1.DefinitionPlaceX = touchPosition.Value.X;
             action1.DefinitionPlaceY = touchPosition.Value.Y;
-            DisplayAlert("Coordenadas", $"X: {action1.DefinitionPlaceX}, Y: {action1.DefinitionPlaceY}", "OK");
         }
     }
 
     private void OnDescriptionTextChanged(object sender, TextChangedEventArgs e)
     {
         action1.Description = e.NewTextValue;
-        DisplayAlert("Descripción", $"Descripción actualizada: {action1.Description}", "OK");
     }
 
-    private void OnSubmit(object sender, TextChangedEventArgs e)
+    private async void OnSubmit(object sender, EventArgs e)
     {
-        //Guardo Id de la PlayerAction en el Match
+        var result = Simulo_BdD.AddAction(action1);
+        Console.WriteLine(result.Message);
+
+        if (result.Success)
+        {
+            var result1 = Simulo_BdD.GetAllPlayerMatches();
+            Console.WriteLine(result1.Message);
+
+            if (result1.Success)
+            {
+                var playerMatch = result1.Data.FirstOrDefault(pm => pm.IdPlayer == IdPlayerPasado && pm.IdMatch == MatchActual.Id);
+
+                if (playerMatch != null)
+                {
+                    playerMatch.IdActions.Add(action1.Id);
+                }
+            }
+
+            _taskCompletionSource.SetResult(true);
+        }
+        else
+        {
+            _taskCompletionSource.SetResult(false);
+        }
+
+        await Navigation.PopModalAsync();
     }
 
     public Task<bool> GetResultAsync()

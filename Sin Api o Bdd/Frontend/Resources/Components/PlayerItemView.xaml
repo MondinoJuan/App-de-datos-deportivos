@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Frontend.Resources.Components.PlayerItemView">
+    <Frame Padding="10" Margin="5" HasShadow="True" BackgroundColor="LightGray">
+        <Grid ColumnSpacing="10" RowSpacing="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="2*" />
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" Text="{Binding Number}" HorizontalOptions="Center" />
+            <Label Grid.Column="1" Text="{Binding Name}" HorizontalOptions="Center" />
+            <Button 
+                ImageSource="lapiz_edit.png"
+                BackgroundColor="Transparent"
+                BorderColor="Transparent"
+                HorizontalOptions="End"
+                VerticalOptions="Center"
+                Clicked="OnEdit" />
+            <Button 
+                ImageSource="trash_can.png"
+                BackgroundColor="Transparent"
+                BorderColor="Transparent"
+                HorizontalOptions="End"
+                VerticalOptions="Center"
+                Clicked="OnDelete" />
+            <Grid.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnTapped" />
+            </Grid.GestureRecognizers>
+        </Grid>
+    </Frame>
+</ContentView>

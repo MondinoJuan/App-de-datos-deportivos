@@ -131,6 +131,11 @@ namespace Frontend.Resources.Entities
             };
         }
 
+        public static void CleanClubList()
+        {
+            _database.Clubs.Clear();
+        }
+
         // Matches
         public static Result<bool> AddMatch(Match_Dto match)
         {
@@ -242,6 +247,10 @@ namespace Frontend.Resources.Entities
             };
         }
 
+        public static void CleanMatchList()
+        {
+            _database.Matches.Clear();
+        }
 
         // Players
         public static Result<bool> AddPlayer(Player_Dto player)
@@ -354,6 +363,11 @@ namespace Frontend.Resources.Entities
             };
         }
 
+        public static void CleanPlayerList()
+        {
+            _database.Players.Clear();
+        }
+
         // PlayerActions
         public static Result<bool> AddAction(PlayerAction_Dto action)
         {
@@ -463,6 +477,11 @@ namespace Frontend.Resources.Entities
                 Message = "Acción modificada exitosamente",
                 Data = true
             };
+        }
+
+        public static void CleanPlayerActionList()
+        {
+            _database.Actions.Clear();
         }
 
         // PlayerMatch
@@ -578,6 +597,11 @@ namespace Frontend.Resources.Entities
             };
         }
 
+        public static void CleanPlayerMatchList()
+        {
+            _database.PlayerMatches.Clear();
+        }
+
         // Tournaments
         public static Result<bool> AddTournament(Tournament_Dto tournament)
         {
@@ -687,6 +711,11 @@ namespace Frontend.Resources.Entities
                 Message = "Torneo modificado exitosamente",
                 Data = true
             };
+        }
+
+        public static void CleanTournamentList()
+        {
+            _database.Tournaments.Clear();
         }
     }
 }

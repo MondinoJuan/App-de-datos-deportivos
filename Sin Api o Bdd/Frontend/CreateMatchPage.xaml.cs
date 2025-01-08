@@ -10,7 +10,7 @@ namespace Frontend
             InitializeComponent();
         }
 
-        public void OnCreateMatch()
+        public void OnCreateMatch(object sender, EventArgs e)
         {
             Club_Dto teamLocal = new Club_Dto()
             {

@@ -76,7 +76,7 @@
 
         </AbsoluteLayout>
 
-        <Entry x:Name="description"
+        <Entry x:Name="txtDescription"
            Text="Ingrese descripción (opcional)."
            TextChanged="OnDescriptionTextChanged"/>
 

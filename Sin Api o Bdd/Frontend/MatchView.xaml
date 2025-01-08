@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:components="clr-namespace:Frontend.Resources.Components"
              x:Class="Frontend.MatchView"
              Title="MatchView">
     <HorizontalStackLayout>
@@ -86,32 +87,23 @@
                     <!-- Team Local Players -->
                     <StackLayout 
                         x:Name="PlayerListLocal" 
-                        BindableLayout.ItemsSource="{Binding Match.TeamLocal.Players}"
+                        BindableLayout.ItemsSource="{Binding TeamLocalPlayers}"
                         Grid.Column="0">
                         <StackLayout.Triggers>
-                            <DataTrigger TargetType="StackLayout" Binding="{Binding Match.TeamLocal.Players.Count}" Value="0">
+                            <DataTrigger TargetType="StackLayout" Binding="{Binding TeamLocalPlayers.Count}" Value="0">
                                 <Setter Property="IsVisible" Value="False" />
                             </DataTrigger>
                         </StackLayout.Triggers>
                         <BindableLayout.ItemTemplate>
                             <DataTemplate>
-                                <Grid 
-                                    ColumnSpacing="10" 
-                                    RowSpacing="5">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="2*" />
-                                    </Grid.ColumnDefinitions>
-                                    <Label Grid.Column="0" Text="{Binding Number}" HorizontalOptions="Center" />
-                                    <Label Grid.Column="1" Text="{Binding Name}" HorizontalOptions="Center" />
-                                </Grid>
+                                <components:PlayerItemView />
                             </DataTemplate>
                         </BindableLayout.ItemTemplate>
                     </StackLayout>
 
                     <StackLayout IsVisible="False">
                         <StackLayout.Triggers>
-                            <DataTrigger TargetType="StackLayout" Binding="{Binding Match.TeamLocal.Players.Count}" Value="0">
+                            <DataTrigger TargetType="StackLayout" Binding="{Binding TeamLocalPlayers.Count}" Value="0">
                                 <Setter Property="IsVisible" Value="True" />
                             </DataTrigger>
                         </StackLayout.Triggers>
@@ -124,32 +116,23 @@
                     <!-- Team Away Players -->
                     <StackLayout 
                         x:Name="PlayerListAway" 
-                        BindableLayout.ItemsSource="{Binding Match.TeamAway.Players}"
+                        BindableLayout.ItemsSource="{Binding TeamAwayPlayers}"
                         Grid.Column="1">
                         <StackLayout.Triggers>
-                            <DataTrigger TargetType="StackLayout" Binding="{Binding Match.TeamAway.Players.Count}" Value="0">
+                            <DataTrigger TargetType="StackLayout" Binding="{Binding TeamAwayPlayers.Count}" Value="0">
                                 <Setter Property="IsVisible" Value="False" />
                             </DataTrigger>
                         </StackLayout.Triggers>
                         <BindableLayout.ItemTemplate>
                             <DataTemplate>
-                                <Grid 
-                                    ColumnSpacing="10" 
-                                    RowSpacing="5">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="2*" />
-                                        <ColumnDefinition Width="*" />
-                                    </Grid.ColumnDefinitions>
-                                    <Label Grid.Column="0" Text="{Binding Name}" HorizontalOptions="Center" />
-                                    <Label Grid.Column="1" Text="{Binding Number}" HorizontalOptions="Center" />
-                                </Grid>
+                                <components:PlayerItemView />
                             </DataTemplate>
                         </BindableLayout.ItemTemplate>
                     </StackLayout>
 
                     <StackLayout IsVisible="False">
                         <StackLayout.Triggers>
-                            <DataTrigger TargetType="StackLayout" Binding="{Binding Match.TeamAway.Players.Count}" Value="0">
+                            <DataTrigger TargetType="StackLayout" Binding="{Binding TeamAwayPlayers.Count}" Value="0">
                                 <Setter Property="IsVisible" Value="True" />
                             </DataTrigger>
                         </StackLayout.Triggers>
@@ -171,13 +154,7 @@
                 Text="Agregar jugador"
                 BackgroundColor="Blue"
                 Margin="10"
-                Clicked="OnAddPLayer"/>
-
-        <Button x:Name="btnAddAction"
-                Text="Agregar acción"
-                BackgroundColor="Green"
-                Margin="10"
-                Clicked="OnAddAction"/>
+                Clicked="OnAddPlayer"/>
 
         <Button x:Name="btnFinish"
                 HorizontalOptions="End"

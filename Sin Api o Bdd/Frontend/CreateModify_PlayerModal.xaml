@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Frontend.CreatePlayerModal"
-             Title="CreatePlayerModal">
+             x:Class="Frontend.CreateModify_PlayerModal"
+             Title="CreateModify_PlayerModal">
     <VerticalStackLayout>
         <Label 
             Text="Complete los datos del nuevo jugador"
@@ -22,7 +22,16 @@
             Text="{Binding Player.Number}"/>
 
         <StackLayout Padding="20">
-            <Label x:Name="lblStatus" Text="Local" FontSize="18" HorizontalOptions="Center" />
+            <Label x:Name="lblModifyWarning" 
+                   Text="Recuerde volver a marcar si es local o visitante." 
+                   TextColor="Red"
+                   FontSize="25"
+                   HorizontalOptions="Center" 
+                   IsVisible="{Binding ModifyWarning}"/>
+            <Label x:Name="lblStatus" 
+                   Text="Local" 
+                   FontSize="18" 
+                   HorizontalOptions="Center" />
             <Switch
                 x:Name="swtLocalAway"
                 IsToggled="False" 
