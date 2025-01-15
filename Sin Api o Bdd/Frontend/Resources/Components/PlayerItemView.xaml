@@ -2,28 +2,54 @@
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Frontend.Resources.Components.PlayerItemView">
-    <Frame Padding="10" Margin="5" HasShadow="True" BackgroundColor="LightGray">
-        <Grid ColumnSpacing="10" RowSpacing="5">
+
+    <Frame Padding="15" Margin="10" HasShadow="True" CornerRadius="10" 
+           BackgroundColor="White" BorderColor="#E0E0E0">
+
+        <Grid ColumnSpacing="15" RowSpacing="10">
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <Label Grid.Column="0" Text="{Binding Number}" HorizontalOptions="Center" />
-            <Label Grid.Column="1" Text="{Binding Name}" HorizontalOptions="Center" />
-            <Button 
-                ImageSource="lapiz_edit.png"
-                BackgroundColor="Transparent"
-                BorderColor="Transparent"
-                HorizontalOptions="End"
-                VerticalOptions="Center"
-                Clicked="OnEdit" />
-            <Button 
-                ImageSource="trash_can.png"
-                BackgroundColor="Transparent"
-                BorderColor="Transparent"
-                HorizontalOptions="End"
-                VerticalOptions="Center"
-                Clicked="OnDelete" />
+
+            <!-- Número del jugador -->
+            <Label Grid.Column="0" 
+                   Text="{Binding Number}" 
+                   FontSize="18" 
+                   FontAttributes="Bold" 
+                   HorizontalOptions="Start" 
+                   VerticalOptions="Center" />
+
+            <!-- Nombre del jugador -->
+            <Label Grid.Column="1" 
+                   Text="{Binding Name}" 
+                   FontSize="16" 
+                   HorizontalOptions="Start" 
+                   VerticalOptions="Center" 
+                   LineBreakMode="TailTruncation" />
+
+            <!-- Botón de editar -->
+            <Button Grid.Column="2"
+                    ImageSource="lapiz_edit.png"
+                    BackgroundColor="Transparent"
+                    BorderWidth="0"
+                    HorizontalOptions="End"
+                    VerticalOptions="Center"
+                    Padding="5"
+                    Clicked="OnEdit" />
+
+            <!-- Botón de eliminar -->
+            <Button Grid.Column="3"
+                    ImageSource="trash_can.png"
+                    BackgroundColor="Transparent"
+                    BorderWidth="0"
+                    HorizontalOptions="End"
+                    VerticalOptions="Center"
+                    Padding="5"
+                    Clicked="OnDelete" />
+
+            <!-- Reconocedor de gestos para toda la fila -->
             <Grid.GestureRecognizers>
                 <TapGestureRecognizer Tapped="OnTapped" />
             </Grid.GestureRecognizers>

@@ -2,51 +2,93 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Frontend.CreateModify_PlayerModal"
-             Title="CreateModify_PlayerModal">
-    <VerticalStackLayout>
-        <Label 
-            Text="Complete los datos del nuevo jugador"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+             Title="Crear/Modificar Jugador">
 
-        <Label
-            x:Name="lblPlayerName"/>
-        <Entry
-            x:Name="txtPlayerName"
-            Text="{Binding Player.Name}"/>
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15">
 
-        <Label
-            x:Name="lblPlayerNumber"/>
-        <Entry
-            x:Name="txtPlayerNumber"
-            Text="{Binding Player.Number}"/>
+            <!-- Título -->
+            <Label 
+                Text="Complete los datos del nuevo jugador"
+                FontSize="24"
+                FontAttributes="Bold"
+                HorizontalOptions="Center" />
 
-        <StackLayout Padding="20">
-            <Label x:Name="lblModifyWarning" 
-                   Text="Recuerde volver a marcar si es local o visitante." 
-                   TextColor="Red"
-                   FontSize="25"
-                   HorizontalOptions="Center" 
-                   IsVisible="{Binding ModifyWarning}"/>
-            <Label x:Name="lblStatus" 
-                   Text="Local" 
-                   FontSize="18" 
-                   HorizontalOptions="Center" />
-            <Switch
-                x:Name="swtLocalAway"
-                IsToggled="False" 
-                Toggled="OnSwitchToggled" 
-                OnColor="Blue" 
-                ThumbColor="Orange" />
-        </StackLayout>
+            <!-- Campo: Nombre del jugador -->
+            <Label 
+                Text="Nombre del jugador"
+                FontSize="16"
+                FontAttributes="Bold" />
+            <Entry
+                x:Name="txtPlayerName"
+                Text="{Binding Player.Name}"
+                Placeholder="Ingrese el nombre"
+                BackgroundColor="Black"
+                FontSize="16"
+                HeightRequest="40"/>
 
-        <Button 
-            Text="Guardar"
-            BackgroundColor="Green"
-            Clicked="OnSave" />
-        <Button 
-            Text="Cancelar"
-            BackgroundColor="Red"
-            Clicked="OnCancel" />
-    </VerticalStackLayout>
+            <!-- Campo: Número del jugador -->
+            <Label 
+                Text="Número del jugador"
+                FontSize="16"
+                FontAttributes="Bold" />
+            <Entry
+                x:Name="txtPlayerNumber"
+                Text="{Binding Player.Number}"
+                Placeholder="Ingrese el número"
+                Keyboard="Numeric"
+                BackgroundColor="Black"
+                FontSize="16"
+                HeightRequest="40"/>
+
+            <!-- Advertencia de modificación -->
+            <Label 
+                x:Name="lblModifyWarning" 
+                Text="Recuerde volver a marcar si es local o visitante." 
+                TextColor="Red"
+                FontSize="14"
+                HorizontalOptions="Center"
+                IsVisible="{Binding ModifyWarning}" />
+
+            <!-- Switch Local/Visitante -->
+            <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
+                <Switch
+                    x:Name="swtLocalAway"
+                    IsToggled="False"
+                    Toggled="OnSwitchToggled"
+                    OnColor="#007ACC"
+                    ThumbColor="#FFA500" />
+
+                <Label 
+                    x:Name="lblStatus" 
+                    Text="Local" 
+                    FontSize="16"
+                    VerticalOptions="Center" />
+
+            </HorizontalStackLayout>
+
+            <!-- Botones -->
+            <HorizontalStackLayout Spacing="10" Padding="10">
+                <Button 
+                    Text="Guardar"
+                    BackgroundColor="Green"
+                    TextColor="White"
+                    FontSize="18"
+                    CornerRadius="10"
+                    Clicked="OnSave"
+                    WidthRequest="150"
+                    HeightRequest="50" />
+                <Button 
+                    Text="Cancelar"
+                    BackgroundColor="Red"
+                    TextColor="White"
+                    FontSize="18"
+                    CornerRadius="10"
+                    Clicked="OnCancel"
+                    WidthRequest="150"
+                    HeightRequest="50" />
+            </HorizontalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

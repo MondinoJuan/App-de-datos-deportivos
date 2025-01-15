@@ -3,167 +3,232 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:components="clr-namespace:Frontend.Resources.Components"
              x:Class="Frontend.MatchView"
-             Title="MatchView">
-    <HorizontalStackLayout>
+             Title="Vista de Partido">
 
-        <Label
-            x:Name="lblMatchViewTitle"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="20">
 
-        <Label
-            x:Name="lblTournament"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+            <!-- Título del partido -->
+            <Label x:Name="lblMatchViewTitle" 
+                   FontSize="24" 
+                   FontAttributes="Bold" 
+                   HorizontalOptions="Center" />
 
-        <ScrollView>
-            <StackLayout Padding="10" Spacing="10">
-                <!-- Team Header -->
-                <Grid ColumnSpacing="10">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="2*" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="2*" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <Label Grid.Column="0" Grid.ColumnSpan="2" x:Name="lblTeamLocal" FontAttributes="Bold" HorizontalOptions="Center" />
-                    <Label Grid.Column="2" Text="Score A" FontAttributes="Bold" HorizontalOptions="Center" />
-                    <Label Grid.Column="3" Text="Score B" FontAttributes="Bold" HorizontalOptions="Center" />
-                    <Label Grid.Column="4" Grid.ColumnSpan="2" x:Name="lblTeamAway" FontAttributes="Bold" HorizontalOptions="Center" />
-                </Grid>
+            <Label x:Name="lblTournament" 
+                   FontSize="18" 
+                   FontAttributes="Italic" 
+                   HorizontalOptions="Center" 
+                   TextColor="Gray" />
 
-                <!-- Subtitles -->
-                <Grid ColumnSpacing="10">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="2*" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="2*" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <Label Grid.Column="0" Text="N°" FontAttributes="Bold" HorizontalOptions="Center" />
-                    <Label Grid.Column="1" Text="Nombre" FontAttributes="Bold" HorizontalOptions="Center" />
-                    <Picker Grid.Column="2" Title="Acción" HorizontalOptions="Center">
-                        <Picker.ItemsSource>
-                            <x:Array Type="{x:Type x:String}">
-                                <x:String>Goal</x:String>
-                                <x:String>Save</x:String>
-                                <x:String>Miss</x:String>
-                                <x:String>Blocked</x:String>
-                                <x:String>Steal_W</x:String>
-                                <x:String>Steal_L</x:String>
-                                <x:String>Foul</x:String>
-                            </x:Array>
-                        </Picker.ItemsSource>
-                    </Picker>
-                    <Picker Grid.Column="3" Title="Acción" HorizontalOptions="Center">
-                        <Picker.ItemsSource>
-                            <x:Array Type="{x:Type x:String}">
-                                <x:String>Goal</x:String>
-                                <x:String>Save</x:String>
-                                <x:String>Miss</x:String>
-                                <x:String>Blocked</x:String>
-                                <x:String>Steal_W</x:String>
-                                <x:String>Steal_L</x:String>
-                                <x:String>Foul</x:String>
-                            </x:Array>
-                        </Picker.ItemsSource>
-                    </Picker>
-                    <Label Grid.Column="4" Text="Nombre" FontAttributes="Bold" HorizontalOptions="Center" />
-                    <Label Grid.Column="5" Text="N°" FontAttributes="Bold" HorizontalOptions="Center" />
-                </Grid>
+            <!-- Encabezado de equipos -->
+            <Grid ColumnSpacing="10" Padding="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="2*" />
+                </Grid.ColumnDefinitions>
 
-                <!-- Dynamic Player Rows -->
-                <!-- Dynamic Player Rows for Both Teams -->
-                <Grid ColumnSpacing="10">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*" />
-                        <ColumnDefinition Width="1*" />
-                    </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" x:Name="lblTeamLocal" 
+                       FontSize="18" 
+                       FontAttributes="Bold" 
+                       HorizontalOptions="Center" />
 
-                    <!-- Team Local Players -->
-                    <StackLayout 
-                        x:Name="PlayerListLocal" 
-                        BindableLayout.ItemsSource="{Binding TeamLocalPlayers}"
-                        Grid.Column="0">
-                        <StackLayout.Triggers>
-                            <DataTrigger TargetType="StackLayout" Binding="{Binding TeamLocalPlayers.Count}" Value="0">
-                                <Setter Property="IsVisible" Value="False" />
-                            </DataTrigger>
-                        </StackLayout.Triggers>
-                        <BindableLayout.ItemTemplate>
-                            <DataTemplate>
-                                <components:PlayerItemView />
-                            </DataTemplate>
-                        </BindableLayout.ItemTemplate>
-                    </StackLayout>
+                <Label Grid.Column="2" Text="Score A" 
+                       FontAttributes="Bold" 
+                       HorizontalOptions="Center" />
 
-                    <StackLayout IsVisible="False">
-                        <StackLayout.Triggers>
-                            <DataTrigger TargetType="StackLayout" Binding="{Binding TeamLocalPlayers.Count}" Value="0">
-                                <Setter Property="IsVisible" Value="True" />
-                            </DataTrigger>
-                        </StackLayout.Triggers>
-                        <Label
-                            x:Name="lblMessageLocalEmptyPlayers"
-                            Text="No hay jugadores del equipo local cargados aún."
-                            TextColor="Red"/>
-                    </StackLayout>
+                <Label Grid.Column="3" Text="Score B" 
+                       FontAttributes="Bold" 
+                       HorizontalOptions="Center" />
 
-                    <!-- Team Away Players -->
-                    <StackLayout 
-                        x:Name="PlayerListAway" 
-                        BindableLayout.ItemsSource="{Binding TeamAwayPlayers}"
-                        Grid.Column="1">
-                        <StackLayout.Triggers>
-                            <DataTrigger TargetType="StackLayout" Binding="{Binding TeamAwayPlayers.Count}" Value="0">
-                                <Setter Property="IsVisible" Value="False" />
-                            </DataTrigger>
-                        </StackLayout.Triggers>
-                        <BindableLayout.ItemTemplate>
-                            <DataTemplate>
-                                <components:PlayerItemView />
-                            </DataTemplate>
-                        </BindableLayout.ItemTemplate>
-                    </StackLayout>
+                <Label Grid.Column="5" x:Name="lblTeamAway" 
+                       FontSize="18" 
+                       FontAttributes="Bold" 
+                       HorizontalOptions="Center" />
+            </Grid>
 
-                    <StackLayout IsVisible="False">
-                        <StackLayout.Triggers>
-                            <DataTrigger TargetType="StackLayout" Binding="{Binding TeamAwayPlayers.Count}" Value="0">
-                                <Setter Property="IsVisible" Value="True" />
-                            </DataTrigger>
-                        </StackLayout.Triggers>
-                        <Label
-                            x:Name="lblMessageEmptyAwayPlayers"
-                            Text="No hay jugadores del equipo visitante cargados aún."
-                            TextColor="Red"/>
-                    </StackLayout>
-                </Grid>
+            <!-- Subtítulos de la tabla -->
+            <Grid ColumnSpacing="10" Padding="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="2*" />
+                </Grid.ColumnDefinitions>
 
-            </StackLayout>
-        </ScrollView>
+                <Label Grid.Column="0" Text="Nombre Jugador Local" 
+                       FontAttributes="Bold" 
+                       HorizontalOptions="Center" />
 
-        <Button x:Name="btnModify"
-                Text="Modificar"
-                Margin="10" />
+                <Label Grid.Column="1" Text="N°" 
+                       FontAttributes="Bold" 
+                       HorizontalOptions="Center" />
 
-        <Button x:Name="btnAddPlayer"
-                Text="Agregar jugador"
-                BackgroundColor="Blue"
-                Margin="10"
-                Clicked="OnAddPlayer"/>
+                <Picker x:Name="pckLocalActions"
+                        Grid.Column="2" 
+                        Title="Acción" 
+                        HorizontalOptions="Center" 
+                        SelectedIndexChanged="OnLocalPickerSelectedIndexChanged">
+                    <Picker.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>Goal</x:String>
+                            <x:String>Save</x:String>
+                            <x:String>Miss</x:String>
+                            <x:String>Blocked</x:String>
+                            <x:String>Steal_W</x:String>
+                            <x:String>Steal_L</x:String>
+                            <x:String>Foul</x:String>
+                        </x:Array>
+                    </Picker.ItemsSource>
+                </Picker>
+                <Picker x:Name="pckAwayActions"
+                        Grid.Column="3" 
+                        Title="Acción" 
+                        HorizontalOptions="Center"
+                        SelectedIndexChanged="OnAwayPickerSelectedIndexChanged">
+                    <Picker.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>Goal</x:String>
+                            <x:String>Save</x:String>
+                            <x:String>Miss</x:String>
+                            <x:String>Blocked</x:String>
+                            <x:String>Steal_W</x:String>
+                            <x:String>Steal_L</x:String>
+                            <x:String>Foul</x:String>
+                        </x:Array>
+                    </Picker.ItemsSource>
+                </Picker>
 
-        <Button x:Name="btnFinish"
-                HorizontalOptions="End"
-                VerticalOptions="End"
-                Text="Finalizar"
-                BackgroundColor="Red"
-                TextColor="White"
-                Margin="15" 
-                Clicked="OnFinish"/>
+                <Label Grid.Column="4" Text="Nombre Jugador Visitante" 
+                       FontAttributes="Bold" 
+                       HorizontalOptions="Center" />
 
-    </HorizontalStackLayout>
+                <Label Grid.Column="5" Text="N°" 
+                       FontAttributes="Bold" 
+                       HorizontalOptions="Center" />
+            </Grid>
+
+            <!-- Filas dinámicas de jugadores -->
+            <Grid ColumnSpacing="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Jugadores locales -->
+                <StackLayout 
+                    x:Name="PlayerListLocal" 
+                    BindableLayout.ItemsSource="{Binding TeamLocalPlayers}"
+                    Grid.Column="0">
+                    <StackLayout.Triggers>
+                        <DataTrigger TargetType="StackLayout" Binding="{Binding TeamLocalPlayers.Count}" Value="0">
+                            <Setter Property="IsVisible" Value="False" />
+                        </DataTrigger>
+                    </StackLayout.Triggers>
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <components:PlayerItemView />
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </StackLayout>
+
+                <!--<StackLayout 
+                    x:Name="LabelListLocal" 
+                    BindableLayout.ItemsSource="{Binding TeamLocalPlayers}"
+                    Grid.Column="1">
+                    <StackLayout.Triggers>
+                        <DataTrigger TargetType="StackLayout" Binding="{Binding TeamLocalPlayers.Count}" Value="0">
+                            <Setter Property="IsVisible" Value="False" />
+                        </DataTrigger>
+                    </StackLayout.Triggers>
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <Label Text="{Binding Number}" />
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </StackLayout>-->
+
+                <!-- Mensaje de jugadores locales vacíos -->
+                <StackLayout IsVisible="False">
+                    <StackLayout.Triggers>
+                        <DataTrigger TargetType="StackLayout" Binding="{Binding TeamLocalPlayers.Count}" Value="0">
+                            <Setter Property="IsVisible" Value="True" />
+                        </DataTrigger>
+                    </StackLayout.Triggers>
+                    <Label x:Name="lblMessageLocalEmptyPlayers"
+                           Text="No hay jugadores del equipo local cargados aún."
+                           TextColor="Red" />
+                </StackLayout>
+
+                <!-- Jugadores visitantes -->
+                <StackLayout 
+                    x:Name="PlayerListAway" 
+                    BindableLayout.ItemsSource="{Binding TeamAwayPlayers}"
+                    Grid.Column="3">
+                    <StackLayout.Triggers>
+                        <DataTrigger TargetType="StackLayout" Binding="{Binding TeamAwayPlayers.Count}" Value="0">
+                            <Setter Property="IsVisible" Value="False" />
+                        </DataTrigger>
+                    </StackLayout.Triggers>
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <components:PlayerItemView />
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </StackLayout>
+
+                <!--<StackLayout 
+                    x:Name="LabelListAway" 
+                    BindableLayout.ItemsSource="{Binding TeamAwayPlayers}"
+                    Grid.Column="4">
+                    <StackLayout.Triggers>
+                        <DataTrigger TargetType="StackLayout" Binding="{Binding TeamAwayPlayers.Count}" Value="0">
+                            <Setter Property="IsVisible" Value="False" />
+                        </DataTrigger>
+                    </StackLayout.Triggers>
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <Label Text="{Binding Number}" />
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </StackLayout>-->
+
+                <!-- Mensaje de jugadores visitantes vacíos -->
+                <StackLayout IsVisible="False">
+                    <StackLayout.Triggers>
+                        <DataTrigger TargetType="StackLayout" Binding="{Binding TeamAwayPlayers.Count}" Value="0">
+                            <Setter Property="IsVisible" Value="True" />
+                        </DataTrigger>
+                    </StackLayout.Triggers>
+                    <Label x:Name="lblMessageEmptyAwayPlayers"
+                           Text="No hay jugadores del equipo visitante cargados aún."
+                           TextColor="Red" />
+                </StackLayout>
+            </Grid>
+
+            <!-- Botones de acción -->
+            <HorizontalStackLayout Spacing="10" Padding="10">
+                <Button x:Name="btnAddPlayer"
+                        Text="Agregar jugador"
+                        BackgroundColor="Blue"
+                        TextColor="White"
+                        Margin="10"
+                        Clicked="OnAddPlayer" />
+
+                <Button x:Name="btnFinish"
+                        Text="Finalizar"
+                        BackgroundColor="Red"
+                        TextColor="White"
+                        Margin="10"
+                        Clicked="OnFinish" />
+            </HorizontalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
 </ContentPage>

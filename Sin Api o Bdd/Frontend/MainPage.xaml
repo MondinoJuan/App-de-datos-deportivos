@@ -1,16 +1,29 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Frontend.MainPage">
+             x:Class="Frontend.MainPage"
+             BackgroundColor="#212121">
 
-    <VerticalStackLayout Spacing="15" Padding="20">
+    <VerticalStackLayout Spacing="20" Padding="30"
+                         VerticalOptions="Center">
 
+        <!-- Título de la página -->
         <Label Text="MATCH to PDF"
-               FontSize="20"/>
+               FontSize="26"
+               FontAttributes="Bold"
+               HorizontalOptions="Center"
+               TextColor="#8308FF" />
 
+        <!-- Botón para crear un nuevo partido -->
         <Button x:Name="btnNewMatch"
                 Text="Nuevo partido"
-                Clicked="OnNewMatch"/>
+                FontSize="18"
+                BackgroundColor="#8308FF"
+                TextColor="White"
+                CornerRadius="10"
+                WidthRequest="200"
+                HorizontalOptions="Center"
+                Clicked="OnNewMatch" />
 
     </VerticalStackLayout>
 
