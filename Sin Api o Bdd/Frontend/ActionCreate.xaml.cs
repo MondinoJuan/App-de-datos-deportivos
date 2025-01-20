@@ -11,13 +11,18 @@ public partial class ActionCreate : ContentPage
     private Guid IdPlayerPasado { get; set; }
     private Match_Dto MatchActual { get; set; }
     private TaskCompletionSource<bool> _taskCompletionSource;
+    private bool DidBtnSubmit { get; set; } = false;
+    private bool DidPckAction { get; set; } = false;
+    private bool DidSwtHalf { get; set; } = false;
+    private bool DidFieldPlace { get; set; } = false;
+    private bool DidGoalPlace { get; set; } = false;
 
-    public ActionCreate(Guid Id_Player)
+    public ActionCreate(Guid id_Player)
     {
         InitializeComponent();
         action1 = new PlayerAction_Dto { Id = Guid.NewGuid() };
         _taskCompletionSource = new TaskCompletionSource<bool>();
-        IdPlayerPasado = Id_Player;
+        IdPlayerPasado = id_Player;
 
         MatchActual = Simulo_BdD.GetAllMatches().Data.First();
 
@@ -32,11 +37,16 @@ public partial class ActionCreate : ContentPage
         {
             action1.Ending = (Ending)selectedIndex;
         }
+        DidPckAction = true;
+        EnableSubmitButton();
     }
 
     private void OnSwitchToggled(object sender, ToggledEventArgs e)
     {
         action1.WhichHalf = e.Value;
+
+        DidSwtHalf = true;
+        EnableSubmitButton();
     }
 
     private void OnBoxViewTapped_Field(object sender, TappedEventArgs e)
@@ -47,6 +57,8 @@ public partial class ActionCreate : ContentPage
             action1.ActionPositionX = touchPosition.Value.X;
             action1.ActionPositionY = touchPosition.Value.Y;
         }
+        DidFieldPlace = true;
+        EnableSubmitButton();
     }
 
     private void OnBoxViewTapped_Goal(object sender, TappedEventArgs e)
@@ -56,6 +68,9 @@ public partial class ActionCreate : ContentPage
         {
             action1.DefinitionPlaceX = touchPosition.Value.X;
             action1.DefinitionPlaceY = touchPosition.Value.Y;
+
+            DidGoalPlace = true;
+            EnableSubmitButton();
         }
     }
 
@@ -91,11 +106,29 @@ public partial class ActionCreate : ContentPage
             _taskCompletionSource.SetResult(false);
         }
 
-        await Navigation.PopModalAsync();
+        //await Navigation.PopModalAsync();
+        await Navigation.PushAsync(new MatchView());
     }
 
     public Task<bool> GetResultAsync()
     {
         return _taskCompletionSource.Task;
+    }
+
+    public async void OnCancel(object sender, EventArgs e)
+    {
+        action1 = null;
+        IdPlayerPasado = Guid.Empty;
+        MatchActual = null;
+
+        _taskCompletionSource.SetResult(false);
+        //await Navigation.PopModalAsync();
+        await Navigation.PushAsync(new MatchView());
+        await Navigation.PushAsync(new MatchView());
+    }
+
+    public void EnableSubmitButton()
+    {
+        DidBtnSubmit = DidPckAction & DidSwtHalf & DidFieldPlace & DidGoalPlace;
     }
 }

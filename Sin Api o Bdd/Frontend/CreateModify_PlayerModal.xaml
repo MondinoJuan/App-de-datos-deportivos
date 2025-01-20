@@ -45,8 +45,9 @@
             <Label 
                 x:Name="lblModifyWarning" 
                 Text="Recuerde volver a marcar si es local o visitante." 
-                TextColor="Red"
-                FontSize="14"
+                TextColor="Black"
+                BackgroundColor="Yellow"
+                FontSize="46"
                 HorizontalOptions="Center"
                 IsVisible="{Binding ModifyWarning}" />
 
@@ -57,13 +58,15 @@
                     IsToggled="False"
                     Toggled="OnSwitchToggled"
                     OnColor="#007ACC"
-                    ThumbColor="#FFA500" />
+                    ThumbColor="#FFA500" 
+                    IsVisible="{Binding InvModifyWarning}" />
 
                 <Label 
                     x:Name="lblStatus" 
                     Text="Local" 
                     FontSize="16"
-                    VerticalOptions="Center" />
+                    VerticalOptions="Center" 
+                    IsVisible="{Binding InvModifyWarning}"/>
 
             </HorizontalStackLayout>
 

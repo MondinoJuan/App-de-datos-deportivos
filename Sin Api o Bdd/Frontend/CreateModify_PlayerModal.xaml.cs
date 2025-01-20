@@ -10,11 +10,13 @@ public partial class CreateModify_PlayerModal : ContentPage
     private TaskCompletionSource<Player_Dto> _playerAGuardar;
     public Player_Dto Player { get; private set; }
     public bool ModifyWarning { get; private set; }
+    public bool InvModifyWarning { get; private set; }
 
     public CreateModify_PlayerModal()
     {
         InitializeComponent();
         ModifyWarning = false;
+        InvModifyWarning = !ModifyWarning;
         Player = new Player_Dto();
         Player.Id = Guid.NewGuid();
         _taskCompletionSource = new TaskCompletionSource<int>();
@@ -26,6 +28,7 @@ public partial class CreateModify_PlayerModal : ContentPage
     {
         InitializeComponent();
         ModifyWarning = true;
+        InvModifyWarning = !ModifyWarning;
         Player = player;
         CompleteFields();
         _taskCompletionSource = new TaskCompletionSource<int>();
@@ -52,33 +55,43 @@ public partial class CreateModify_PlayerModal : ContentPage
         if (ModifyWarning)
         {
             var result = Simulo_BdD.ReplacePlayer(Player);
-            
-            //Hacer el manejo del error por si no se reemplaza.
+            // Manejo del error por si no se reemplaza.
         }
         else
         {
             var result = Simulo_BdD.AddPlayer(Player);
-
-            //Hacer el manejo del error por si no se guarda.
+            // Manejo del error por si no se guarda.
         }
 
-        if (swtLocalAway.IsToggled)
+        if (!_taskCompletionSource.Task.IsCompleted)
         {
-            _taskCompletionSource.SetResult(2); // Visitante
-        }
-        else
-        {
-            _taskCompletionSource.SetResult(1); // Local
+            if (swtLocalAway.IsToggled)
+            {
+                _taskCompletionSource.SetResult(2); // Visitante
+            }
+            else
+            {
+                _taskCompletionSource.SetResult(1); // Local
+            }
         }
 
-        _playerAGuardar.SetResult(Player);
+        if (!_playerAGuardar.Task.IsCompleted)
+        {
+            _playerAGuardar.SetResult(Player);
+        }
+
         Navigation.PopModalAsync();
+        Navigation.PushAsync(new MatchView());
     }
 
     private void OnCancel(object sender, EventArgs e)
     {
-        _taskCompletionSource.SetResult(0);
+        if (!_taskCompletionSource.Task.IsCompleted)
+        {
+            _taskCompletionSource.SetResult(0);
+        }
         Navigation.PopModalAsync();
+        Navigation.PushAsync(new MatchView());
     }
 
     public Task<int> GetResultAsync()

@@ -4,9 +4,11 @@
              x:Class="Frontend.Resources.Components.PlayerItemView">
 
     <Frame Padding="15" Margin="10" HasShadow="True" CornerRadius="10" 
-           BackgroundColor="White" BorderColor="#E0E0E0">
+           BackgroundColor="Black" BorderColor="#E0E0E0"
+           HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
 
-        <Grid ColumnSpacing="15" RowSpacing="10">
+        <Grid ColumnSpacing="15" RowSpacing="10"
+              HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
@@ -14,7 +16,8 @@
             </Grid.ColumnDefinitions>
 
             <!-- Número del jugador -->
-            <Label Grid.Column="0" 
+            <Label Grid.Column="0"
+                   TextColor="Wheat"
                    Text="{Binding Number}" 
                    FontSize="18" 
                    FontAttributes="Bold" 
@@ -23,20 +26,23 @@
 
             <!-- Nombre del jugador -->
             <Label Grid.Column="1" 
-                   Text="{Binding Name}" 
+                   TextColor="Wheat"
+                   Text="{Binding Name}"
                    FontSize="16" 
                    HorizontalOptions="Start" 
                    VerticalOptions="Center" 
                    LineBreakMode="TailTruncation" />
 
             <!-- Botón de editar -->
-            <Button Grid.Column="2"
+            <Button Grid.Column="1"
                     ImageSource="lapiz_edit.png"
-                    BackgroundColor="Transparent"
+                    BackgroundColor="Wheat"
                     BorderWidth="0"
                     HorizontalOptions="End"
                     VerticalOptions="Center"
                     Padding="5"
+                    WidthRequest="30"
+                    HeightRequest="30"
                     Clicked="OnEdit" />
 
             <!-- Botón de eliminar -->
@@ -47,6 +53,8 @@
                     HorizontalOptions="End"
                     VerticalOptions="Center"
                     Padding="5"
+                    WidthRequest="30"
+                    HeightRequest="30"
                     Clicked="OnDelete" />
 
             <!-- Reconocedor de gestos para toda la fila -->
@@ -56,3 +64,4 @@
         </Grid>
     </Frame>
 </ContentView>
+

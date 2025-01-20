@@ -14,8 +14,8 @@ public partial class MatchView : ContentPage
     private Match_Dto Match { get; set; }
     private Club_Dto LocalTeam { get; set; }
     private Club_Dto AwayTeam { get; set; }
-    public static ObservableCollection<Player_Dto> TeamLocalPlayers { get; set; } = new ObservableCollection<Player_Dto>();
-    public static ObservableCollection<Player_Dto> TeamAwayPlayers { get; set; } = new ObservableCollection<Player_Dto>();
+    public ObservableCollection<Player_Dto> TeamLocalPlayers { get; set; } = new ObservableCollection<Player_Dto>();
+    public ObservableCollection<Player_Dto> TeamAwayPlayers { get; set; } = new ObservableCollection<Player_Dto>();
     public int ActionCountLocal { get; set; }
     public int ActionCountAway { get; set; }
 
@@ -23,6 +23,22 @@ public partial class MatchView : ContentPage
     {
         InitializeComponent();
         Match = match;
+
+        lblMatchViewTitle.Text = $"Partido de la fecha {Match.MatchWeek} el día {Match.Date.ToString()}";
+        lblTournament.Text = Match.Tournament ?? "N/A";
+
+        LoadTeams();
+
+        BindingContext = this;
+    }
+
+    public MatchView()
+    {
+        InitializeComponent();
+        var result = Simulo_BdD.GetAllMatches();
+        Console.WriteLine(result.Message);
+
+        Match = result.Data.First();
 
         lblMatchViewTitle.Text = $"Partido de la fecha {Match.MatchWeek} el día {Match.Date.ToString()}";
         lblTournament.Text = Match.Tournament ?? "N/A";
@@ -120,7 +136,7 @@ public partial class MatchView : ContentPage
         Console.WriteLine(result.Message);
     }
 
-    public static void RemovePlayer(Player_Dto player)
+    public void RemovePlayer(Player_Dto player)
     {
         if (TeamLocalPlayers.Remove(player))
         {

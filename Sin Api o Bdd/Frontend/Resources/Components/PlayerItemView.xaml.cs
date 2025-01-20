@@ -6,16 +6,33 @@ namespace Frontend.Resources.Components;
 
 public partial class PlayerItemView : ContentView
 {
-    public Player_Dto? Player => BindingContext as Player_Dto;
+    public static readonly BindableProperty MatchViewProperty =
+        BindableProperty.Create(nameof(MatchView), typeof(MatchView), typeof(PlayerItemView));
+
+    public MatchView MatchView
+    {
+        get => (MatchView)GetValue(MatchViewProperty);
+        set => SetValue(MatchViewProperty, value);
+    }
+
+    public static readonly BindableProperty PlayerProperty =
+        BindableProperty.Create(nameof(Player), typeof(Player_Dto), typeof(PlayerItemView));
+
+    public Player_Dto Player
+    {
+        get => (Player_Dto)GetValue(PlayerProperty);
+        set => SetValue(PlayerProperty, value);
+    }
 
     public PlayerItemView()
     {
         InitializeComponent();
+        this.BindingContext = this;
         // Escuchar cambios en el BindingContext
         this.BindingContextChanged += OnBindingContextChanged;
     }
 
-    private void OnBindingContextChanged(object sender, EventArgs e)
+    private void OnBindingContextChanged(object? sender, EventArgs? e)
     {
         // Cuando cambie el BindingContext, actualiza cualquier lógica necesaria
         if (Player != null)
@@ -38,8 +55,6 @@ public partial class PlayerItemView : ContentView
         {
             await Navigation.PushAsync(new CreateModify_PlayerModal(Player));
         }
-        // Detener la propagación del evento Tapped
-        //((Button)sender).Command = new Command(() => { });
     }
 
     private void OnDelete(object sender, EventArgs e)
@@ -48,9 +63,6 @@ public partial class PlayerItemView : ContentView
         {
             try
             {
-                Simulo_BdD.RemovePlayer(Player.Id);
-                MatchView.RemovePlayer(Player);
-
                 var result = Simulo_BdD.GetAllPlayerMatches();
                 Console.WriteLine(result.Message);
 
@@ -64,6 +76,9 @@ public partial class PlayerItemView : ContentView
                         Simulo_BdD.RemovePlayerMatch(pm.Id);
                     }
                 }
+
+                Simulo_BdD.RemovePlayer(Player.Id);
+                MatchView.RemovePlayer(Player);
             }
             catch (Exception ex)
             {

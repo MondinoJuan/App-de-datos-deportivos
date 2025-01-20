@@ -2,87 +2,242 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Frontend.ActionCreate"
-             Title="ActionCreate">
-    <VerticalStackLayout Spacing="15" Padding="20">
+             Title="Registrar Acción"
+             BackgroundColor="DarkGrey">
 
-        <Label Text="Ingrese los datos de la acción"
-           FontSize="20"/>
+    <ScrollView>
+        <VerticalStackLayout Spacing="20" Padding="20" VerticalOptions="FillAndExpand">
 
-        <Picker x:Name="ending" 
-            Title="Seleccione una opción" 
-            VerticalOptions="Start" 
-            SelectedIndexChanged="OnPickerSelectedIndexChanged">
-            <Picker.ItemsSource>
-                <x:Array Type="{x:Type x:String}">
-                    <x:String>Goal</x:String>
-                    <x:String>Save</x:String>
-                    <x:String>Miss</x:String>
-                    <x:String>Blocked</x:String>
-                    <x:String>Steal_W</x:String>
-                    <x:String>Steal_L</x:String>
-                    <x:String>Foul</x:String>
-                </x:Array>
-            </Picker.ItemsSource>
-        </Picker>
+            <!-- Título principal -->
+            <Label Text="Ingrese los datos de la acción"
+                   FontSize="22"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"
+                   TextColor="#2C3E50" />
 
-        <Switch x:Name="whichHalf" 
-            IsToggled="false" 
-            Toggled="OnSwitchToggled" 
-            VerticalOptions="Start" />
+            <!-- Selector de acción -->
+            <Frame
+                CornerRadius="10" 
+                BorderColor="#2C3E50" 
+                Padding="10"
+                HeightRequest="90"
+                WidthRequest="200"
+                BackgroundColor="Transparent">
+                <Picker x:Name="ending"
+                        TitleColor="#2C3E50"
+                        Title="Seleccione una acción" 
+                        VerticalOptions="FillAndExpand"
+                        HorizontalOptions="FillAndExpand"
+                        TextColor="White"
+                        BackgroundColor="#2C3E50"
+                        SelectedIndexChanged="OnPickerSelectedIndexChanged"
+                        HeightRequest="60">
+                    <Picker.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>Goal</x:String>
+                            <x:String>Save</x:String>
+                            <x:String>Miss</x:String>
+                            <x:String>Blocked</x:String>
+                            <x:String>Steal_W</x:String>
+                            <x:String>Steal_L</x:String>
+                            <x:String>Foul</x:String>
+                        </x:Array>
+                    </Picker.ItemsSource>
+                </Picker>
+            </Frame>
 
-        <!-- AbsoluteLayout para la matriz con imagen de fondo -->
-        <AbsoluteLayout x:Name="fieldPlace"
-                    VerticalOptions="FillAndExpand" 
-                    HorizontalOptions="FillAndExpand"
-                    HeightRequest="300"
-                    WidthRequest="300">
-            <!-- Imagen de fondo -->
-            <Image Source="Images/cancha.jpg" 
-               Aspect="AspectFill"
-               AbsoluteLayout.LayoutBounds="0,0,1,1" 
-               AbsoluteLayout.LayoutFlags="All" />
+            <!-- Selector de mitad -->
+            <StackLayout 
+                Orientation="Horizontal" 
+                Spacing="10" 
+                VerticalOptions="Center" 
+                HorizontalOptions="Start">
+                <Label Text="Primera mitad"
+                       FontSize="16"
+                       VerticalOptions="Center"
+                       TextColor="#2C3E50" />
+                <Switch x:Name="whichHalf"
+                        IsToggled="false"
+                        Toggled="OnSwitchToggled"
+                        OnColor="#27AE60"
+                        ThumbColor="#FFA726"/>
+                <Label Text="Segunda mitad"
+                       FontSize="16"
+                       VerticalOptions="Center"
+                       TextColor="#2C3E50" />
+            </StackLayout>
 
-            <!--Area para capturar toques-->
-            <BoxView BackgroundColor="Transparent"
-                 AbsoluteLayout.LayoutBounds="0,0,1,1"
-                 AbsoluteLayout.LayoutFlags="All">
-                <BoxView.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="OnBoxViewTapped_Field" />
-                </BoxView.GestureRecognizers>
-            </BoxView>
+            <StackLayout Orientation="Horizontal">
+                <Grid ColumnSpacing="60"
+                      RowSpacing="50">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="200" />
+                        <RowDefinition Height="10" />
+                    </Grid.RowDefinitions>
+                    <Label 
+                        Text="AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                        FontSize="16"
+                        FontAttributes="Bold"
+                        TextColor="#2C3E50"
+                        HorizontalOptions="Center" 
+                        Grid.Column="0"
+                        Grid.Row="0"/>
+                    <Label Text="Seleccione la posición en el campo"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="#2C3E50"
+                           HorizontalOptions="Center" 
+                           Grid.Column="1"
+                           Grid.Row="0"/>
 
-        </AbsoluteLayout>
+                    <Label Text="Seleccione la posición en el arco"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="#2C3E50"
+                           HorizontalOptions="Center" 
+                           Grid.Column="2"
+                           Grid.Row="0"/>
+                    <!--De prueba-->
+                    <Frame 
+                        CornerRadius="20" 
+                        Padding="0" 
+                        BorderColor="Transparent"
+                        BackgroundColor="Transparent"
+                        HeightRequest="270"
+                        WidthRequest="250"
+                        HorizontalOptions="CenterAndExpand"
+                        Grid.Column="0"
+                        Grid.Row="1">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+                            <!-- Imagen de fondo -->
+                            <Image 
+                                Source="cancha.png" 
+                                Aspect="Center"
+                                BackgroundColor="Blue" 
+                                Grid.Column="0"
+                                Grid.Row="0"/>
 
-        <!-- AbsoluteLayout para la matriz con imagen de fondo -->
-        <AbsoluteLayout x:Name="goalPlace"
-                    VerticalOptions="FillAndExpand" 
-                    HorizontalOptions="FillAndExpand"
-                    HeightRequest="300"
-                    WidthRequest="300">
-            <!-- Imagen de fondo -->
-            <Image Source="Images/arco.jpg" 
-               Aspect="AspectFill"
-               AbsoluteLayout.LayoutBounds="0,0,1,1" 
-               AbsoluteLayout.LayoutFlags="All" />
+                            <!-- Capa interactiva transparente -->
+                            <BoxView 
+                                BackgroundColor="Transparent"
+                                Grid.Column="0"
+                                Grid.Row="0">
+                                <BoxView.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnBoxViewTapped_Field" />
+                                </BoxView.GestureRecognizers>
+                            </BoxView>
+                        </Grid>
+                    </Frame>
 
-            <!--Area para capturar toques-->
-            <BoxView BackgroundColor="Transparent"
-                 AbsoluteLayout.LayoutBounds="0,0,1,1"
-                 AbsoluteLayout.LayoutFlags="All">
-                <BoxView.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="OnBoxViewTapped_Goal" />
-                </BoxView.GestureRecognizers>
-            </BoxView>
+                    <!-- Matriz de campo -->
+                    <Frame 
+                        CornerRadius="20" 
+                        Padding="0" 
+                        BorderColor="Transparent"
+                        BackgroundColor="Transparent"
+                        HeightRequest="270"
+                        WidthRequest="250"
+                        HorizontalOptions="CenterAndExpand"
+                        Grid.Column="1"
+                        Grid.Row="1">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+                            <!-- Imagen de fondo -->
+                            <Image 
+                                Source="cancha.png" 
+                                Aspect="Center"
+                                BackgroundColor="Transparent" 
+                                Grid.Column="0"
+                                Grid.Row="0"/>
 
-        </AbsoluteLayout>
+                            <!-- Capa interactiva transparente -->
+                            <BoxView 
+                                BackgroundColor="Transparent"
+                                Grid.Column="0"
+                                Grid.Row="0">
+                                <BoxView.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnBoxViewTapped_Field" />
+                                </BoxView.GestureRecognizers>
+                            </BoxView>
+                        </Grid>
+                    </Frame>
 
-        <Entry x:Name="txtDescription"
-           Text="Ingrese descripción (opcional)."
-           TextChanged="OnDescriptionTextChanged"/>
+                    <!-- Matriz de arco -->
+                    <Frame 
+                        CornerRadius="20" 
+                        Padding="0" 
+                        BorderColor="Transparent"
+                        BackgroundColor="Transparent"
+                        HeightRequest="230"
+                        WidthRequest="300"
+                        HorizontalOptions="CenterAndExpand"
+                        Grid.Column="2"
+                        Grid.Row="1">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+                            <!-- Imagen de fondo -->
+                            <Image 
+                                Source="arco.png" 
+                                Aspect="Center"
+                                BackgroundColor="Blue" 
+                                Grid.Column="0"
+                                Grid.Row="0"/>
 
-        <Button x:Name="buttonSubmit"
-            Text="Guardar"
-            Clicked="OnSubmit"/>
+                            <!-- Capa interactiva transparente -->
+                            <BoxView 
+                                BackgroundColor="Transparent"
+                                Grid.Column="0"
+                                Grid.Row="0">
+                                <BoxView.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnBoxViewTapped_Goal" />
+                                </BoxView.GestureRecognizers>
+                            </BoxView>
+                        </Grid>
+                    </Frame>
+                </Grid>
+            </StackLayout>
 
-    </VerticalStackLayout>
+            <!-- Descripción -->
+            <Frame CornerRadius="10" BorderColor="#B0BEC5" Padding="10">
+                <Entry x:Name="txtDescription"
+                       Placeholder="Ingrese una descripción (opcional)"
+                       FontSize="16"
+                       TextChanged="OnDescriptionTextChanged" />
+            </Frame>
+
+            <!-- Botón de acción -->
+            <Button x:Name="btnSubmit"
+                    Text="Guardar"
+                    FontSize="16"
+                    BackgroundColor="#27AE60"
+                    TextColor="White"
+                    CornerRadius="10"
+                    HorizontalOptions="Fill" 
+                    Clicked="OnSubmit"
+                    IsEnabled="{Binding BtnSubmit}"/>
+
+            <Button x:Name="btnCancel"
+                    Text="Cancelar"
+                    FontSize="16"
+                    BackgroundColor="Red"
+                    TextColor="White"
+                    CornerRadius="10"
+                    HorizontalOptions="Fill" 
+                    Clicked="OnCancel"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

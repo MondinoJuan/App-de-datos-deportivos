@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:components="clr-namespace:Frontend.Resources.Components"
              x:Class="Frontend.MatchView"
+             x:Name="matchViewInstance"
              Title="Vista de Partido">
 
     <ScrollView>
@@ -53,19 +54,20 @@
             <!-- Subtítulos de la tabla -->
             <Grid ColumnSpacing="10" Padding="10">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="2*" />
                     <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="250" />
+                    <ColumnDefinition Width="250" />
                     <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="1*" />
                 </Grid.ColumnDefinitions>
 
-                <Label Grid.Column="0" Text="Nombre Jugador Local" 
-                       FontAttributes="Bold" 
-                       HorizontalOptions="Center" />
+                <Label 
+                    Grid.Column="0" Text="N°"
+                    FontAttributes="Bold" 
+                    HorizontalOptions="Center" />
 
-                <Label Grid.Column="1" Text="N°" 
+                <Label Grid.Column="1" Text="Nombre Jugador Local" 
                        FontAttributes="Bold" 
                        HorizontalOptions="Center" />
 
@@ -104,11 +106,12 @@
                     </Picker.ItemsSource>
                 </Picker>
 
-                <Label Grid.Column="4" Text="Nombre Jugador Visitante" 
-                       FontAttributes="Bold" 
-                       HorizontalOptions="Center" />
-
-                <Label Grid.Column="5" Text="N°" 
+                <Label 
+                    Grid.Column="4" Text="N°" 
+                    FontAttributes="Bold" 
+                    HorizontalOptions="Center" />
+                
+                <Label Grid.Column="5" Text="Nombre Jugador Visitante" 
                        FontAttributes="Bold" 
                        HorizontalOptions="Center" />
             </Grid>
@@ -117,14 +120,17 @@
             <Grid ColumnSpacing="10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="250" />
+                    <ColumnDefinition Width="250" />
                     <ColumnDefinition Width="1*" />
                 </Grid.ColumnDefinitions>
 
                 <!-- Jugadores locales -->
                 <StackLayout 
-                    x:Name="PlayerListLocal" 
-                    BindableLayout.ItemsSource="{Binding TeamLocalPlayers}"
-                    Grid.Column="0">
+                        x:Name="PlayerListLocal" 
+                        BindableLayout.ItemsSource="{Binding TeamLocalPlayers}"
+                        Grid.Column="0"
+                        HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                     <StackLayout.Triggers>
                         <DataTrigger TargetType="StackLayout" Binding="{Binding TeamLocalPlayers.Count}" Value="0">
                             <Setter Property="IsVisible" Value="False" />
@@ -132,12 +138,12 @@
                     </StackLayout.Triggers>
                     <BindableLayout.ItemTemplate>
                         <DataTemplate>
-                            <components:PlayerItemView />
+                            <components:PlayerItemView MatchView="{Binding Source={x:Reference matchViewInstance}}" Player="{Binding .}" />
                         </DataTemplate>
                     </BindableLayout.ItemTemplate>
                 </StackLayout>
 
-                <!--<StackLayout 
+                <StackLayout 
                     x:Name="LabelListLocal" 
                     BindableLayout.ItemsSource="{Binding TeamLocalPlayers}"
                     Grid.Column="1">
@@ -148,13 +154,14 @@
                     </StackLayout.Triggers>
                     <BindableLayout.ItemTemplate>
                         <DataTemplate>
-                            <Label Text="{Binding Number}" />
+                            <Label Text="{Binding ActionCountLocal}" />
                         </DataTemplate>
                     </BindableLayout.ItemTemplate>
-                </StackLayout>-->
+                </StackLayout>
 
                 <!-- Mensaje de jugadores locales vacíos -->
-                <StackLayout IsVisible="False">
+                <StackLayout IsVisible="False"
+                             Grid.Column="0">
                     <StackLayout.Triggers>
                         <DataTrigger TargetType="StackLayout" Binding="{Binding TeamLocalPlayers.Count}" Value="0">
                             <Setter Property="IsVisible" Value="True" />
@@ -167,9 +174,10 @@
 
                 <!-- Jugadores visitantes -->
                 <StackLayout 
-                    x:Name="PlayerListAway" 
-                    BindableLayout.ItemsSource="{Binding TeamAwayPlayers}"
-                    Grid.Column="3">
+                        x:Name="PlayerListAway" 
+                        BindableLayout.ItemsSource="{Binding TeamAwayPlayers}"
+                        Grid.Column="3"
+                        HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                     <StackLayout.Triggers>
                         <DataTrigger TargetType="StackLayout" Binding="{Binding TeamAwayPlayers.Count}" Value="0">
                             <Setter Property="IsVisible" Value="False" />
@@ -177,12 +185,12 @@
                     </StackLayout.Triggers>
                     <BindableLayout.ItemTemplate>
                         <DataTemplate>
-                            <components:PlayerItemView />
+                            <components:PlayerItemView MatchView="{Binding Source={x:Reference matchViewInstance}}" Player="{Binding .}" />
                         </DataTemplate>
                     </BindableLayout.ItemTemplate>
                 </StackLayout>
 
-                <!--<StackLayout 
+                <StackLayout 
                     x:Name="LabelListAway" 
                     BindableLayout.ItemsSource="{Binding TeamAwayPlayers}"
                     Grid.Column="4">
@@ -193,13 +201,14 @@
                     </StackLayout.Triggers>
                     <BindableLayout.ItemTemplate>
                         <DataTemplate>
-                            <Label Text="{Binding Number}" />
+                            <Label Text="{Binding ActionCountAway}" />
                         </DataTemplate>
                     </BindableLayout.ItemTemplate>
-                </StackLayout>-->
+                </StackLayout>
 
                 <!-- Mensaje de jugadores visitantes vacíos -->
-                <StackLayout IsVisible="False">
+                <StackLayout IsVisible="False"
+                             Grid.Column="3">
                     <StackLayout.Triggers>
                         <DataTrigger TargetType="StackLayout" Binding="{Binding TeamAwayPlayers.Count}" Value="0">
                             <Setter Property="IsVisible" Value="True" />
