@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,9 +15,27 @@ namespace Frontend.Resources
         public T? Data { get; set; }
     }
 
+    public class Coordenadas
+    {
+        public List<Coordenates> CooField { get; set; }
+        public List<Coordenates>? CooGoal { get; set; }
+        public int quantityEnding { get; set; }
+        public bool Success { get; set; }
+    }
+
+    public class BaseViewModel : INotifyPropertyChanged
+    {
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+    }
+
     public class CreatedVariablesTypes
     {
-        public int QuantityOfPlayersPerClub { get; set; } = 16;
+        public static int QuantityOfPlayersPerClub { get; set; } = 16;
     }
 
     public enum Ending
@@ -31,8 +51,8 @@ namespace Frontend.Resources
 
     public struct Coordenates
     {
-        public int X { get; set; }
-        public int Y { get; set; }
+        public double? X { get; set; }
+        public double? Y { get; set; }
     }
 
     public enum Sanction
