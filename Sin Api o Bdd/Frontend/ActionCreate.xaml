@@ -26,7 +26,7 @@
                 HeightRequest="90"
                 WidthRequest="200"
                 BackgroundColor="Transparent">
-                <Picker x:Name="ending"
+                <Picker x:Name="actionPicker"
                         TitleColor="#2C3E50"
                         Title="Seleccione una acción" 
                         VerticalOptions="FillAndExpand"
@@ -57,9 +57,9 @@
                 HeightRequest="90"
                 WidthRequest="200"
                 BackgroundColor="Transparent">
-                <Picker x:Name="ending"
+                <Picker x:Name="sanctionPicker"
                     TitleColor="#2C3E50"
-                    Title="Seleccione una acción" 
+                    Title="Seleccione una sanción" 
                     VerticalOptions="FillAndExpand"
                     HorizontalOptions="FillAndExpand"
                     TextColor="White"
@@ -133,97 +133,60 @@
                            InputTransparent="True"/>
 
                     <!-- Matriz de campo -->
-                    <Frame 
-                        CornerRadius="20" 
-                        Padding="0" 
-                        BorderColor="Transparent"
-                        BackgroundColor="Transparent"
-                        HeightRequest="268"
-                        WidthRequest="240"
-                        HorizontalOptions="CenterAndExpand"
-                        Grid.Column="0"
-                        Grid.Row="1"
-                        InputTransparent="True">
-                        <AbsoluteLayout>
-                            <!-- Imagen de fondo -->
-                            <Image 
-                                Source="cancha.png" 
-                                Aspect="AspectFit"
-                                BackgroundColor="Transparent"
-                                AbsoluteLayout.LayoutBounds="0,0,1,1"
-                                AbsoluteLayout.LayoutFlags="All"
-                                ZIndex="1"
-                                InputTransparent="True"/>
+                    <AbsoluteLayout>
+                        <!-- Imagen de fondo -->
+                        <Image 
+                            Source="cancha.png" 
+                            Aspect="AspectFit"
+                            BackgroundColor="Transparent"
+                            AbsoluteLayout.LayoutBounds="0,0,1,1"
+                            AbsoluteLayout.LayoutFlags="All"
+                            ZIndex="1"
+                            InputTransparent="True">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnImageTapped_Field" />
+                            </Image.GestureRecognizers>
+                        </Image>
 
-                            <!-- Capa interactiva para captar taps -->
-                            <BoxView 
-                                BackgroundColor="Transparent"
-                                AbsoluteLayout.LayoutBounds="0,0,1,1"
-                                AbsoluteLayout.LayoutFlags="All"
-                                ZIndex="0"
-                                InputTransparent="False">
-                                <BoxView.GestureRecognizers>
-                                    <TapGestureRecognizer Tapped="OnBoxViewTapped_Field" />
-                                </BoxView.GestureRecognizers>
-                            </BoxView>
-
-                            <!-- Contenedor dinámico para marcas -->
-                            <AbsoluteLayout 
-                                x:Name="MarkContainerField"
-                                AbsoluteLayout.LayoutBounds="0,0,1,1"
-                                AbsoluteLayout.LayoutFlags="All"
-                                ZIndex="3"
-                                InputTransparent="True">
-                                <!-- Las marcas se añadirán dinámicamente aquí -->
-                            </AbsoluteLayout>
+                        <!-- Contenedor dinámico para marcas -->
+                        <AbsoluteLayout 
+                            x:Name="MarkContainerField"
+                            AbsoluteLayout.LayoutBounds="0,0,1,1"
+                            AbsoluteLayout.LayoutFlags="All"
+                            ZIndex="3"
+                            InputTransparent="True">
+                            <!-- Las marcas se añadirán dinámicamente aquí -->
                         </AbsoluteLayout>
-                    </Frame>
+                    </AbsoluteLayout>
 
                     <!-- Matriz de arco -->
-                    <Frame 
-                        CornerRadius="20" 
-                        Padding="0" 
-                        BorderColor="Transparent"
-                        BackgroundColor="Transparent"
-                        HeightRequest="226"
-                        WidthRequest="300"
-                        HorizontalOptions="CenterAndExpand"
-                        Grid.Column="1"
-                        Grid.Row="1"
-                        InputTransparent="True">
-                        <AbsoluteLayout>
-                            <!-- Imagen de fondo -->
-                            <Image 
-                                Source="arco.png" 
-                                Aspect="AspectFit"
-                                BackgroundColor="Transparent"
-                                AbsoluteLayout.LayoutBounds="0,0,1,1"
-                                AbsoluteLayout.LayoutFlags="All"
-                                ZIndex="0"
-                                InputTransparent="True"/>
+                    <AbsoluteLayout>
+                        <!-- Imagen de fondo -->
+                        <Image 
+                            Source="arco.png" 
+                            Aspect="AspectFit"
+                            BackgroundColor="Transparent"
+                            AbsoluteLayout.LayoutBounds="0,0,1,1"
+                            AbsoluteLayout.LayoutFlags="All"
+                            ZIndex="10"
+                            InputTransparent="True"
+                            Grid.Column="1"
+                            Grid.Row="1">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnImageTapped_Goal" />
+                            </Image.GestureRecognizers>
+                        </Image>
 
-                            <!-- Capa interactiva para captar taps -->
-                            <BoxView 
-                                BackgroundColor="Transparent"
-                                AbsoluteLayout.LayoutBounds="0,0,1,1"
-                                AbsoluteLayout.LayoutFlags="All"
-                                ZIndex="5">
-                                <BoxView.GestureRecognizers>
-                                    <TapGestureRecognizer Tapped="OnBoxViewTapped_Goal" />
-                                </BoxView.GestureRecognizers>
-                            </BoxView>
-
-                            <!-- Contenedor dinámico para marcas -->
-                            <AbsoluteLayout 
-                                x:Name="MarkContainerGoal"
-                                AbsoluteLayout.LayoutBounds="0,0,1,1"
-                                AbsoluteLayout.LayoutFlags="All"
-                                ZIndex="2"
-                                InputTransparent="True">
-                                <!-- Las marcas se añadirán dinámicamente aquí -->
-                            </AbsoluteLayout>
+                        <!-- Contenedor dinámico para marcas -->
+                        <AbsoluteLayout 
+                            x:Name="MarkContainerGoal"
+                            AbsoluteLayout.LayoutBounds="0,0,1,1"
+                            AbsoluteLayout.LayoutFlags="All"
+                            ZIndex="2"
+                            InputTransparent="True">
+                            <!-- Las marcas se añadirán dinámicamente aquí -->
                         </AbsoluteLayout>
-                    </Frame>
+                    </AbsoluteLayout>
                 </Grid>
             </StackLayout>
 

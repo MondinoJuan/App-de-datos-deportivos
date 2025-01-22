@@ -47,12 +47,12 @@ public partial class ActionCreate : ContentPage
         int selectedIndex = picker.SelectedIndex;
         if (selectedIndex != -1)
         {
-            action1.Sanction.Add((Sanction)selectedIndex);
+            action1.Sanction = ((Sanction)selectedIndex);
         }
         ViewModel.DidPckSanction = true;
     }
 
-    private void OnBoxViewTapped_Field(object sender, TappedEventArgs e)
+    private void OnImageTapped_Field(object sender, TappedEventArgs e)
     {
         var touchPosition = (e as TappedEventArgs)?.GetPosition((View)sender);
         if (touchPosition is not null)
@@ -81,7 +81,7 @@ public partial class ActionCreate : ContentPage
         ViewModel.DidFieldPlace = true;
     }
 
-    private void OnBoxViewTapped_Goal(object sender, TappedEventArgs e)
+    private void OnImageTapped_Goal(object sender, TappedEventArgs e)
     {
         var touchPosition = e.GetPosition((VisualElement)sender);
         if (touchPosition is not null)

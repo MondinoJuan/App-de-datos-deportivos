@@ -21,7 +21,7 @@ namespace Frontend.Resources.Entities
         public double? DefinitionPlaceX { get; set; }
         public double? DefinitionPlaceY { get; set; }
 
-        public List<Sanction> Sanction { get; set; }
+        public Sanction Sanction { get; set; }              // Agregar a createAction
 
         public string? Description { get; set; }
     }

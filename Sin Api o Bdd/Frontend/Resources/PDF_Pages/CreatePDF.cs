@@ -2,9 +2,6 @@
 using MigraDoc.DocumentObjectModel;
 using MigraDoc.Rendering;
 using Frontend.Resources.Entities;
-using PdfSharp.Drawing;
-using Microsoft.Maui.ApplicationModel;
-using Microsoft.Maui.Graphics;
 using SkiaSharp;
 
 namespace Frontend.Resources.PDF_Pages;
@@ -29,7 +26,6 @@ class CreatePDF
 
         BuildDocumnet(document);
 
-
         //Create a render for the MigraDoc document
         var pdfRenderer = new PdfDocumentRenderer();
         pdfRenderer.Document = document;
@@ -37,21 +33,120 @@ class CreatePDF
         //Layout and render document to PDF
         pdfRenderer.RenderDocument();
 
+        string fileName = "MatchSummary.pdf";
+        string filePath;
+
+        if (DeviceInfo.Platform == DevicePlatform.WinUI)
+        {
+            filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), fileName);
+        }
+        else if (DeviceInfo.Platform == DevicePlatform.Android || DeviceInfo.Platform == DevicePlatform.iOS)
+        {
+            filePath = Path.Combine(FileSystem.AppDataDirectory, fileName);
+        }
+        else
+        {
+            filePath = Path.Combine(FileSystem.CacheDirectory, fileName); // Fallback
+        }
+
+        pdfRenderer.PdfDocument.Save(filePath);
+
+        Console.WriteLine($"PDF guardado en: {filePath}");
+
         return pdfRenderer.PdfDocument;
     }
 
     private void BuildDocumnet(Document document)
     {
         SummaryMatch(document);
-        //Footer
+        Footer(document);
         SummaryTeam(document, TeamLocal);
-        //Footer
+        Footer(document);
         SummaryTeam(document, TeamAway);
-        //Footer
+        Footer(document);
+        foreach (var idPlayer in TeamLocal.IdPlayers)
+        {
+            SummaryPlayer(document, idPlayer);
+            Footer(document);
+        }
+        foreach (var idPlayer in TeamAway.IdPlayers)
+        {
+            SummaryPlayer(document, idPlayer);
+            Footer(document);
+        }
+    }
+
+    public void SummaryPlayer(Document document, Guid idPlayer)
+    {
+        var result = Simulo_BdD.GetOnePlayer(idPlayer);
+        if (!result.Success)
+        {
+            Console.WriteLine(result.Message);
+            return;
+        }
+
+        // Título
+        var section = document.AddSection();
+        var titulo = section.AddParagraph($"{result.Data.Name} - {result.Data.Number}");
+        titulo.Style = "Heading2";
+        titulo.AddLineBreak();
+        titulo.Format.SpaceAfter = 20;
+
+        // Goles
+        EndingSection(document, result.Data.Id, Ending.Goal);
+        //Saves
+        EndingSection(document, result.Data.Id, Ending.Save);
+        //Miss
+        EndingSection(document, result.Data.Id, Ending.Miss);
+        //Bloqueos
+        EndingSection(document, result.Data.Id, Ending.Blocked);
+        //Foul
+        EndingSection(document, result.Data.Id, Ending.Foul);
+        //Robo
+        EndingSection(document, result.Data.Id, Ending.Steal_W);
+        //Perdidas
+        EndingSection(document, result.Data.Id, Ending.Steal_L);
+
+        //Contar cantidad de 2mins, rojas y azules por equipo
+        var section2 = document.AddSection();
+
+        var temp = CountSanctions(Match.Id, idPlayer);
+
+        if (temp.Quantity2min.HasValue)
+        {
+            section2.AddParagraph($"2 minutos: {temp.Quantity2min.Value}");
+        }
+        if (temp.Red.HasValue)
+        {
+            section2.AddParagraph($"Rojas: {temp.Red.Value}");
+        }
+        if (temp.Blue.HasValue)
+        {
+            section2.AddParagraph($"Azules: {temp.Blue.Value}");
+        }
+
+        section2.AddPageBreak();
+    }
+
+    public void Footer(Document document)
+    {
+        var section = document.AddSection();
+        var footer = section.Footers.Primary.AddParagraph();
+        footer.AddText("Página ");
+        footer.AddPageField(); // Campo para el número de página actual
+        footer.AddText(" de ");
+        footer.AddNumPagesField(); // Campo para el número total de páginas
+        footer.Format.Alignment = ParagraphAlignment.Center;
+        footer.Format.Font.Size = 9;
+        footer.Format.Font.Color = MigraDoc.DocumentObjectModel.Colors.Gray;
     }
 
     public void SummaryTeam(Document document, Club_Dto team)
     {
+        var minutes2 = 0;
+        var reds = 0;
+        var blues = 0;
+
         // Título
         var section = document.AddSection();
         var titulo = section.AddParagraph(team.Name);
@@ -75,6 +170,91 @@ class CreatePDF
         EndingSection(document, team, Ending.Steal_L);
 
         //Contar cantidad de 2mins, rojas y azules por equipo
+        var section2 = document.AddSection();
+        foreach (var idPlayer in team.IdPlayers)
+        {
+            var temp = CountSanctions(Match.Id, idPlayer);
+            if (temp.Quantity2min.HasValue)
+            {
+                minutes2 += temp.Quantity2min.Value;
+            }
+            if (temp.Red.HasValue)
+            {
+                reds += temp.Red.Value;
+            }
+            if (temp.Blue.HasValue)
+            {
+                blues += temp.Blue.Value;
+            }
+        }
+
+        if (minutes2 > 0)
+        {
+            section2.AddParagraph($"2 minutos: {minutes2}");
+        }
+        if (reds > 0)
+        {
+            section2.AddParagraph($"Rojas: {reds}");
+        }
+        if (blues > 0)
+        {
+            section2.AddParagraph($"Azules: {blues}");
+        }
+
+        section2.AddPageBreak();
+    }
+
+    private void EndingSection(Document document, Guid idPlayer, Ending end)
+    {
+        var marcasCampo = new List<Coordenates>();
+        var marcasArco = new List<Coordenates>();
+        // Contar cantidad de endings por jugador y generar imágenes con marcas
+        var temp = CountEndings(Match.Id, idPlayer, end);
+        if (temp.CooField != null)
+            marcasCampo.AddRange(temp.CooField);
+
+        if (end == Ending.Goal || end == Ending.Miss || end == Ending.Save)
+        {
+            if (temp.CooGoal != null)
+                marcasArco.AddRange(temp.CooGoal);
+        }
+
+        var section = document.AddSection();
+        section.AddParagraph($"{end}: {temp.QuantityEnding}");
+
+        // Generar imágenes con marcas
+        string canchaWithMarksPath = GenerateMarkedImage("Resources/Images/cancha.png", marcasCampo, new SKColor(255, 0, 0, 128)); // Rojo semitransparente
+        string arcoWithMarksPath = null;
+        if (end == Ending.Goal || end == Ending.Miss || end == Ending.Save)
+        {
+            arcoWithMarksPath = GenerateMarkedImage("Resources/Images/arco.png", marcasArco, new SKColor(0, 0, 255, 128)); // Azul semitransparente
+        }
+
+        try
+        {
+            // Insertar imágenes generadas al documento
+            var markedCanchaImage = section.AddImage(canchaWithMarksPath);
+            markedCanchaImage.Width = "10cm";
+            markedCanchaImage.Height = "7cm";
+
+            if (arcoWithMarksPath != null)
+            {
+                var markedArcoImage = section.AddImage(arcoWithMarksPath);
+                markedArcoImage.Width = "5cm";
+                markedArcoImage.Height = "5cm";
+            }
+
+        }
+        finally
+        {
+            // Eliminar las imágenes marcadas
+            if (File.Exists(canchaWithMarksPath))
+                File.Delete(canchaWithMarksPath);
+            if (arcoWithMarksPath != null && File.Exists(arcoWithMarksPath))
+            {
+                File.Delete(arcoWithMarksPath);
+            }
+        }
     }
 
     private void EndingSection(Document document, Club_Dto team, Ending end)
@@ -87,7 +267,7 @@ class CreatePDF
         {
             var temp = CountEndings(Match.Id, idPlayer, end);
 
-            cantidadEndingsTeam += temp.quantityEnding;
+            cantidadEndingsTeam += temp.QuantityEnding;
 
             if (temp.CooField != null)
                 marcasCampo.AddRange(temp.CooField);
@@ -97,7 +277,6 @@ class CreatePDF
                 if (temp.CooGoal != null)
                     marcasArco.AddRange(temp.CooGoal);
             }
-            
         }
 
         var section = document.AddSection();
@@ -118,23 +297,22 @@ class CreatePDF
             markedCanchaImage.Width = "10cm";
             markedCanchaImage.Height = "7cm";
 
-            if (arcoWithMarksPath == null)
+            if (arcoWithMarksPath != null)
             {
                 var markedArcoImage = section.AddImage(arcoWithMarksPath);
                 markedArcoImage.Width = "5cm";
                 markedArcoImage.Height = "5cm";
             }
-            
+
         }
         finally
         {
             // Eliminar las imágenes marcadas
             if (File.Exists(canchaWithMarksPath))
                 File.Delete(canchaWithMarksPath);
-            if (arcoWithMarksPath == null)
+            if (arcoWithMarksPath != null && File.Exists(arcoWithMarksPath))
             {
-                if (File.Exists(arcoWithMarksPath))
-                    File.Delete(arcoWithMarksPath);
+                File.Delete(arcoWithMarksPath);
             }
         }
     }
@@ -252,7 +430,7 @@ class CreatePDF
                     var playerL = resultL.Data;
                     playerRow.Cells[0].AddParagraph(playerL.Number.ToString());
                     playerRow.Cells[1].AddParagraph(playerL.Name);
-                    var cantGolesL = CountEndings(Match.Id, playerL.Id, Ending.Goal).quantityEnding;
+                    var cantGolesL = CountEndings(Match.Id, playerL.Id, Ending.Goal).QuantityEnding;
                     playerRow.Cells[2].AddParagraph(cantGolesL.ToString());
                 }
                 else
@@ -276,8 +454,8 @@ class CreatePDF
                 if (resultA.Success)
                 {
                     var playerA = resultA.Data;
-                    var cantGolesA = CountEndings(Match.Id, playerA.Id, Ending.Goal).quantityEnding;
-                    
+                    var cantGolesA = CountEndings(Match.Id, playerA.Id, Ending.Goal).QuantityEnding;
+
                     playerRow.Cells[3].AddParagraph(cantGolesA.ToString());
                     playerRow.Cells[4].AddParagraph(playerA.Number.ToString());
                     playerRow.Cells[5].AddParagraph(playerA.Name);
@@ -296,13 +474,19 @@ class CreatePDF
                 playerRow.Cells[5].AddParagraph("-");
             }
         }
+
+        section3.AddPageBreak();
     }
 
     public Coordenadas CountEndings(Guid idMatch, Guid idPlayer, Ending ending)
     {
         var count = 0;
 
-        var contabilizo = new Coordenadas();
+        var contabilizo = new Coordenadas
+        {
+            CooField = new List<Coordenates>(),
+            CooGoal = new List<Coordenates>()
+        };
 
         var result = Simulo_BdD.GetAllPlayerMatches();
         if (!result.Success)
@@ -337,7 +521,7 @@ class CreatePDF
                         X = result1.Data.ActionPositionX,
                         Y = result1.Data.ActionPositionY
                     });
-                    if(ending == Ending.Goal || ending == Ending.Miss || ending == Ending.Save)
+                    if (ending == Ending.Goal || ending == Ending.Miss || ending == Ending.Save)
                         contabilizo.CooGoal.Add(new Coordenates
                         {
                             X = result1.Data.DefinitionPlaceX,
@@ -348,7 +532,65 @@ class CreatePDF
             }
         }
         contabilizo.Success = true;
-        contabilizo.quantityEnding = count;
+        contabilizo.QuantityEnding = count;
+        return contabilizo;
+    }
+
+    public Coordenadas CountSanctions(Guid idMatch, Guid idPlayer)
+    {
+        var rojas = 0;
+        var azules = 0;
+        var twoMinutes = 0;
+
+        var contabilizo = new Coordenadas();
+
+        var result = Simulo_BdD.GetAllPlayerMatches();
+        if (!result.Success)
+        {
+            Console.WriteLine(result.Message);
+            return new Coordenadas
+            {
+                Success = false
+            };
+        }
+
+        var allPlayersMatches = result.Data;
+        var playerMatch = allPlayersMatches.FirstOrDefault(pm => pm.IdMatch == idMatch && pm.IdPlayer == idPlayer);
+
+        foreach (var idPA in playerMatch.IdActions)
+        {
+            var result1 = Simulo_BdD.GetOneAction(idPA);
+            if (!result1.Success)
+            {
+                Console.WriteLine(result1.Message);
+                return new Coordenadas
+                {
+                    Success = false
+                };
+            }
+            else
+            {
+                if (result1.Data.Ending == Ending.Foul)
+                {
+                    if (result1.Data.Sanction == Sanction.Blue)
+                    {
+                        azules++;
+                    }
+                    else if (result1.Data.Sanction == Sanction.Red)
+                    {
+                        rojas++;
+                    }
+                    else if (result1.Data.Sanction == Sanction.Two_Minutes)
+                    {
+                        twoMinutes++;
+                    }
+                }
+            }
+        }
+        contabilizo.Success = true;
+        contabilizo.Quantity2min = twoMinutes;
+        contabilizo.Red = rojas;
+        contabilizo.Blue = azules;
         return contabilizo;
     }
 
@@ -379,7 +621,7 @@ class CreatePDF
         var resultB = Simulo_BdD.GetOneClub(Match.IdTeamAway);
         if (resultB.Success)
         {
-            TeamLocal = resultB.Data;
+            TeamAway = resultB.Data;
         }
         else
         {

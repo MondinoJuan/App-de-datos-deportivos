@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Frontend.Resources;
 using System;
+using Frontend.Resources.PDF_Pages;
 
 namespace Frontend;
 
@@ -220,5 +221,7 @@ public partial class MatchView : ContentPage
     private void OnFinish(object sender, EventArgs e)
     {
         // Finalizar el partido, debería armar el PDF en esta función.
+        var pdf = new CreatePDF();
+        pdf.CrearPDF(Match.Id);
     }
 }

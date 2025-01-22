@@ -19,7 +19,10 @@ namespace Frontend.Resources
     {
         public List<Coordenates> CooField { get; set; }
         public List<Coordenates>? CooGoal { get; set; }
-        public int quantityEnding { get; set; }
+        public int  QuantityEnding { get; set; }
+        public int? Quantity2min { get; set; }
+        public int? Red { get; set; }
+        public int? Blue { get; set; }
         public bool Success { get; set; }
     }
 
