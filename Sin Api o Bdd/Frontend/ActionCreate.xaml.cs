@@ -240,6 +240,7 @@ public class ActionCreateViewModel : BaseViewModel
                 if (playerMatch != null)
                 {
                     playerMatch.IdActions.Add(action1.Id);
+                    Simulo_BdD.ReplacePlayerMatch(playerMatch);
                 }
             }
 

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Frontend.CreateMatchPage"
+             Title="Crear Partido">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15">
+
+            <!-- Título -->
+            <Label 
+                Text="Complete los datos del partido"
+                FontSize="24"
+                FontAttributes="Bold"
+                HorizontalOptions="Center" 
+                HorizontalTextAlignment="Center" />
+
+            <!-- Campo: Torneo -->
+            <Entry
+                x:Name="txtTournament"
+                Placeholder="Torneo"
+                PlaceholderColor="Gray"
+                BackgroundColor="#F5F5F5"
+                TextColor="Black"
+                FontSize="16"
+                HeightRequest="40"/>
+
+            <!-- Campo: Equipo local -->
+            <Entry 
+                x:Name="txtLocalTeam"
+                Placeholder="Equipo local"
+                PlaceholderColor="Gray"
+                BackgroundColor="#F5F5F5"
+                TextColor="Black"
+                FontSize="16"
+                HeightRequest="40"/>
+
+            <!-- Campo: Equipo visitante -->
+            <Entry 
+                x:Name="txtAwayTeam"
+                Placeholder="Equipo visitante"
+                PlaceholderColor="Gray"
+                BackgroundColor="#F5F5F5"
+                TextColor="Black"
+                FontSize="16"
+                HeightRequest="40"/>
+
+            <!-- Campo: Jornada -->
+            <Entry
+                x:Name="txtMatchWeek"
+                Placeholder="Jornada"
+                PlaceholderColor="Gray"
+                BackgroundColor="#F5F5F5"
+                TextColor="Black"
+                FontSize="16"
+                HeightRequest="40"/>
+
+            <!-- Campo: Lugar -->
+            <Entry
+                x:Name="txtPlace"
+                Placeholder="Lugar"
+                PlaceholderColor="Gray"
+                BackgroundColor="#F5F5F5"
+                TextColor="Black"
+                FontSize="16"
+                HeightRequest="40"/>
+
+            <!-- Botón: Crear partido -->
+            <Button
+                x:Name="btnCreateMatch"
+                Text="Crear partido"
+                FontSize="18"
+                BackgroundColor="#007ACC"
+                TextColor="White"
+                CornerRadius="8"
+                HeightRequest="45"
+                Clicked="OnCreateMatch" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

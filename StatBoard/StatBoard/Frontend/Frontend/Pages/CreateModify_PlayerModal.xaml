@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Frontend.CreateModify_PlayerModal"
+             Title="Crear/Modificar Jugador">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15">
+
+            <!-- Título -->
+            <Label 
+                Text="Complete los datos del nuevo jugador"
+                FontSize="24"
+                FontAttributes="Bold"
+                HorizontalOptions="Center" />
+
+            <!-- Campo: Nombre del jugador -->
+            <Label 
+                Text="Nombre del jugador"
+                FontSize="16"
+                FontAttributes="Bold" />
+            <Entry
+                x:Name="txtPlayerName"
+                Text="{Binding Player.Name}"
+                Placeholder="Ingrese el nombre"
+                BackgroundColor="Black"
+                FontSize="16"
+                HeightRequest="40"/>
+
+            <!-- Campo: Número del jugador -->
+            <Label 
+                Text="Número del jugador"
+                FontSize="16"
+                FontAttributes="Bold" />
+            <Entry
+                x:Name="txtPlayerNumber"
+                Text="{Binding Player.Number}"
+                Placeholder="Ingrese el número"
+                Keyboard="Numeric"
+                BackgroundColor="Black"
+                FontSize="16"
+                HeightRequest="40"/>
+
+            <!-- Advertencia de modificación -->
+            <Label 
+                x:Name="lblModifyWarning" 
+                Text="Recuerde volver a marcar si es local o visitante." 
+                TextColor="Black"
+                BackgroundColor="Yellow"
+                FontSize="46"
+                HorizontalOptions="Center"
+                IsVisible="{Binding ModifyWarning}" />
+
+            <!-- Switch Local/Visitante -->
+            <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
+                <Switch
+                    x:Name="swtLocalAway"
+                    IsToggled="False"
+                    Toggled="OnSwitchToggled"
+                    OnColor="#007ACC"
+                    ThumbColor="#FFA500" 
+                    IsVisible="{Binding InvModifyWarning}" />
+
+                <Label 
+                    x:Name="lblStatus" 
+                    Text="Local" 
+                    FontSize="16"
+                    VerticalOptions="Center" 
+                    IsVisible="{Binding InvModifyWarning}"/>
+
+            </HorizontalStackLayout>
+
+            <!-- Botones -->
+            <HorizontalStackLayout Spacing="10" Padding="10">
+                <Button 
+                    Text="Guardar"
+                    BackgroundColor="Green"
+                    TextColor="White"
+                    FontSize="18"
+                    CornerRadius="10"
+                    Clicked="OnSave"
+                    WidthRequest="150"
+                    HeightRequest="50" />
+                <Button 
+                    Text="Cancelar"
+                    BackgroundColor="Red"
+                    TextColor="White"
+                    FontSize="18"
+                    CornerRadius="10"
+                    Clicked="OnCancel"
+                    WidthRequest="150"
+                    HeightRequest="50" />
+            </HorizontalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

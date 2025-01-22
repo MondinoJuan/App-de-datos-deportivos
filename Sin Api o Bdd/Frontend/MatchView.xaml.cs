@@ -218,10 +218,50 @@ public partial class MatchView : ContentPage
         }
     }
 
+    private void OnCancel(object sender, EventArgs e)
+    {
+        Simulo_BdD.CleanClubList();
+        Simulo_BdD.CleanPlayerList();
+        Simulo_BdD.CleanPlayerMatchList();
+        Simulo_BdD.CleanMatchList();
+        Simulo_BdD.CleanPlayerActionList();
+        Simulo_BdD.CleanTournamentList();
+
+        Application.Current.Quit();
+    }
+
     private void OnFinish(object sender, EventArgs e)
     {
+        var result = Simulo_BdD.ReplaceMatch(Match);
+        if (!result.Success)
+        {
+            Console.WriteLine(result.Message);
+            return;
+        }
+        var result1 = Simulo_BdD.ReplaceClub(LocalTeam);
+        if (!result1.Success)
+        {
+            Console.WriteLine(result1.Message);
+            return;
+        }
+        var result2 = Simulo_BdD.ReplaceClub(AwayTeam);
+        if (!result2.Success)
+        {
+            Console.WriteLine(result2.Message);
+            return;
+        }
+
         // Finalizar el partido, debería armar el PDF en esta función.
         var pdf = new CreatePDF();
         pdf.CrearPDF(Match.Id);
+
+        Simulo_BdD.CleanClubList();
+        Simulo_BdD.CleanPlayerList();
+        Simulo_BdD.CleanPlayerMatchList();
+        Simulo_BdD.CleanMatchList();
+        Simulo_BdD.CleanPlayerActionList();
+        Simulo_BdD.CleanTournamentList();
+
+        Application.Current.Quit();
     }
 }

@@ -229,9 +229,16 @@
                         Margin="10"
                         Clicked="OnAddPlayer" />
 
+                <Button x:Name="btnCancel"
+                        Text="Cancelar"
+                        BackgroundColor="Red"
+                        TextColor="White"
+                        Margin="10"
+                        Clicked="OnCancel" />
+
                 <Button x:Name="btnFinish"
                         Text="Finalizar"
-                        BackgroundColor="Red"
+                        BackgroundColor="Green"
                         TextColor="White"
                         Margin="10"
                         Clicked="OnFinish" />

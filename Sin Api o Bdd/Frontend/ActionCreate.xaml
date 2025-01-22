@@ -19,45 +19,30 @@
                    TextColor="#2C3E50" />
 
             <!-- Selector de acción -->
-            <Frame
-                CornerRadius="10" 
-                BorderColor="#2C3E50" 
-                Padding="10"
-                HeightRequest="90"
-                WidthRequest="200"
-                BackgroundColor="Transparent">
-                <Picker x:Name="actionPicker"
-                        TitleColor="#2C3E50"
-                        Title="Seleccione una acción" 
-                        VerticalOptions="FillAndExpand"
-                        HorizontalOptions="FillAndExpand"
-                        TextColor="White"
-                        BackgroundColor="#2C3E50"
-                        SelectedIndexChanged="OnPickerActionSelectedIndexChanged"
-                        HeightRequest="60">
-                    <Picker.ItemsSource>
-                        <x:Array Type="{x:Type x:String}">
-                            <x:String>Goal</x:String>
-                            <x:String>Save</x:String>
-                            <x:String>Miss</x:String>
-                            <x:String>Blocked</x:String>
-                            <x:String>Steal_W</x:String>
-                            <x:String>Steal_L</x:String>
-                            <x:String>Foul</x:String>
-                        </x:Array>
-                    </Picker.ItemsSource>
-                </Picker>
-            </Frame>
+            <Picker x:Name="actionPicker"
+                    TitleColor="#2C3E50"
+                    Title="Seleccione una acción" 
+                    VerticalOptions="FillAndExpand"
+                    HorizontalOptions="FillAndExpand"
+                    TextColor="White"
+                    BackgroundColor="#2C3E50"
+                    SelectedIndexChanged="OnPickerActionSelectedIndexChanged"
+                    HeightRequest="60">
+                <Picker.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>Goal</x:String>
+                        <x:String>Save</x:String>
+                        <x:String>Miss</x:String>
+                        <x:String>Blocked</x:String>
+                        <x:String>Steal_W</x:String>
+                        <x:String>Steal_L</x:String>
+                        <x:String>Foul</x:String>
+                    </x:Array>
+                </Picker.ItemsSource>
+            </Picker>
 
             <!--Selecciono sancion-->
-            <Frame
-                CornerRadius="10" 
-                BorderColor="#2C3E50" 
-                Padding="10"
-                HeightRequest="90"
-                WidthRequest="200"
-                BackgroundColor="Transparent">
-                <Picker x:Name="sanctionPicker"
+            <Picker x:Name="sanctionPicker"
                     TitleColor="#2C3E50"
                     Title="Seleccione una sanción" 
                     VerticalOptions="FillAndExpand"
@@ -66,15 +51,14 @@
                     BackgroundColor="#2C3E50"
                     SelectedIndexChanged="OnPickerSanctionSelectedIndexChanged"
                     HeightRequest="60">
-                    <Picker.ItemsSource>
-                        <x:Array Type="{x:Type x:String}">
-                            <x:String>Two_Minutes</x:String>
-                            <x:String>Red</x:String>
-                            <x:String>Blue</x:String>
-                        </x:Array>
-                    </Picker.ItemsSource>
-                </Picker>
-            </Frame>
+                <Picker.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>Two_Minutes</x:String>
+                        <x:String>Red</x:String>
+                        <x:String>Blue</x:String>
+                    </x:Array>
+                </Picker.ItemsSource>
+            </Picker>
 
             <!-- Selector de mitad -->
             <StackLayout 
@@ -226,12 +210,10 @@
                     VerticalOptions="Center" />
 
             <!-- Descripción -->
-            <Frame CornerRadius="10" BorderColor="#B0BEC5" Padding="10">
-                <Entry x:Name="txtDescription"
-                       Placeholder="Ingrese una descripción (opcional)"
-                       FontSize="16"
-                       TextChanged="OnDescriptionTextChanged" />
-            </Frame>
+            <Entry x:Name="txtDescription"
+                   Placeholder="Ingrese una descripción (opcional)"
+                   FontSize="16"
+                   TextChanged="OnDescriptionTextChanged" />
 
             <Button x:Name="btnSubmit"
                     Text="Guardar"
@@ -239,8 +221,7 @@
                     TextColor="White"
                     CornerRadius="10"
                     HorizontalOptions="Fill"
-                    Command="{Binding SubmitCommand}"
-                    IsEnabled="{Binding DidBtnSubmit}">
+                    Command="{Binding SubmitCommand}">
                 <Button.Triggers>
                     <DataTrigger TargetType="Button" Binding="{Binding DidBtnSubmit}" Value="False">
                         <Setter Property="BackgroundColor" Value="Gray" />
