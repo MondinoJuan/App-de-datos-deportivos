@@ -62,6 +62,9 @@ public partial class MatchView : ContentPage
         foreach (var playerMatch in playerMatches)
         {
             // Buscar todas las acciones del jugador que sean Ending.Goal
+            if (playerMatch.IdActions == null)
+                return;
+
             foreach (var idAction in playerMatch.IdActions)
             {
                 var action = Simulo_BdD.GetOneAction(idAction);
@@ -204,7 +207,7 @@ public partial class MatchView : ContentPage
         var picker = sender as Picker;
         if (picker != null && picker.SelectedItem != null)
         {
-            string selectedAction = picker.SelectedItem.ToString();
+            string selectedAction = picker.SelectedItem.ToString();         //En vez de pasar lo seleccionado a string y convertirlo a Enum podria hacer un switchCase para modificar las opciones del picker
             if (Enum.TryParse(selectedAction, out Ending actionValue))
             {
                 CalculateActionsQuantity(actionValue, true);
@@ -237,20 +240,32 @@ public partial class MatchView : ContentPage
             foreach (var player in players)
             {
                 var playerMatch = result.Data.FirstOrDefault(a => a.IdPlayer == player.Id);
-                if (playerMatch == null) continue;
-
-                int count = playerMatch.IdActions
-                    .Select(idAction => Simulo_BdD.GetOneAction(idAction))
-                    .Where(result1 => result1.Success)
-                    .Count(result1 => result1.Data.Ending == actionType);
-
-                if (local)
+                if (playerMatch.IdActions != null)
                 {
-                    ActionCountLocal = count;
+                    int count = playerMatch.IdActions
+                        .Select(idAction => Simulo_BdD.GetOneAction(idAction))
+                        .Where(result1 => result1.Success)
+                        .Count(result1 => result1.Data.Ending == actionType);
+
+                    if (local)
+                    {
+                        ActionCountLocal = count;
+                    }
+                    else
+                    {
+                        ActionCountAway = count;
+                    }
                 }
                 else
                 {
-                    ActionCountAway = count;
+                    if (local)
+                    {
+                        ActionCountLocal = 0;
+                    }
+                    else
+                    {
+                        ActionCountAway = 0;
+                    }
                 }
             }
         }

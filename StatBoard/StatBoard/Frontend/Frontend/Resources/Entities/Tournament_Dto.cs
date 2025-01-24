@@ -14,6 +14,6 @@ namespace Frontend.Resources.Entities
 
         public int Cupo { get; set; }
 
-        //public List<System.Guid> IdClubs { get; set; }
+        //public List<System.Guid> IdClubs { get; set; } = new List<Guid>();
     }
 }

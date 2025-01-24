@@ -11,6 +11,6 @@ namespace Frontend.Resources.Entities
     {
         public System.Guid Id { get; set; }
         public string Name { get; set; }
-        public List<System.Guid> IdPlayers { get; set; }
+        public List<System.Guid> IdPlayers { get; set; } = new List<Guid>();
     }
 }

@@ -146,7 +146,7 @@
                         </DataTemplate>
                     </BindableLayout.ItemTemplate>
                 </StackLayout>
-
+                <!--Contador de endings de jugadores locales-->
                 <StackLayout 
                     x:Name="LabelListLocal" 
                     BindableLayout.ItemsSource="{Binding TeamLocalPlayers}"
@@ -158,7 +158,9 @@
                     </StackLayout.Triggers>
                     <BindableLayout.ItemTemplate>
                         <DataTemplate>
-                            <Label Text="{Binding ActionCountLocal}" />
+                            <Label Text="{Binding ActionCountLocal}" 
+                                   TextColor="White"/>
+                            <!--<Label x:Name="lblActionCountLocal" />-->
                         </DataTemplate>
                     </BindableLayout.ItemTemplate>
                 </StackLayout>
@@ -193,11 +195,11 @@
                         </DataTemplate>
                     </BindableLayout.ItemTemplate>
                 </StackLayout>
-
+                <!--Contador de endings de jugadores visitantes-->
                 <StackLayout 
                     x:Name="LabelListAway" 
                     BindableLayout.ItemsSource="{Binding TeamAwayPlayers}"
-                    Grid.Column="4">
+                    Grid.Column="2">
                     <StackLayout.Triggers>
                         <DataTrigger TargetType="StackLayout" Binding="{Binding TeamAwayPlayers.Count}" Value="0">
                             <Setter Property="IsVisible" Value="False" />
@@ -205,7 +207,10 @@
                     </StackLayout.Triggers>
                     <BindableLayout.ItemTemplate>
                         <DataTemplate>
-                            <Label Text="{Binding ActionCountAway}" />
+                            <Label Text="{Binding ActionCountAway}" 
+                                   TextColor="White"/>
+                            <!--<Label
+                                x:Name="lblActionCountAway"/>-->
                         </DataTemplate>
                     </BindableLayout.ItemTemplate>
                 </StackLayout>

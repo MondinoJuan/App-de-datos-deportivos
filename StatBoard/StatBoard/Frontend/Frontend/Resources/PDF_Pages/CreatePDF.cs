@@ -3,6 +3,7 @@ using MigraDoc.DocumentObjectModel;
 using MigraDoc.Rendering;
 using Frontend.Resources.Entities;
 using SkiaSharp;
+using static PdfSharp.Capabilities.Features;
 
 namespace Frontend.Resources.PDF_Pages;
 class CreatePDF
@@ -58,6 +59,12 @@ class CreatePDF
 
     private void BuildDocumnet(Document document)
     {
+        //Eliminar las imágenes marcadas
+        if (File.Exists("C:\\Users\\Pc\\Desktop\\App\\StatBoard\\StatBoard\\Frontend\\Frontend\\Resources\\Images\\cancha_marked.png"))
+            File.Delete("C:\\Users\\Pc\\Desktop\\App\\StatBoard\\StatBoard\\Frontend\\Frontend\\Resources\\Images\\cancha_marked.png");
+        if (File.Exists("C:\\Users\\Pc\\Desktop\\App\\StatBoard\\StatBoard\\Frontend\\Frontend\\Resources\\Images\\arco_marked.png"))
+            File.Delete("C:\\Users\\Pc\\Desktop\\App\\StatBoard\\StatBoard\\Frontend\\Frontend\\Resources\\Images\\arco_marked.png");
+
         SummaryMatch(document);
         Footer(document);
         SummaryTeam(document, TeamLocal);
@@ -108,29 +115,26 @@ class CreatePDF
         EndingSection(document, result.Data.Id, Ending.Steal_L);
 
         //Contar cantidad de 2mins, rojas y azules por equipo
-        var section2 = document.AddSection();
 
         var temp = CountSanctions(Match.Id, idPlayer);
 
         if (temp.Quantity2min.HasValue)
         {
-            section2.AddParagraph($"2 minutos: {temp.Quantity2min.Value}");
+            section.AddParagraph($"2 minutos: {temp.Quantity2min.Value}");
         }
         if (temp.Red.HasValue)
         {
-            section2.AddParagraph($"Rojas: {temp.Red.Value}");
+            section.AddParagraph($"Rojas: {temp.Red.Value}");
         }
         if (temp.Blue.HasValue)
         {
-            section2.AddParagraph($"Azules: {temp.Blue.Value}");
+            section.AddParagraph($"Azules: {temp.Blue.Value}");
         }
-
-        section2.AddPageBreak();
     }
 
     public void Footer(Document document)
     {
-        var section = document.AddSection();
+        var section = document.LastSection ?? document.AddSection();
         var footer = section.Footers.Primary.AddParagraph();
         footer.AddText("Página ");
         footer.AddPageField(); // Campo para el número de página actual
@@ -139,6 +143,7 @@ class CreatePDF
         footer.Format.Alignment = ParagraphAlignment.Center;
         footer.Format.Font.Size = 9;
         footer.Format.Font.Color = MigraDoc.DocumentObjectModel.Colors.Gray;
+        //section.AddPageBreak();
     }
 
     public void SummaryTeam(Document document, Club_Dto team)
@@ -170,7 +175,6 @@ class CreatePDF
         EndingSection(document, team, Ending.Steal_L);
 
         //Contar cantidad de 2mins, rojas y azules por equipo
-        var section2 = document.AddSection();
         foreach (var idPlayer in team.IdPlayers)
         {
             var temp = CountSanctions(Match.Id, idPlayer);
@@ -190,18 +194,16 @@ class CreatePDF
 
         if (minutes2 > 0)
         {
-            section2.AddParagraph($"2 minutos: {minutes2}");
+            section.AddParagraph($"2 minutos: {minutes2}");
         }
         if (reds > 0)
         {
-            section2.AddParagraph($"Rojas: {reds}");
+            section.AddParagraph($"Rojas: {reds}");
         }
         if (blues > 0)
         {
-            section2.AddParagraph($"Azules: {blues}");
+            section.AddParagraph($"Azules: {blues}");
         }
-
-        section2.AddPageBreak();
     }
 
     private void EndingSection(Document document, Guid idPlayer, Ending end)
@@ -219,15 +221,18 @@ class CreatePDF
                 marcasArco.AddRange(temp.CooGoal);
         }
 
-        var section = document.AddSection();
+        var section = document.LastSection ?? document.AddSection();
         section.AddParagraph($"{end}: {temp.QuantityEnding}");
 
         // Generar imágenes con marcas
-        string canchaWithMarksPath = GenerateMarkedImage("Resources/Images/cancha.png", marcasCampo, new SKColor(255, 0, 0, 128)); // Rojo semitransparente
+        string absolutePathCancha = "C:\\Users\\Pc\\Desktop\\App\\StatBoard\\StatBoard\\Frontend\\Frontend\\Resources\\Images\\cancha.png";
+        string canchaWithMarksPath = GenerateMarkedImage(absolutePathCancha, marcasCampo, new SKColor(255, 0, 0)); // Rojo fuerte
+
+        string absolutePathArco = "C:\\Users\\Pc\\Desktop\\App\\StatBoard\\StatBoard\\Frontend\\Frontend\\Resources\\Images\\arco.png";
         string arcoWithMarksPath = null;
         if (end == Ending.Goal || end == Ending.Miss || end == Ending.Save)
         {
-            arcoWithMarksPath = GenerateMarkedImage("Resources/Images/arco.png", marcasArco, new SKColor(0, 0, 255, 128)); // Azul semitransparente
+            arcoWithMarksPath = GenerateMarkedImage(absolutePathArco, marcasArco, new SKColor(0, 0, 255)); // Azul fuerte
         }
 
         try
@@ -236,24 +241,20 @@ class CreatePDF
             var markedCanchaImage = section.AddImage(canchaWithMarksPath);
             markedCanchaImage.Width = "10cm";
             markedCanchaImage.Height = "7cm";
+            Console.WriteLine($"Imagen de cancha añadida al documento: {canchaWithMarksPath}");
 
             if (arcoWithMarksPath != null)
             {
                 var markedArcoImage = section.AddImage(arcoWithMarksPath);
-                markedArcoImage.Width = "5cm";
-                markedArcoImage.Height = "5cm";
+                markedArcoImage.Width = "7cm";
+                markedArcoImage.Height = "7cm";
+                Console.WriteLine($"Imagen de arco añadida al documento: {arcoWithMarksPath}");
             }
 
         }
-        finally
+        catch (Exception ex)
         {
-            // Eliminar las imágenes marcadas
-            if (File.Exists(canchaWithMarksPath))
-                File.Delete(canchaWithMarksPath);
-            if (arcoWithMarksPath != null && File.Exists(arcoWithMarksPath))
-            {
-                File.Delete(arcoWithMarksPath);
-            }
+            Console.WriteLine($"Error al añadir imágenes al documento: {ex.Message}");
         }
     }
 
@@ -279,84 +280,102 @@ class CreatePDF
             }
         }
 
-        var section = document.AddSection();
+        var section = document.LastSection ?? document.AddSection();
         section.AddParagraph($"{end}: {cantidadEndingsTeam}");
 
         // Generar imágenes con marcas
-        string canchaWithMarksPath = GenerateMarkedImage("Resources/Images/cancha.png", marcasCampo, new SKColor(255, 0, 0, 128)); // Rojo semitransparente
+        string absolutePathCancha = "C:\\Users\\Pc\\Desktop\\App\\StatBoard\\StatBoard\\Frontend\\Frontend\\Resources\\Images\\cancha.png";
+        string canchaWithMarksPath = GenerateMarkedImage(absolutePathCancha, marcasCampo, new SKColor(255, 0, 0)); // Rojo semitransparente
+
+        string absolutePathArco = "C:\\Users\\Pc\\Desktop\\App\\StatBoard\\StatBoard\\Frontend\\Frontend\\Resources\\Images\\arco.png";
         string arcoWithMarksPath = null;
         if (end == Ending.Goal || end == Ending.Miss || end == Ending.Save)
         {
-            arcoWithMarksPath = GenerateMarkedImage("Resources/Images/arco.png", marcasArco, new SKColor(0, 0, 255, 128)); // Azul semitransparente
+            arcoWithMarksPath = GenerateMarkedImage(absolutePathArco, marcasArco, new SKColor(0, 0, 255)); // Azul semitransparente
         }
 
-        try
-        {
-            // Insertar imágenes generadas al documento
-            var markedCanchaImage = section.AddImage(canchaWithMarksPath);
-            markedCanchaImage.Width = "10cm";
-            markedCanchaImage.Height = "7cm";
+        // Insertar imágenes generadas al documento
+        var markedCanchaImage = section.AddImage(canchaWithMarksPath);
+        markedCanchaImage.Width = "10cm";
+        markedCanchaImage.Height = "7cm";
 
-            if (arcoWithMarksPath != null)
-            {
-                var markedArcoImage = section.AddImage(arcoWithMarksPath);
-                markedArcoImage.Width = "5cm";
-                markedArcoImage.Height = "5cm";
-            }
-
-        }
-        finally
+        if (arcoWithMarksPath != null)
         {
-            // Eliminar las imágenes marcadas
-            if (File.Exists(canchaWithMarksPath))
-                File.Delete(canchaWithMarksPath);
-            if (arcoWithMarksPath != null && File.Exists(arcoWithMarksPath))
-            {
-                File.Delete(arcoWithMarksPath);
-            }
+            var markedArcoImage = section.AddImage(arcoWithMarksPath);
+            markedArcoImage.Width = "7cm";
+            markedArcoImage.Height = "7cm";
         }
     }
 
     private string GenerateMarkedImage(string imagePath, List<Coordenates> marks, SKColor color)
     {
-        string markedImagePath = Path.Combine(FileSystem.Current.CacheDirectory, $"{Path.GetFileNameWithoutExtension(imagePath)}_marked.png");
+        string markedImagePath = Path.Combine("C:\\Users\\Pc\\Desktop\\App\\StatBoard\\StatBoard\\Frontend\\Frontend\\Resources\\Images\\", $"{Path.GetFileNameWithoutExtension(imagePath)}_marked.png");
 
-        using (var stream = File.OpenRead(imagePath))
-        using (var bitmap = SKBitmap.Decode(stream))
-        using (var surface = SKSurface.Create(new SKImageInfo(bitmap.Width, bitmap.Height)))
+        if (!File.Exists(imagePath))
         {
-            var canvas = surface.Canvas;
+            Console.WriteLine($"Error: La imagen no existe en la ruta especificada: {imagePath}");
+            return null;
+        }
 
-            // Dibuja la imagen base
-            canvas.DrawBitmap(bitmap, 0, 0);
-
-            // Dibuja las marcas
-            foreach (var mark in marks)
+        try
+        {
+            using (var stream = File.OpenRead(imagePath))
+            using (var bitmap = SKBitmap.Decode(stream))
             {
-                if (mark.X.HasValue && mark.Y.HasValue)
+                if (bitmap == null)
                 {
-                    float scaledX = (float)((mark.X.Value / 100.0) * bitmap.Width);
-                    float scaledY = (float)((mark.Y.Value / 100.0) * bitmap.Height);
+                    Console.WriteLine($"Error: No se pudo cargar la imagen desde la ruta especificada: {imagePath}");
+                    return null;
+                }
 
-                    using (var paint = new SKPaint
+                using (var surface = SKSurface.Create(new SKImageInfo(bitmap.Width, bitmap.Height)))
+                {
+                    var canvas = surface.Canvas;
+
+                    // Dibuja la imagen base
+                    canvas.DrawBitmap(bitmap, 0, 0);
+
+                    // Dibuja las marcas
+                    foreach (var mark in marks)
                     {
-                        Color = color,
-                        IsAntialias = true,
-                        Style = SKPaintStyle.Fill
-                    })
+                        if (mark.X.HasValue && mark.Y.HasValue)
+                        {
+                            //double scaledX = (mark.X.Value / 100.0) * bitmap.Width;
+                            //double scaledY = (mark.Y.Value / 100.0) * bitmap.Height;
+
+                            double scaledX = mark.X.Value / 100.0;
+                            double scaledY = mark.Y.Value / 100.0;
+
+                            Console.WriteLine("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+                            Console.WriteLine($"mark.X: {mark.X}, mark.Y: {mark.Y}, scaledX: {scaledX}, scaledY: {scaledY}");
+
+                            using (var paint = new SKPaint
+                            {
+                                Color = color,
+                                IsAntialias = true,
+                                Style = SKPaintStyle.Fill
+                            })
+                            {
+                                canvas.DrawCircle((float)scaledX, (float)scaledY, 5, paint);
+                            }
+                        }
+                    }
+
+                    // Guarda la imagen marcada
+                    using (var image = surface.Snapshot())
+                    using (var data = image.Encode(SKEncodedImageFormat.Png, 100))
+                    using (var outputStream = File.OpenWrite(markedImagePath))
                     {
-                        canvas.DrawCircle(scaledX, scaledY, 5, paint);
+                        data.SaveTo(outputStream);
                     }
                 }
             }
 
-            // Guarda la imagen marcada
-            using (var image = surface.Snapshot())
-            using (var data = image.Encode(SKEncodedImageFormat.Png, 100))
-            using (var outputStream = File.OpenWrite(markedImagePath))
-            {
-                data.SaveTo(outputStream);
-            }
+            Console.WriteLine($"Imagen marcada guardada en: {markedImagePath}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error al generar la imagen marcada: {ex.Message}");
         }
 
         return markedImagePath;
@@ -372,8 +391,7 @@ class CreatePDF
         titulo.Format.SpaceAfter = 20;
 
         //Informacion del partido
-        var section2 = document.AddSection();
-        var infoPartido = section2.AddParagraph();
+        var infoPartido = section.AddParagraph();
         infoPartido.AddFormattedText("Día: ", TextFormat.Bold);
         infoPartido.AddText(Match.Date.ToString());
         infoPartido.AddTab();
@@ -388,27 +406,27 @@ class CreatePDF
 
         //Tabla
         //Encabezado
-        var section3 = document.AddSection();
-        var tabla = section3.AddTable();
+        var tabla = section.AddTable();
         tabla.Borders.Width = 0.75;
-        tabla.AddColumn("40%");
-        tabla.AddColumn("10%");
-        tabla.AddColumn("10%");
-        tabla.AddColumn("40%");
+        var pageWidth = document.DefaultPageSetup.PageWidth - document.DefaultPageSetup.LeftMargin - document.DefaultPageSetup.RightMargin;
+        tabla.AddColumn(Unit.FromPoint(pageWidth * 0.4));
+        tabla.AddColumn(Unit.FromPoint(pageWidth * 0.1));
+        tabla.AddColumn(Unit.FromPoint(pageWidth * 0.1));
+        tabla.AddColumn(Unit.FromPoint(pageWidth * 0.4));
         var row = tabla.AddRow();
         row.Cells[0].AddParagraph(TeamLocal.Name);
         row.Cells[1].AddParagraph(Match.GoalsTeamA.ToString());
         row.Cells[2].AddParagraph(Match.GoalsTeamB.ToString());
         row.Cells[3].AddParagraph(TeamAway.Name);
         //Subtitulos
-        var subTabla = section3.AddTable();
+        var subTabla = section.AddTable();
         subTabla.Borders.Width = 0.75;
-        subTabla.AddColumn("10%");
-        subTabla.AddColumn("30%");
-        subTabla.AddColumn("10%");
-        subTabla.AddColumn("10%");
-        subTabla.AddColumn("10%");
-        subTabla.AddColumn("30%");
+        subTabla.AddColumn(Unit.FromPoint(pageWidth * 0.1));
+        subTabla.AddColumn(Unit.FromPoint(pageWidth * 0.3));
+        subTabla.AddColumn(Unit.FromPoint(pageWidth * 0.1));
+        subTabla.AddColumn(Unit.FromPoint(pageWidth * 0.1));
+        subTabla.AddColumn(Unit.FromPoint(pageWidth * 0.1));
+        subTabla.AddColumn(Unit.FromPoint(pageWidth * 0.3));
         var subTitlesRow = subTabla.AddRow();
         subTitlesRow.Cells[0].AddParagraph("N°");
         subTitlesRow.Cells[1].AddParagraph("Nombre");
@@ -422,7 +440,7 @@ class CreatePDF
             var playerRow = subTabla.AddRow();
 
             // Equipo local
-            if (i < TeamLocal.IdPlayers.Count)
+            if (TeamLocal.IdPlayers.Count != null && i < TeamLocal.IdPlayers.Count)
             {
                 var resultL = Simulo_BdD.GetOnePlayer(TeamLocal.IdPlayers[i]);
                 if (resultL.Success)
@@ -442,13 +460,13 @@ class CreatePDF
             }
             else
             {
-                playerRow.Cells[3].AddParagraph("-");
-                playerRow.Cells[4].AddParagraph("-");
-                playerRow.Cells[5].AddParagraph("-");
+                playerRow.Cells[0].AddParagraph("-");
+                playerRow.Cells[1].AddParagraph("-");
+                playerRow.Cells[2].AddParagraph("-");
             }
 
             // Equipo visitante
-            if (i < TeamAway.IdPlayers.Count)
+            if (TeamAway.IdPlayers.Count != null && i < TeamAway.IdPlayers.Count)
             {
                 var resultA = Simulo_BdD.GetOnePlayer(TeamAway.IdPlayers[i]);
                 if (resultA.Success)
@@ -474,8 +492,6 @@ class CreatePDF
                 playerRow.Cells[5].AddParagraph("-");
             }
         }
-
-        section3.AddPageBreak();
     }
 
     public Coordenadas CountEndings(Guid idMatch, Guid idPlayer, Ending ending)

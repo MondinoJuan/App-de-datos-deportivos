@@ -42,14 +42,14 @@
                 HeightRequest="40"/>
 
             <!-- Advertencia de modificación -->
-            <Label 
+            <!--<Label 
                 x:Name="lblModifyWarning" 
                 Text="Recuerde volver a marcar si es local o visitante." 
                 TextColor="Black"
                 BackgroundColor="Yellow"
                 FontSize="46"
                 HorizontalOptions="Center"
-                IsVisible="{Binding ModifyWarning}" />
+                IsVisible="{Binding ModifyWarning}" />-->
 
             <!-- Switch Local/Visitante -->
             <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
