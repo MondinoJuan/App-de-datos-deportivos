@@ -33,3 +33,4 @@ En principio tendría que estar disponible para dispositivo móvil.
 ##Posiblemente útiles
 - https://www.youtube.com/playlist?list=PLGfh-NC9-wCeXwMpN1pdN4waH8Cz-odm0
 - https://skillshop.exceedlms.com/student/collection/798207-apps
+- https://www.youtube.com/watch?v=56Yk0xgbQ5s&list=PLZyYSwe8s1lx9VdGEfAmpaLg4Mr_TTRE5&ab_channel=ElCaminoDev
