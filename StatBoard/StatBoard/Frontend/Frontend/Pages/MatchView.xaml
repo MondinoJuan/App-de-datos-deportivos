@@ -82,12 +82,12 @@
                         SelectedIndexChanged="OnLocalPickerSelectedIndexChanged">
                     <Picker.ItemsSource>
                         <x:Array Type="{x:Type x:String}">
-                            <x:String>Goal</x:String>
-                            <x:String>Save</x:String>
-                            <x:String>Miss</x:String>
-                            <x:String>Blocked</x:String>
-                            <x:String>Steal_W</x:String>
-                            <x:String>Steal_L</x:String>
+                            <x:String>Gol</x:String>
+                            <x:String>Atajada</x:String>
+                            <x:String>Errada</x:String>
+                            <x:String>Bloqueo</x:String>
+                            <x:String>Robo</x:String>
+                            <x:String>Perdida</x:String>
                             <x:String>Foul</x:String>
                         </x:Array>
                     </Picker.ItemsSource>
@@ -99,12 +99,12 @@
                         SelectedIndexChanged="OnAwayPickerSelectedIndexChanged">
                     <Picker.ItemsSource>
                         <x:Array Type="{x:Type x:String}">
-                            <x:String>Goal</x:String>
-                            <x:String>Save</x:String>
-                            <x:String>Miss</x:String>
-                            <x:String>Blocked</x:String>
-                            <x:String>Steal_W</x:String>
-                            <x:String>Steal_L</x:String>
+                            <x:String>Gol</x:String>
+                            <x:String>Atajada</x:String>
+                            <x:String>Errada</x:String>
+                            <x:String>Bloqueo</x:String>
+                            <x:String>Robo</x:String>
+                            <x:String>Perdida</x:String>
                             <x:String>Foul</x:String>
                         </x:Array>
                     </Picker.ItemsSource>

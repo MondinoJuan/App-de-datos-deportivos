@@ -48,7 +48,7 @@ public partial class MatchView : ContentPage
         BindingContext = this;
     }
 
-    private void UpdateScore()
+    public void UpdateScore()
     {
         // Reiniciar los contadores de goles
         Match.GoalsTeamA = 0;
@@ -120,6 +120,7 @@ public partial class MatchView : ContentPage
                 }
             }
         }
+        UpdateScore();
     }
 
     private static List<Player_Dto> GetAllPlayersOfATeam(List<Guid> playerIds)
@@ -181,7 +182,7 @@ public partial class MatchView : ContentPage
     {
         if (TeamLocalPlayers.Remove(player))
         {
-            var localTeamResult = Simulo_BdD.GetOneClub(player.Id);
+            var localTeamResult = Simulo_BdD.GetOneClub(LocalTeam.Id);
             if (localTeamResult.Success && localTeamResult.Data != null)
             {
                 var localTeam = localTeamResult.Data;
@@ -191,7 +192,7 @@ public partial class MatchView : ContentPage
         }
         else if (TeamAwayPlayers.Remove(player))
         {
-            var awayTeamResult = Simulo_BdD.GetOneClub(player.Id);
+            var awayTeamResult = Simulo_BdD.GetOneClub(AwayTeam.Id);
             if (awayTeamResult.Success && awayTeamResult.Data != null)
             {
                 var awayTeam = awayTeamResult.Data;
@@ -207,7 +208,33 @@ public partial class MatchView : ContentPage
         var picker = sender as Picker;
         if (picker != null && picker.SelectedItem != null)
         {
-            string selectedAction = picker.SelectedItem.ToString();         //En vez de pasar lo seleccionado a string y convertirlo a Enum podria hacer un switchCase para modificar las opciones del picker
+            string selectedAction = "";
+            switch (picker.SelectedItem.ToString())
+            {
+                case "Gol":
+                    selectedAction = "Goal";
+                    break;
+                case "Foul":
+                    selectedAction = "Foul";
+                    break;
+                case "Atajada":
+                    selectedAction = "Save";
+                    break;
+                case "Errada":
+                    selectedAction = "Miss";
+                    break;
+                case "Perdida":
+                    selectedAction = "Steal_L";
+                    break;
+                case "Robo":
+                    selectedAction = "Steal_W";
+                    break;
+                case "Bloqueo":
+                    selectedAction = "Blocked";
+                    break;
+                default:
+                    break;
+            }
             if (Enum.TryParse(selectedAction, out Ending actionValue))
             {
                 CalculateActionsQuantity(actionValue, true);
@@ -220,7 +247,33 @@ public partial class MatchView : ContentPage
         var picker = sender as Picker;
         if (picker != null && picker.SelectedItem != null)
         {
-            string selectedAction = picker.SelectedItem.ToString();
+            string selectedAction = "";
+            switch (picker.SelectedItem.ToString())
+            {
+                case "Gol":
+                    selectedAction = "Goal";
+                    break;
+                case "Foul":
+                    selectedAction = "Foul";
+                    break;
+                case "Atajada":
+                    selectedAction = "Save";
+                    break;
+                case "Errada":
+                    selectedAction = "Miss";
+                    break;
+                case "Perdida":
+                    selectedAction = "Steal_L";
+                    break;
+                case "Robo":
+                    selectedAction = "Steal_W";
+                    break;
+                case "Bloqueo":
+                    selectedAction = "Blocked";
+                    break;
+                default:
+                    break;
+            }
             if (Enum.TryParse(selectedAction, out Ending actionValue))
             {
                 CalculateActionsQuantity(actionValue, false);

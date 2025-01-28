@@ -80,7 +80,10 @@ public partial class CreateModify_PlayerModal : ContentPage
             _playerAGuardar.SetResult(Player);
         }
 
-        await Navigation.PopModalAsync();
+        if (Navigation.ModalStack.Count > 0)
+        {
+            await Navigation.PopModalAsync();
+        }
         await Navigation.PushAsync(new MatchView());
     }
 

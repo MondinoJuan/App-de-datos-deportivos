@@ -79,6 +79,7 @@ public partial class PlayerItemView : ContentView
 
                 Simulo_BdD.RemovePlayer(Player.Id);
                 MatchView.RemovePlayer(Player);
+                MatchView.UpdateScore();
             }
             catch (Exception ex)
             {

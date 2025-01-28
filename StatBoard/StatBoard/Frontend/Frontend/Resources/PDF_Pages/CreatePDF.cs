@@ -4,6 +4,7 @@ using MigraDoc.Rendering;
 using Frontend.Resources.Entities;
 using SkiaSharp;
 using static PdfSharp.Capabilities.Features;
+using PdfSharp.Drawing;
 
 namespace Frontend.Resources.PDF_Pages;
 class CreatePDF
@@ -25,7 +26,7 @@ class CreatePDF
 
         // Recuperar todos los objetos creados en la aplicacion para plasmar la informacion en el PDF
 
-        BuildDocumnet(document);
+        BuildDocument(document);
 
         //Create a render for the MigraDoc document
         var pdfRenderer = new PdfDocumentRenderer();
@@ -57,7 +58,7 @@ class CreatePDF
         return pdfRenderer.PdfDocument;
     }
 
-    private void BuildDocumnet(Document document)
+    private void BuildDocument(Document document)
     {
         //Eliminar las imágenes marcadas
         if (File.Exists("C:\\Users\\Pc\\Desktop\\App\\StatBoard\\StatBoard\\Frontend\\Frontend\\Resources\\Images\\cancha_marked.png"))
@@ -393,14 +394,14 @@ class CreatePDF
         //Informacion del partido
         var infoPartido = section.AddParagraph();
         infoPartido.AddFormattedText("Día: ", TextFormat.Bold);
-        infoPartido.AddText(Match.Date.ToString());
-        infoPartido.AddTab();
+        infoPartido.AddText(Match.Date.ToString("d"));
+        infoPartido.AddSpace(10);
         infoPartido.AddFormattedText("Tournament: ", TextFormat.Bold);
         infoPartido.AddText(Match.Tournament);
-        infoPartido.AddTab();
+        infoPartido.AddSpace(10);
         infoPartido.AddFormattedText("Lugar: ", TextFormat.Bold);
         infoPartido.AddText(Match.Place);
-        infoPartido.AddTab();
+        infoPartido.AddSpace(10);
         infoPartido.AddFormattedText("Fecha: ", TextFormat.Bold);
         infoPartido.AddText(Match.MatchWeek.ToString());
 

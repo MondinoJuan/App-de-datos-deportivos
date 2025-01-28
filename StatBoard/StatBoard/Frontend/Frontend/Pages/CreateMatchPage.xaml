@@ -23,7 +23,8 @@
                 BackgroundColor="#F5F5F5"
                 TextColor="Black"
                 FontSize="16"
-                HeightRequest="40"/>
+                HeightRequest="40"
+                TextChanged="OnTextChanged"/>
 
             <!-- Campo: Equipo local -->
             <Entry 
@@ -33,7 +34,8 @@
                 BackgroundColor="#F5F5F5"
                 TextColor="Black"
                 FontSize="16"
-                HeightRequest="40"/>
+                HeightRequest="40"
+                TextChanged="OnTextChanged"/>
 
             <!-- Campo: Equipo visitante -->
             <Entry 
@@ -43,7 +45,8 @@
                 BackgroundColor="#F5F5F5"
                 TextColor="Black"
                 FontSize="16"
-                HeightRequest="40"/>
+                HeightRequest="40"
+                TextChanged="OnTextChanged"/>
 
             <!-- Campo: Jornada -->
             <Entry
@@ -53,7 +56,8 @@
                 BackgroundColor="#F5F5F5"
                 TextColor="Black"
                 FontSize="16"
-                HeightRequest="40"/>
+                HeightRequest="40"
+                TextChanged="OnTextChanged"/>
 
             <!-- Campo: Lugar -->
             <Entry
@@ -63,7 +67,8 @@
                 BackgroundColor="#F5F5F5"
                 TextColor="Black"
                 FontSize="16"
-                HeightRequest="40"/>
+                HeightRequest="40"
+                TextChanged="OnTextChanged"/>
 
             <!-- Botón: Crear partido -->
             <Button
@@ -74,7 +79,25 @@
                 TextColor="White"
                 CornerRadius="8"
                 HeightRequest="45"
-                Clicked="OnCreateMatch" />
+                Clicked="OnCreateMatch" 
+                <Button.Triggers>
+                <DataTrigger TargetType="Button" Binding="{Binding EnableCreateBtn}" Value="False">
+                    <Setter Property="BackgroundColor" Value="Gray" />
+                </DataTrigger>
+                <DataTrigger TargetType="Button" Binding="{Binding EnableCreateBtn}" Value="True">
+                    <Setter Property="BackgroundColor" Value="#27AE60" />
+                </DataTrigger>
+                </Button.Triggers> />
+
+            <Button
+                x:Name="btnCancelMatch"
+                Text="Cancelar"
+                FontSize="18"
+                BackgroundColor="Red"
+                TextColor="White"
+                CornerRadius="8"
+                HeightRequest="45"
+                Clicked="OnCancel" />
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>
