@@ -12,8 +12,8 @@ public partial class MatchView : ContentPage
     private Club_Dto AwayTeam { get; set; }
     public ObservableCollection<Player_Dto> TeamLocalPlayers { get; set; } = new ObservableCollection<Player_Dto>();
     public ObservableCollection<Player_Dto> TeamAwayPlayers { get; set; } = new ObservableCollection<Player_Dto>();
-    public int ActionCountLocal { get; set; }
-    public int ActionCountAway { get; set; }
+    public int ActionCountLocal { get; set; } = 0;
+    public int ActionCountAway { get; set; } = 0;
 
     public MatchView(Match_Dto match)
     {

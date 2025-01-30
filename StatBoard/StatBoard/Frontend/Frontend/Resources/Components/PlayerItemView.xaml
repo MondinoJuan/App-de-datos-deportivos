@@ -3,13 +3,20 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Frontend.Resources.Components.PlayerItemView">
 
-    <Grid ColumnSpacing="15" RowSpacing="10"
-      HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+    <Grid
+        Padding="10"
+        ColumnSpacing="10" 
+        RowSpacing="0"
+        HorizontalOptions="FillAndExpand" 
+        VerticalOptions="FillAndExpand">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="30" />
+            <ColumnDefinition Width="320" />
+            <ColumnDefinition Width="70" />
         </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
 
         <!-- Número del jugador -->
         <Label Grid.Column="0"
@@ -17,7 +24,7 @@
            Text="{Binding Number}" 
            FontSize="18" 
            FontAttributes="Bold" 
-           HorizontalOptions="Start" 
+           HorizontalOptions="Center" 
            VerticalOptions="Center" />
 
         <!-- Nombre del jugador -->
@@ -25,16 +32,16 @@
            TextColor="Wheat"
            Text="{Binding Name}"
            FontSize="16" 
-           HorizontalOptions="Start" 
+           HorizontalOptions="Center" 
            VerticalOptions="Center" 
            LineBreakMode="TailTruncation" />
 
         <!-- Botón de editar -->
-        <Button Grid.Column="1"
+        <Button Grid.Column="2"
             ImageSource="lapiz_edit.png"
             BackgroundColor="Wheat"
             BorderWidth="0"
-            HorizontalOptions="End"
+            HorizontalOptions="Start"
             VerticalOptions="Center"
             Padding="5"
             WidthRequest="30"
@@ -42,7 +49,7 @@
             Clicked="OnEdit" />
 
         <!-- Botón de eliminar -->
-        <Button Grid.Column="3"
+        <Button Grid.Column="2"
             ImageSource="trash_can.png"
             BackgroundColor="Transparent"
             BorderWidth="0"

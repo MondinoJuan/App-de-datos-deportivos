@@ -79,7 +79,7 @@
                 TextColor="White"
                 CornerRadius="8"
                 HeightRequest="45"
-                Clicked="OnCreateMatch" 
+                Clicked="OnCreateMatch">
                 <Button.Triggers>
                 <DataTrigger TargetType="Button" Binding="{Binding EnableCreateBtn}" Value="False">
                     <Setter Property="BackgroundColor" Value="Gray" />
@@ -87,7 +87,9 @@
                 <DataTrigger TargetType="Button" Binding="{Binding EnableCreateBtn}" Value="True">
                     <Setter Property="BackgroundColor" Value="#27AE60" />
                 </DataTrigger>
-                </Button.Triggers> />
+                </Button.Triggers>
+            </Button>
+
 
             <Button
                 x:Name="btnCancelMatch"
