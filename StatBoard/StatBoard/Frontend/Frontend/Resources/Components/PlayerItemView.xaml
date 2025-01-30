@@ -4,19 +4,43 @@
              x:Class="Frontend.Resources.Components.PlayerItemView">
 
     <Grid
-        Padding="10"
+        Padding="5"
         ColumnSpacing="10" 
         RowSpacing="0"
         HorizontalOptions="FillAndExpand" 
         VerticalOptions="FillAndExpand">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="30" />
-            <ColumnDefinition Width="320" />
+            <ColumnDefinition Width="430" />
             <ColumnDefinition Width="70" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="20"/>
+            <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
+
+        <!-- Líneas horizontales -->
+        <BoxView 
+    Grid.Row="0" 
+    Grid.ColumnSpan="6" 
+    HeightRequest="1" 
+    BackgroundColor="Green"
+    VerticalOptions="Start"/>
+        <BoxView 
+    Grid.Row="0" 
+    Grid.ColumnSpan="6" 
+    HeightRequest="1" 
+    BackgroundColor="Green"
+    VerticalOptions="End"/>
+
+        <!-- Líneas verticales -->
+        <BoxView Grid.RowSpan="2" Grid.Column="0" WidthRequest="1" BackgroundColor="Green" HorizontalOptions="Start"/>
+        <BoxView Grid.RowSpan="2" Grid.Column="1" WidthRequest="1" BackgroundColor="Green" HorizontalOptions="Start"/>
+        <BoxView Grid.RowSpan="2" Grid.Column="2" WidthRequest="1" BackgroundColor="Green" HorizontalOptions="Start"/>
+
+        <BoxView Grid.RowSpan="2" Grid.Column="0" WidthRequest="1" BackgroundColor="Green" HorizontalOptions="End"/>
+        <BoxView Grid.RowSpan="2" Grid.Column="1" WidthRequest="1" BackgroundColor="Green" HorizontalOptions="End"/>
+        <BoxView Grid.RowSpan="2" Grid.Column="2" WidthRequest="1" BackgroundColor="Green" HorizontalOptions="End"/>
+
 
         <!-- Número del jugador -->
         <Label Grid.Column="0"

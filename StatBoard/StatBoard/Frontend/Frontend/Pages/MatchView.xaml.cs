@@ -20,7 +20,7 @@ public partial class MatchView : ContentPage
         InitializeComponent();
         Match = match;
 
-        lblMatchViewTitle.Text = $"Partido de la fecha {Match.MatchWeek} el día {Match.Date.ToString()}";
+        lblMatchViewTitle.Text = $"Partido de la fecha {Match.MatchWeek} el día {Match.Date.ToString("d")}";
         lblTournament.Text = Match.Tournament ?? "N/A";
         lblScoreL.Text = Match.GoalsTeamA.ToString();
         lblScoreA.Text = Match.GoalsTeamB.ToString();

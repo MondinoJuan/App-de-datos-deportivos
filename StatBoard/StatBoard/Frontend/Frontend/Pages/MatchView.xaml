@@ -25,16 +25,57 @@
             <Grid ColumnSpacing="10" Padding="10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="2*" />
-                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="50" />
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="50" />
                     <ColumnDefinition Width="2*" />
                 </Grid.ColumnDefinitions>
 
+                <!-- Líneas horizontales -->
+                <BoxView 
+                    Grid.Row="0" 
+                    Grid.ColumnSpan="6" 
+                    HeightRequest="1" 
+                    BackgroundColor="White"
+                    VerticalOptions="Start"/>
+                <BoxView 
+                    Grid.Row="0" 
+                    Grid.ColumnSpan="6" 
+                    HeightRequest="1" 
+                    BackgroundColor="White"
+                    VerticalOptions="End"/>
+                <BoxView 
+                    Grid.Row="1"
+                    Grid.ColumnSpan="6" 
+                    HeightRequest="1" 
+                    BackgroundColor="White"
+                    VerticalOptions="Start"/>
+                <BoxView 
+                    Grid.Row="1" 
+                    Grid.ColumnSpan="6" 
+                    HeightRequest="1" 
+                    BackgroundColor="White"
+                    VerticalOptions="End"/>
+
+                <!-- Líneas verticales -->
+                <BoxView Grid.RowSpan="2" Grid.Column="0" WidthRequest="1" BackgroundColor="White" HorizontalOptions="Start"/>
+                <BoxView Grid.RowSpan="2" Grid.Column="1" WidthRequest="1" BackgroundColor="White" HorizontalOptions="Start"/>
+                <BoxView Grid.RowSpan="2" Grid.Column="2" WidthRequest="1" BackgroundColor="White" HorizontalOptions="Start"/>
+                <BoxView Grid.RowSpan="2" Grid.Column="3" WidthRequest="1" BackgroundColor="White" HorizontalOptions="Start"/>
+                <BoxView Grid.RowSpan="2" Grid.Column="4" WidthRequest="1" BackgroundColor="White" HorizontalOptions="Start"/>
+                <BoxView Grid.RowSpan="2" Grid.Column="5" WidthRequest="1" BackgroundColor="White" HorizontalOptions="Start"/>
+                
+                <BoxView Grid.RowSpan="2" Grid.Column="0" WidthRequest="1" BackgroundColor="White" HorizontalOptions="End"/>
+                <BoxView Grid.RowSpan="2" Grid.Column="1" WidthRequest="1" BackgroundColor="White" HorizontalOptions="End"/>
+                <BoxView Grid.RowSpan="2" Grid.Column="2" WidthRequest="1" BackgroundColor="White" HorizontalOptions="End"/>
+                <BoxView Grid.RowSpan="2" Grid.Column="3" WidthRequest="1" BackgroundColor="White" HorizontalOptions="End"/>
+                <BoxView Grid.RowSpan="2" Grid.Column="4" WidthRequest="1" BackgroundColor="White" HorizontalOptions="End"/>
+                <BoxView Grid.RowSpan="2" Grid.Column="5" WidthRequest="1" BackgroundColor="White" HorizontalOptions="End"/>
+
                 <Label Grid.Column="0" 
                        x:Name="lblTeamLocal" 
-                       FontSize="18" 
+                       FontSize="30"
                        FontAttributes="Bold" 
                        HorizontalOptions="Center" 
                        VerticalOptions="Center" />
@@ -42,18 +83,20 @@
                 <Label Grid.Column="2" 
                        x:Name="lblScoreL"
                        FontAttributes="Bold" 
+                       FontSize="40"
                        HorizontalOptions="Center" 
                        VerticalOptions="Center" />
 
                 <Label Grid.Column="3" 
                        x:Name="lblScoreA"
-                       FontAttributes="Bold" 
+                       FontAttributes="Bold"
+                       FontSize="40"
                        HorizontalOptions="Center" 
                        VerticalOptions="Center" />
 
-                <Label Grid.Column="4" 
+                <Label Grid.Column="5" 
                        x:Name="lblTeamAway" 
-                       FontSize="18" 
+                       FontSize="30" 
                        FontAttributes="Bold" 
                        HorizontalOptions="Center" 
                        VerticalOptions="Center" />
@@ -64,11 +107,53 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="1*" />
-                    <ColumnDefinition Width="250" />
-                    <ColumnDefinition Width="250" />
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="100" />
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="1*" />
                 </Grid.ColumnDefinitions>
+
+                <!-- Líneas horizontales -->
+                <BoxView 
+                    Grid.Row="0" 
+                    Grid.ColumnSpan="6" 
+                    HeightRequest="1" 
+                    BackgroundColor="White" 
+                    VerticalOptions="Start"/>
+                <BoxView 
+                    Grid.Row="0" 
+                    Grid.ColumnSpan="6" 
+                    HeightRequest="1" 
+                    BackgroundColor="White" 
+                    VerticalOptions="End"/>
+                <BoxView 
+                    Grid.Row="1" 
+                    Grid.ColumnSpan="6" 
+                    HeightRequest="1" 
+                    BackgroundColor="White" 
+                    VerticalOptions="Start"/>
+                <BoxView 
+                    Grid.Row="1" 
+                    Grid.ColumnSpan="6" 
+                    HeightRequest="1" 
+                    BackgroundColor="White" 
+                    VerticalOptions="End"/>
+
+                <!-- Líneas verticales -->
+                <BoxView Grid.RowSpan="2" Grid.Column="0" WidthRequest="1" BackgroundColor="White" HorizontalOptions="Start"/>
+                <BoxView Grid.RowSpan="2" Grid.Column="1" WidthRequest="1" BackgroundColor="White" HorizontalOptions="Start"/>
+                <BoxView Grid.RowSpan="2" Grid.Column="2" WidthRequest="1" BackgroundColor="White" HorizontalOptions="Start"/>
+                <BoxView Grid.RowSpan="2" Grid.Column="3" WidthRequest="1" BackgroundColor="White" HorizontalOptions="Start"/>
+                <BoxView Grid.RowSpan="2" Grid.Column="4" WidthRequest="1" BackgroundColor="White" HorizontalOptions="Start"/>
+                <BoxView Grid.RowSpan="2" Grid.Column="5" WidthRequest="1" BackgroundColor="White" HorizontalOptions="Start"/>
+                
+                <BoxView Grid.RowSpan="2" Grid.Column="0" WidthRequest="1" BackgroundColor="White" HorizontalOptions="End"/>
+                <BoxView Grid.RowSpan="2" Grid.Column="1" WidthRequest="1" BackgroundColor="White" HorizontalOptions="End"/>
+                <BoxView Grid.RowSpan="2" Grid.Column="2" WidthRequest="1" BackgroundColor="White" HorizontalOptions="End"/>
+                <BoxView Grid.RowSpan="2" Grid.Column="3" WidthRequest="1" BackgroundColor="White" HorizontalOptions="End"/>
+                <BoxView Grid.RowSpan="2" Grid.Column="4" WidthRequest="1" BackgroundColor="White" HorizontalOptions="End"/>
+                <BoxView Grid.RowSpan="2" Grid.Column="5" WidthRequest="1" BackgroundColor="White" HorizontalOptions="End"/>
+                
 
                 <Label 
                     Grid.Column="0" 
@@ -137,13 +222,34 @@
             </Grid>
 
             <!-- Filas dinámicas de jugadores -->
-            <Grid ColumnSpacing="10">
+            <Grid ColumnSpacing="10" Padding="10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="100" />
                     <ColumnDefinition Width="1*" />
                 </Grid.ColumnDefinitions>
+
+                <!-- Líneas horizontales -->
+                <BoxView Grid.Row="0" Grid.ColumnSpan="4" HeightRequest="1" BackgroundColor="White" VerticalOptions="Start"/>
+                <BoxView Grid.Row="1" Grid.ColumnSpan="4" HeightRequest="1" BackgroundColor="White" VerticalOptions="Start"/>
+                <BoxView Grid.Row="2" Grid.ColumnSpan="4" HeightRequest="1" BackgroundColor="White" VerticalOptions="Start"/>
+                
+                <BoxView Grid.Row="0" Grid.ColumnSpan="4" HeightRequest="1" BackgroundColor="White" VerticalOptions="End"/>
+                <BoxView Grid.Row="1" Grid.ColumnSpan="4" HeightRequest="1" BackgroundColor="White" VerticalOptions="End"/>
+                <BoxView Grid.Row="2" Grid.ColumnSpan="4" HeightRequest="1" BackgroundColor="White" VerticalOptions="End"/>
+                
+
+                <!-- Líneas verticales -->
+                <BoxView Grid.RowSpan="3" Grid.Column="0" WidthRequest="1" BackgroundColor="White" HorizontalOptions="Start"/>
+                <BoxView Grid.RowSpan="3" Grid.Column="1" WidthRequest="1" BackgroundColor="White" HorizontalOptions="Start"/>
+                <BoxView Grid.RowSpan="3" Grid.Column="2" WidthRequest="1" BackgroundColor="White" HorizontalOptions="Start"/>
+                <BoxView Grid.RowSpan="3" Grid.Column="3" WidthRequest="1" BackgroundColor="White" HorizontalOptions="Start"/>
+
+                <BoxView Grid.RowSpan="3" Grid.Column="0" WidthRequest="1" BackgroundColor="White" HorizontalOptions="End"/>
+                <BoxView Grid.RowSpan="3" Grid.Column="1" WidthRequest="1" BackgroundColor="White" HorizontalOptions="End"/>
+                <BoxView Grid.RowSpan="3" Grid.Column="2" WidthRequest="1" BackgroundColor="White" HorizontalOptions="End"/>
+                <BoxView Grid.RowSpan="3" Grid.Column="3" WidthRequest="1" BackgroundColor="White" HorizontalOptions="End"/>
 
                 <!-- Jugadores locales -->
                 <StackLayout 
@@ -246,7 +352,7 @@
                         </DataTemplate>
                     </BindableLayout.ItemTemplate>
                 </StackLayout>
-                
+
                 <!-- Mensaje de jugadores visitantes vacíos -->
                 <StackLayout
                      IsVisible="False"
