@@ -1,0 +1,346 @@
+﻿@page "/matchView"
+@using Frontend.Resources
+@using Frontend.Resources.Entities
+@using System.Collections.ObjectModel
+@using Frontend.Resources.PDF_Pages
+@inject Simulo_BdD Simulo_BdD
+
+<h3>Vista de Partido</h3>
+
+<!-- Título del partido -->
+<div class="text-center">
+    <h1>@MatchTitle</h1>
+    <h3 class="text-muted">@Tournament</h3>
+</div>
+
+<!-- Encabezado de equipos -->
+<div class="grid-container">
+    <div class="team-header">
+        <h2>@LocalTeamName</h2>
+    </div>
+    <div class="score">
+        <h1>@GoalsTeamA</h1>
+    </div>
+    <div class="score">
+        <h1>@GoalsTeamB</h1>
+    </div>
+    <div class="team-header">
+        <h2>@AwayTeamName</h2>
+    </div>
+</div>
+
+<!-- Subtítulos de la tabla -->
+<div class="grid-container">
+    <div>N°</div>
+    <div>Nombre Jugador Local</div>
+    <div>
+        <select @bind="LocalActionSelected">
+            <option value="Goal">Gol</option>
+            <option value="Foul">Foul</option>
+            <option value="Save">Atajada</option>
+            <option value="Miss">Errada</option>
+            <option value="Steal_L">Perdida</option>
+            <option value="Steal_W">Robo</option>
+            <option value="Blocked">Bloqueo</option>
+        </select>
+    </div>
+    <div>
+        <select @bind="AwayActionSelected">
+            <option value="Goal">Gol</option>
+            <option value="Foul">Foul</option>
+            <option value="Save">Atajada</option>
+            <option value="Miss">Errada</option>
+            <option value="Steal_L">Perdida</option>
+            <option value="Steal_W">Robo</option>
+            <option value="Blocked">Bloqueo</option>
+        </select>
+    </div>
+    <div>N°</div>
+    <div>Nombre Jugador Visitante</div>
+</div>
+
+<!-- Jugadores locales -->
+<div class="player-list">
+    @foreach (var player in TeamLocalPlayers)
+    {
+        <div class="player-item">
+            <span>@player.Name</span>
+            <span>@GetActionCountForPlayer(player.Id, LocalActionSelected)</span>
+        </div>
+    }
+</div>
+
+<!-- Jugadores visitantes -->
+<div class="player-list">
+    @foreach (var player in TeamAwayPlayers)
+    {
+        <div class="player-item">
+            <span>@player.Name</span>
+            <span>@GetActionCountForPlayer(player.Id, AwayActionSelected)</span>
+        </div>
+    }
+</div>
+
+<!-- Botones de acción -->
+<div class="action-buttons">
+    <button @onclick="OnAddPlayer">Agregar jugador</button>
+    <button @onclick="OnCancel">Cancelar</button>
+    <button @onclick="OnFinish">Finalizar</button>
+</div>
+
+@code {
+    private Match_Dto Match { get; set; }
+    private Club_Dto LocalTeam { get; set; }
+    private Club_Dto AwayTeam { get; set; }
+    public ObservableCollection<Player_Dto> TeamLocalPlayers { get; set; } = new();
+    public ObservableCollection<Player_Dto> TeamAwayPlayers { get; set; } = new();
+
+    private string _localActionSelected;
+    public string LocalActionSelected
+    {
+        get => _localActionSelected;
+        set
+        {
+            _localActionSelected = value;
+            StateHasChanged(); // Notifica a Blazor que el estado ha cambiado
+        }
+    }
+
+    private string _awayActionSelected;
+    public string AwayActionSelected
+    {
+        get => _awayActionSelected;
+        set
+        {
+            _awayActionSelected = value;
+            StateHasChanged(); // Notifica a Blazor que el estado ha cambiado
+        }
+    }
+
+    private string MatchTitle => $"Partido de la fecha {Match.MatchWeek} el día {Match.Date:dd/MM/yyyy}";
+    private string Tournament => Match.Tournament ?? "N/A";
+    private string LocalTeamName => LocalTeam?.Name ?? "Equipo Local";
+    private string AwayTeamName => AwayTeam?.Name ?? "Equipo Visitante";
+    private int GoalsTeamA => Match.GoalsTeamA;
+    private int GoalsTeamB => Match.GoalsTeamB;
+
+    protected override void OnInitialized()
+    {
+        LoadMatch();
+        LoadTeams();
+    }
+
+    private void LoadMatch()
+    {
+        var result = Simulo_BdD.GetAllMatches();
+        if (result.Success)
+        {
+            Match = result.Data.First();
+        }
+    }
+
+    private void LoadTeams()
+    {
+        var localTeamResult = Simulo_BdD.GetOneClub(Match.IdTeamLocal);
+        if (localTeamResult.Success)
+        {
+            LocalTeam = localTeamResult.Data;
+            TeamLocalPlayers = new ObservableCollection<Player_Dto>(GetAllPlayersOfATeam(LocalTeam.IdPlayers));
+        }
+
+        var awayTeamResult = Simulo_BdD.GetOneClub(Match.IdTeamAway);
+        if (awayTeamResult.Success)
+        {
+            AwayTeam = awayTeamResult.Data;
+            TeamAwayPlayers = new ObservableCollection<Player_Dto>(GetAllPlayersOfATeam(AwayTeam.IdPlayers));
+        }
+
+        UpdateScore();
+    }
+
+    private List<Player_Dto> GetAllPlayersOfATeam(List<Guid> playerIds)
+    {
+        return Simulo_BdD.Database.Players.Where(p => playerIds.Contains(p.Id)).ToList();
+    }
+
+    private void UpdateScore()
+    {
+        Match.GoalsTeamA = TeamLocalPlayers.Sum(p => int.Parse(GetActionCountForPlayer(p.Id, "Goal")));
+        Match.GoalsTeamB = TeamAwayPlayers.Sum(p => int.Parse(GetActionCountForPlayer(p.Id, "Goal")));
+    }
+
+    private async Task OnAddPlayer()
+    {
+        // Lógica para agregar jugador
+        var modalPage = new CreateModify_PlayerModal();
+        var result = await modalPage.GetResultAsync();
+        var newPlayer = await modalPage.GetPlayerAsync();
+
+        if (result == 1)
+        {
+            if (LocalTeam.IdPlayers == null)
+            {
+                LocalTeam.IdPlayers = new List<Guid>();
+            }
+            LocalTeam.IdPlayers.Add(newPlayer.Id);
+            TeamLocalPlayers.Add(newPlayer);
+            CreatePlayerMatch(newPlayer.Id, Match.Id);
+            Simulo_BdD.ReplaceClub(LocalTeam);
+        }
+        else if (result == 2)
+        {
+            if (AwayTeam.IdPlayers == null)
+            {
+                AwayTeam.IdPlayers = new List<Guid>();
+            }
+            AwayTeam.IdPlayers.Add(newPlayer.Id);
+            TeamAwayPlayers.Add(newPlayer);
+            CreatePlayerMatch(newPlayer.Id, Match.Id);
+            Simulo_BdD.ReplaceClub(AwayTeam);
+        }
+        else if (result == 0)
+        {
+            Console.WriteLine("Se canceló la carga de un jugador");
+        }
+
+        UpdateScore();
+    }
+
+    private void CreatePlayerMatch(Guid idPlayer, Guid idMatch)
+    {
+        var newPlayerMatch = new PlayerMatch_Dto
+            {
+                Id = Guid.NewGuid(),
+                IdPlayer = idPlayer,
+                IdMatch = idMatch
+            };
+
+        var result = Simulo_BdD.AddPlayerMatch(newPlayerMatch);
+        Console.WriteLine(result.Message);
+    }
+
+    public void RemovePlayer(Player_Dto player)
+    {
+        if (TeamLocalPlayers.Remove(player))
+        {
+            var localTeamResult = Simulo_BdD.GetOneClub(LocalTeam.Id);
+            if (localTeamResult.Success && localTeamResult.Data != null)
+            {
+                var localTeam = localTeamResult.Data;
+                localTeam.IdPlayers.Remove(player.Id);
+                Simulo_BdD.ReplaceClub(localTeam);
+            }
+        }
+        else if (TeamAwayPlayers.Remove(player))
+        {
+            var awayTeamResult = Simulo_BdD.GetOneClub(AwayTeam.Id);
+            if (awayTeamResult.Success && awayTeamResult.Data != null)
+            {
+                var awayTeam = awayTeamResult.Data;
+                awayTeam.IdPlayers.Remove(player.Id);
+                Simulo_BdD.ReplaceClub(awayTeam);
+            }
+        }
+        UpdateScore();
+    }
+
+    public string GetActionCountForPlayer(Guid playerId, string actionType)
+    {
+        var result = Simulo_BdD.GetAllPlayerMatches();
+        if (!result.Success) return "-";
+
+        var playerMatch = result.Data.FirstOrDefault(a => a.IdPlayer == playerId);
+        if (playerMatch?.IdActions == null) return "-";
+
+        if (Enum.TryParse(actionType, out Ending actionValue))
+        {
+            return playerMatch.IdActions
+                .Select(idAction => Simulo_BdD.GetOneAction(idAction))
+                .Count(result1 => result1.Success && result1.Data.Ending == actionValue).ToString();
+        }
+
+        return "-";
+    }
+
+    private void OnCancel()
+    {
+        Simulo_BdD.CleanClubList();
+        Simulo_BdD.CleanPlayerList();
+        Simulo_BdD.CleanPlayerMatchList();
+        Simulo_BdD.CleanMatchList();
+        Simulo_BdD.CleanPlayerActionList();
+        Simulo_BdD.CleanTournamentList();
+
+        // Cerrar la aplicación (en Blazor no hay Application.Current.Quit(), puedes redirigir o cerrar la pestaña)
+        // NavigationManager.NavigateTo("/");
+    }
+
+    private void OnFinish()
+    {
+        var result = Simulo_BdD.ReplaceMatch(Match);
+        if (!result.Success)
+        {
+            Console.WriteLine(result.Message);
+            return;
+        }
+        var result1 = Simulo_BdD.ReplaceClub(LocalTeam);
+        if (!result1.Success)
+        {
+            Console.WriteLine(result1.Message);
+            return;
+        }
+        var result2 = Simulo_BdD.ReplaceClub(AwayTeam);
+        if (!result2.Success)
+        {
+            Console.WriteLine(result2.Message);
+            return;
+        }
+
+        // Finalizar el partido, debería armar el PDF en esta función.
+        var pdf = new CreatePDF();
+        pdf.CrearPDF(Match.Id);
+
+        Simulo_BdD.CleanClubList();
+        Simulo_BdD.CleanPlayerList();
+        Simulo_BdD.CleanPlayerMatchList();
+        Simulo_BdD.CleanMatchList();
+        Simulo_BdD.CleanPlayerActionList();
+        Simulo_BdD.CleanTournamentList();
+
+        // Redirigir o cerrar la aplicación
+        // NavigationManager.NavigateTo("/");
+    }
+}
+
+<style>
+    .grid-container {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 10px;
+        padding: 10px;
+    }
+
+    .team-header, .score {
+        text-align: center;
+    }
+
+    .player-list {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .player-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px;
+        border: 1px solid #ccc;
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        margin-top: 20px;
+    }
+</style>

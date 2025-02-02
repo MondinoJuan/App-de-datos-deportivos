@@ -2,18 +2,40 @@ using Frontend.Resources.Entities;
 using System.Collections.ObjectModel;
 using Frontend.Resources;
 using Frontend.Resources.PDF_Pages;
+using System.Globalization;
+using System;
+using System.ComponentModel;
 
 namespace Frontend;
 
-public partial class MatchView : ContentPage
+public partial class MatchView : ContentPage, INotifyPropertyChanged
 {
     private Match_Dto Match { get; set; }
     private Club_Dto LocalTeam { get; set; }
     private Club_Dto AwayTeam { get; set; }
     public ObservableCollection<Player_Dto> TeamLocalPlayers { get; set; } = new ObservableCollection<Player_Dto>();
     public ObservableCollection<Player_Dto> TeamAwayPlayers { get; set; } = new ObservableCollection<Player_Dto>();
-    public int ActionCountLocal { get; set; } = 0;
-    public int ActionCountAway { get; set; } = 0;
+
+    private string _localActionSelected;
+    public string LocalActionSelected
+    {
+        get => _localActionSelected;
+        set
+        {
+            _localActionSelected = value;
+            OnPropertyChanged(nameof(LocalActionSelected));
+        }
+    }
+    private string _awayActionSelected;
+    public string AwayActionSelected
+    {
+        get => _awayActionSelected;
+        set
+        {
+            _awayActionSelected = value;
+            OnPropertyChanged(nameof(AwayActionSelected));
+        }
+    }
 
     public MatchView(Match_Dto match)
     {
@@ -237,7 +259,8 @@ public partial class MatchView : ContentPage
             }
             if (Enum.TryParse(selectedAction, out Ending actionValue))
             {
-                CalculateActionsQuantity(actionValue, true);
+                LocalActionSelected = selectedAction;
+                RefreshView();
             }
         }
     }
@@ -250,79 +273,47 @@ public partial class MatchView : ContentPage
             string selectedAction = "";
             switch (picker.SelectedItem.ToString())
             {
-                case "Gol":
-                    selectedAction = "Goal";
-                    break;
-                case "Foul":
-                    selectedAction = "Foul";
-                    break;
-                case "Atajada":
-                    selectedAction = "Save";
-                    break;
-                case "Errada":
-                    selectedAction = "Miss";
-                    break;
-                case "Perdida":
-                    selectedAction = "Steal_L";
-                    break;
-                case "Robo":
-                    selectedAction = "Steal_W";
-                    break;
-                case "Bloqueo":
-                    selectedAction = "Blocked";
-                    break;
-                default:
-                    break;
+                case "Gol": selectedAction = "Goal"; break;
+                case "Foul": selectedAction = "Foul"; break;
+                case "Atajada": selectedAction = "Save"; break;
+                case "Errada": selectedAction = "Miss"; break;
+                case "Perdida": selectedAction = "Steal_L"; break;
+                case "Robo": selectedAction = "Steal_W"; break;
+                case "Bloqueo": selectedAction = "Blocked"; break;
             }
+
             if (Enum.TryParse(selectedAction, out Ending actionValue))
             {
-                CalculateActionsQuantity(actionValue, false);
-            }
-        }
-    }
+                AwayActionSelected = selectedAction;
 
-    private void CalculateActionsQuantity(Ending actionType, bool local)
-    {
-        var result = Simulo_BdD.GetAllPlayerMatches();
-        Console.WriteLine(result.Message);
-
-        if (result.Success)
-        {
-            var players = local ? TeamLocalPlayers : TeamAwayPlayers;
-
-            foreach (var player in players)
-            {
-                var playerMatch = result.Data.FirstOrDefault(a => a.IdPlayer == player.Id);
-                if (playerMatch.IdActions != null)
+                // Forzar actualización de los Bindings para los jugadores visitantes
+                foreach (var player in TeamAwayPlayers)
                 {
-                    int count = playerMatch.IdActions
-                        .Select(idAction => Simulo_BdD.GetOneAction(idAction))
-                        .Where(result1 => result1.Success)
-                        .Count(result1 => result1.Data.Ending == actionType);
-
-                    if (local)
-                    {
-                        ActionCountLocal = count;
-                    }
-                    else
-                    {
-                        ActionCountAway = count;
-                    }
-                }
-                else
-                {
-                    if (local)
-                    {
-                        ActionCountLocal = 0;
-                    }
-                    else
-                    {
-                        ActionCountAway = 0;
-                    }
+                    // Notificar que la propiedad "Id" ha cambiado (aunque no sea verdad)
+                    // Esto disparará la reevaluación del Converter
+                    player.OnPropertyChanged(nameof(player.Id));
                 }
             }
         }
     }
+
+    //public string GetActionCountForPlayer(Guid playerId, string actionType)
+    //{
+    //    var result = Simulo_BdD.GetAllPlayerMatches();
+    //    if (!result.Success) return "-";
+
+    //    var playerMatch = result.Data.FirstOrDefault(a => a.IdPlayer == playerId);
+    //    if (playerMatch?.IdActions == null) return "-";
+
+    //    if (Enum.TryParse(actionType, out Ending actionValue))
+    //    {
+    //        return playerMatch.IdActions
+    //            .Select(idAction => Simulo_BdD.GetOneAction(idAction))
+    //            .Count(result1 => result1.Success && result1.Data.Ending == actionValue).ToString();
+    //    }
+
+    //    return "-";
+    //}
 
     private void OnCancel(object sender, EventArgs e)
     {
@@ -369,5 +360,32 @@ public partial class MatchView : ContentPage
         Simulo_BdD.CleanTournamentList();
 
         Application.Current.Quit();
+    }
+
+    private void RefreshView()
+    {
+        //// Guardar el estado actual
+        //var currentMatch = Match;
+        //var currentLocalTeam = LocalTeam;
+        //var currentAwayTeam = AwayTeam;
+        //var currentTeamLocalPlayers = TeamLocalPlayers.ToList();
+        //var currentTeamAwayPlayers = TeamAwayPlayers.ToList();
+        //var currentLocalActionSelected = LocalActionSelected;
+        //var currentAwayActionSelected = AwayActionSelected;
+
+        //// Reinicializar la página
+        //InitializeComponent();
+
+        //// Restaurar el estado
+        //Match = currentMatch;
+        //LocalTeam = currentLocalTeam;
+        //AwayTeam = currentAwayTeam;
+        //TeamLocalPlayers = new ObservableCollection<Player_Dto>(currentTeamLocalPlayers);
+        //TeamAwayPlayers = new ObservableCollection<Player_Dto>(currentTeamAwayPlayers);
+        //LocalActionSelected = currentLocalActionSelected;
+        //AwayActionSelected = currentAwayActionSelected;
+
+        // Actualizar el BindingContext
+        BindingContext = this;
     }
 }

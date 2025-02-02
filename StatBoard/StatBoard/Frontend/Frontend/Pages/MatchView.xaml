@@ -2,9 +2,17 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:components="clr-namespace:Frontend.Resources.Components"
+             xmlns:converters="clr-namespace:Frontend.Resources"
              x:Class="Frontend.MatchView"
              x:Name="matchViewInstance"
              Title="Vista de Partido">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:ActionCountConverter x:Key="ActionCountConverter" />
+            <converters:ActionCountMultiConverter x:Key="ActionCountMultiConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
 
     <ScrollView>
         <VerticalStackLayout Padding="20" Spacing="20">
@@ -273,11 +281,13 @@
                 </StackLayout>
                 <!--Contador de endings de jugadores locales-->
                 <StackLayout 
-                    x:Name="LabelListLocal" 
+                    Spacing="20"
+                    x:Name="stklListLocalEndings" 
                     BindableLayout.ItemsSource="{Binding TeamLocalPlayers}"
                     Grid.Column="1"
                     HorizontalOptions="Center"
-                    VerticalOptions="Center">
+                    VerticalOptions="Start"
+                    Padding="0,10,0,0">
                     <StackLayout.Triggers>
                         <DataTrigger TargetType="StackLayout" Binding="{Binding TeamLocalPlayers.Count}" Value="0">
                             <Setter Property="IsVisible" Value="False" />
@@ -285,10 +295,30 @@
                     </StackLayout.Triggers>
                     <BindableLayout.ItemTemplate>
                         <DataTemplate>
-                            <Label 
-                                Text="{Binding Source={x:Reference matchViewInstance}, Path=ActionCountLocal}" 
+                            <!--<Label 
+                                x:Name="lblEndingsLocalPlayer"
+                                Text="{Binding Id, 
+                                    Converter={StaticResource ActionCountConverter}, 
+                                    ConverterParameter={Binding Source={x:Reference pckLocalActions}, 
+                                                        Path=SelectedItem}}" 
                                 VerticalOptions="Center" 
-                                HorizontalOptions="Center"/>
+                                HorizontalOptions="Center"/>-->
+                            <!--<Label 
+                                Text="{Binding Source={x:Reference matchViewInstance}, 
+                                        Path=LocalPlayerActionCounts[Id]}" 
+                                VerticalOptions="Center" 
+                                HorizontalOptions="Center"/>-->
+                            <Label
+                                TextColor="White"
+                                HorizontalOptions="Center"
+                                VerticalOptions="Center">
+                                <Label.Text>
+                                    <MultiBinding Converter="{StaticResource ActionCountMultiConverter}">
+                                        <Binding Path="Id" />
+                                        <Binding Path="LocalActionSelected" Source="{x:Reference matchViewInstance}" />
+                                    </MultiBinding>
+                                </Label.Text>
+                            </Label>
                         </DataTemplate>
                     </BindableLayout.ItemTemplate>
                 </StackLayout>
@@ -312,11 +342,13 @@
 
                 <!--Contador de endings de jugadores visitantes-->
                 <StackLayout 
-                    x:Name="lblListAway" 
+                    x:Name="stklListAwayEndings" 
                     BindableLayout.ItemsSource="{Binding TeamAwayPlayers}"
+                    Spacing="20"
                     Grid.Column="2"
                     HorizontalOptions="Center"
-                    VerticalOptions="Center">
+                    VerticalOptions="Start"
+                    Padding="0,10,0,0">
                     <StackLayout.Triggers>
                         <DataTrigger TargetType="StackLayout" Binding="{Binding TeamAwayPlayers.Count}" Value="0">
                             <Setter Property="IsVisible" Value="False" />
@@ -324,11 +356,18 @@
                     </StackLayout.Triggers>
                     <BindableLayout.ItemTemplate>
                         <DataTemplate>
-                            <Label 
-                                Text="{Binding Source={x:Reference matchViewInstance}, Path=ActionCountAway}"
+                            <Label
                                 TextColor="White"
                                 HorizontalOptions="Center"
-                                VerticalOptions="Center"/>
+                                VerticalOptions="Center">
+                                <Label.Text>
+                                    <MultiBinding Converter="{StaticResource ActionCountMultiConverter}">
+                                        <Binding Path="Id" />
+                                        <Binding Path="AwayActionSelected" Source="{x:Reference matchViewInstance}" />
+                                    </MultiBinding>
+                                </Label.Text>
+                            </Label>
+                        
                         </DataTemplate>
                     </BindableLayout.ItemTemplate>
                 </StackLayout>
