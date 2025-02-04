@@ -352,6 +352,10 @@ public partial class MatchView : ContentPage, INotifyPropertyChanged
         var pdf = new CreatePDF();
         pdf.CrearPDF(Match.Id);
 
+        // Finalizar el partido, debería armar el PDF en esta función.
+        var pdf2 = new CreatePDF2();
+        pdf2.CrearPDF2();
+
         Simulo_BdD.CleanClubList();
         Simulo_BdD.CleanPlayerList();
         Simulo_BdD.CleanPlayerMatchList();
