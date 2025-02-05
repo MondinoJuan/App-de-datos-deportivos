@@ -58,8 +58,8 @@ public partial class ActionCreate : ContentPage
         var touchPosition = e.GetPosition((VisualElement)sender);
         if (touchPosition is not null)
         {
-            action1.DefinitionPlaceX = touchPosition.Value.X;
-            action1.DefinitionPlaceY = touchPosition.Value.Y;
+            action1.ActionPositionX = (float)touchPosition.Value.X;
+            action1.ActionPositionY = (float)touchPosition.Value.Y;
 
             // Crea una nueva marca (círculo)
             var circle = new BoxView
@@ -67,12 +67,12 @@ public partial class ActionCreate : ContentPage
                 WidthRequest = 20,
                 HeightRequest = 20,
                 BackgroundColor = Colors.Red,
-                CornerRadius = 10, // Hace que sea un círculo
-                Opacity = 1 // Un poco de transparencia
+                CornerRadius = 10,
+                Opacity = 1
             };
 
             // Calcula la posición en la pantalla
-            AbsoluteLayout.SetLayoutBounds(circle, new Rect(touchPosition.Value.X, touchPosition.Value.Y, 20, 20));
+            AbsoluteLayout.SetLayoutBounds(circle, new Rect(action1.ActionPositionX + 10, action1.ActionPositionY - 10, 20, 20));
             AbsoluteLayout.SetLayoutFlags(circle, AbsoluteLayoutFlags.None);
 
             // Añade el círculo al contenedor de marcas
@@ -88,8 +88,8 @@ public partial class ActionCreate : ContentPage
         var touchPosition = e.GetPosition((VisualElement)sender);
         if (touchPosition is not null)
         {
-            action1.DefinitionPlaceX = touchPosition.Value.X;
-            action1.DefinitionPlaceY = touchPosition.Value.Y;
+            action1.DefinitionPlaceX = (float)touchPosition.Value.X;
+            action1.DefinitionPlaceY = (float)touchPosition.Value.Y;
 
             // Crea una nueva marca (círculo)
             var circle = new BoxView
@@ -97,12 +97,12 @@ public partial class ActionCreate : ContentPage
                 WidthRequest = 20,
                 HeightRequest = 20,
                 BackgroundColor = Colors.YellowGreen,
-                CornerRadius = 10, // Hace que sea un círculo
-                Opacity = 1 // Un poco de transparencia
+                CornerRadius = 10,
+                Opacity = 1
             };
 
             // Calcula la posición en la pantalla
-            AbsoluteLayout.SetLayoutBounds(circle, new Rect(touchPosition.Value.X - 10, touchPosition.Value.Y - 10, 20, 20));
+            AbsoluteLayout.SetLayoutBounds(circle, new Rect(action1.DefinitionPlaceX - 10, action1.DefinitionPlaceY, 20, 20));
             AbsoluteLayout.SetLayoutFlags(circle, AbsoluteLayoutFlags.None);
 
             // Añade el círculo al contenedor de marcas

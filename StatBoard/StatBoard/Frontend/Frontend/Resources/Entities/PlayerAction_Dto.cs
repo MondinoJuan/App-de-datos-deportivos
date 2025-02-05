@@ -15,11 +15,11 @@ namespace Frontend.Resources.Entities
 
         public Ending Ending { get; set; }
 
-        public double ActionPositionX { get; set; }
-        public double ActionPositionY { get; set; }
+        public float ActionPositionX { get; set; }
+        public float ActionPositionY { get; set; }
 
-        public double? DefinitionPlaceX { get; set; }
-        public double? DefinitionPlaceY { get; set; }
+        public float DefinitionPlaceX { get; set; } = 0;
+        public float DefinitionPlaceY { get; set; } = 0;
 
         public Sanction Sanction { get; set; }              // Agregar a createAction
 

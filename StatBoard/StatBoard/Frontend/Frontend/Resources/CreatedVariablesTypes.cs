@@ -52,10 +52,16 @@ namespace Frontend.Resources
         Foul
     }
 
+    //public struct Coordenates
+    //{
+    //    public double? X { get; set; }
+    //    public double? Y { get; set; }
+    //}
+
     public struct Coordenates
     {
-        public double? X { get; set; }
-        public double? Y { get; set; }
+        public float X { get; set; }
+        public float Y { get; set; }
     }
 
     public enum Sanction
