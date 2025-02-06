@@ -297,24 +297,6 @@ public partial class MatchView : ContentPage, INotifyPropertyChanged
         }
     }
 
-    //public string GetActionCountForPlayer(Guid playerId, string actionType)
-    //{
-    //    var result = Simulo_BdD.GetAllPlayerMatches();
-    //    if (!result.Success) return "-";
-
-    //    var playerMatch = result.Data.FirstOrDefault(a => a.IdPlayer == playerId);
-    //    if (playerMatch?.IdActions == null) return "-";
-
-    //    if (Enum.TryParse(actionType, out Ending actionValue))
-    //    {
-    //        return playerMatch.IdActions
-    //            .Select(idAction => Simulo_BdD.GetOneAction(idAction))
-    //            .Count(result1 => result1.Success && result1.Data.Ending == actionValue).ToString();
-    //    }
-
-    //    return "-";
-    //}
-
     private void OnCancel(object sender, EventArgs e)
     {
         Simulo_BdD.CleanClubList();
@@ -364,27 +346,6 @@ public partial class MatchView : ContentPage, INotifyPropertyChanged
 
     private void RefreshView()
     {
-        //// Guardar el estado actual
-        //var currentMatch = Match;
-        //var currentLocalTeam = LocalTeam;
-        //var currentAwayTeam = AwayTeam;
-        //var currentTeamLocalPlayers = TeamLocalPlayers.ToList();
-        //var currentTeamAwayPlayers = TeamAwayPlayers.ToList();
-        //var currentLocalActionSelected = LocalActionSelected;
-        //var currentAwayActionSelected = AwayActionSelected;
-
-        //// Reinicializar la página
-        //InitializeComponent();
-
-        //// Restaurar el estado
-        //Match = currentMatch;
-        //LocalTeam = currentLocalTeam;
-        //AwayTeam = currentAwayTeam;
-        //TeamLocalPlayers = new ObservableCollection<Player_Dto>(currentTeamLocalPlayers);
-        //TeamAwayPlayers = new ObservableCollection<Player_Dto>(currentTeamAwayPlayers);
-        //LocalActionSelected = currentLocalActionSelected;
-        //AwayActionSelected = currentAwayActionSelected;
-
         // Actualizar el BindingContext
         BindingContext = this;
     }

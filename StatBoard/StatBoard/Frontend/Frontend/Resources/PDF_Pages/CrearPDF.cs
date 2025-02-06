@@ -241,20 +241,20 @@ namespace Frontend.Resources.PDF_Pages
             var infoFont = new XFont("Verdana", 12);
             if (temp.Quantity2min.HasValue)
             {
-                gfx.DrawString($"2 minutos: {temp.Quantity2min.Value}", infoFont, XBrushes.Black, new XRect(50, yPosition, pdfPage.Width, 20), 
-                    XStringFormats.TopLeft);
+                gfx.DrawString($"2 minutos: {temp.Quantity2min.Value}", infoFont, XBrushes.Black, 
+                    new XRect(50, yPosition, pdfPage.Width, 20), XStringFormats.TopLeft);
                 yPosition += 20;
             }
             if (temp.Red.HasValue)
             {
-                gfx.DrawString($"Rojas: {temp.Red.Value}", infoFont, XBrushes.Black, new XRect(50, yPosition, pdfPage.Width, 20), 
-                    XStringFormats.TopLeft);
+                gfx.DrawString($"Rojas: {temp.Red.Value}", infoFont, XBrushes.Black, 
+                    new XRect(50, yPosition, pdfPage.Width, 20), XStringFormats.TopLeft);
                 yPosition += 20;
             }
             if (temp.Blue.HasValue)
             {
-                gfx.DrawString($"Azules: {temp.Blue.Value}", infoFont, XBrushes.Black, new XRect(50, yPosition, pdfPage.Width, 20), 
-                    XStringFormats.TopLeft);
+                gfx.DrawString($"Azules: {temp.Blue.Value}", infoFont, XBrushes.Black, 
+                    new XRect(50, yPosition, pdfPage.Width, 20), XStringFormats.TopLeft);
                 yPosition += 20;
             }
         }
@@ -338,10 +338,12 @@ namespace Frontend.Resources.PDF_Pages
             }
 
             // Generar imágenes con marcas
-            string absolutePathCancha = "C:\\Users\\Pc\\Desktop\\App\\StatBoard\\StatBoard\\Frontend\\Frontend\\Resources\\Images\\cancha.png";
+            //string absolutePathCancha = "C:\\Users\\Pc\\Desktop\\App\\StatBoard\\StatBoard\\Frontend\\Frontend\\Resources\\Images\\cancha.png";
+            string absolutePathCancha = GetImagePath("cancha.png");
             string canchaWithMarksPath = GenerateMarkedImage(absolutePathCancha, marcasCampo, new SKColor(255, 0, 0, 150)); // Rojo fuerte
 
-            string absolutePathArco = "C:\\Users\\Pc\\Desktop\\App\\StatBoard\\StatBoard\\Frontend\\Frontend\\Resources\\Images\\arco.png";
+            //string absolutePathArco = "C:\\Users\\Pc\\Desktop\\App\\StatBoard\\StatBoard\\Frontend\\Frontend\\Resources\\Images\\arco.png";
+            string absolutePathArco = GetImagePath("arco.png");
             string arcoWithMarksPath = null;
             if (end == Ending.Goal || end == Ending.Miss || end == Ending.Save)
             {
@@ -412,7 +414,8 @@ namespace Frontend.Resources.PDF_Pages
             }
 
             // Generar imágenes con marcas
-            string absolutePathCancha = "C:\\Users\\Pc\\Desktop\\App\\StatBoard\\StatBoard\\Frontend\\Frontend\\Resources\\Images\\cancha.png";
+            //string absolutePathCancha = "C:\\Users\\Pc\\Desktop\\App\\StatBoard\\StatBoard\\Frontend\\Frontend\\Resources\\Images\\cancha.png";
+            string absolutePathCancha = GetImagePath("cancha.png");
             string canchaWithMarksPath = GenerateMarkedImage(absolutePathCancha, marcasCampo, new SKColor(255, 0, 0, 150)); // Rojo fuerte
 
             try
@@ -429,7 +432,8 @@ namespace Frontend.Resources.PDF_Pages
                     gfx.DrawImage(markedCanchaImage, 50, yPosition, 150, 120);
                     Console.WriteLine($"Imagen de cancha añadida al documento: {canchaWithMarksPath}");
 
-                    string absolutePathArco = "C:\\Users\\Pc\\Desktop\\App\\StatBoard\\StatBoard\\Frontend\\Frontend\\Resources\\Images\\arco.png";
+                    //string absolutePathArco = "C:\\Users\\Pc\\Desktop\\App\\StatBoard\\StatBoard\\Frontend\\Frontend\\Resources\\Images\\arco.png";
+                    string absolutePathArco = GetImagePath("arco.png");
                     string arcoWithMarksPath = GenerateMarkedImage(absolutePathArco, marcasArco, new SKColor(0, 0, 255, 150)); // Azul fuerte
                     var markedArcoImage = XImage.FromFile(arcoWithMarksPath);
                     gfx.DrawImage(markedArcoImage, 10 + 200, yPosition, 150, 100);
@@ -448,7 +452,7 @@ namespace Frontend.Resources.PDF_Pages
                     gfx.DrawImage(markedCanchaImage, 10 + 360, yPosition, 150, 120);
                     Console.WriteLine($"Imagen de cancha añadida al documento: {canchaWithMarksPath}");
 
-                    yPosition += 110; // Ajustar la posición Y para el siguiente elemento
+                    yPosition += 120; // Ajustar la posición Y para el siguiente elemento
                 }
             }
             catch (Exception ex)
@@ -459,11 +463,24 @@ namespace Frontend.Resources.PDF_Pages
             return yPosition;
         }
 
-        private string GenerateMarkedImage(string imagePath, List<Coordenates> marks, SKColor color)
+        private string GenerateMarkedImage(string imageName, List<Coordenates> marks, SKColor color)
         {
-            var outputPath = Path.Combine(Path.GetDirectoryName(imagePath), Path.GetFileNameWithoutExtension(imagePath) + "_marked.png");
+            string outputPath;
+            if (DeviceInfo.Platform == DevicePlatform.WinUI)
+            {
+                outputPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+                    "App", "StatBoard", "StatBoard", "Frontend", "Frontend", "Resources", "Images", imageName + "_marcada.png");
+            }
+            else if (DeviceInfo.Platform == DevicePlatform.Android || DeviceInfo.Platform == DevicePlatform.iOS)
+            {
+                outputPath = Path.Combine(FileSystem.AppDataDirectory, "Images", imageName + "_marcada.png");
+            }
+            else
+            {
+                outputPath = Path.Combine(FileSystem.CacheDirectory, "Images", imageName + "_marcada.png"); // Fallback
+            }
 
-            using var imageStream = File.OpenRead(imagePath);
+            using var imageStream = File.OpenRead(imageName);
             using var bitmap = SKBitmap.Decode(imageStream);
             using var canvas = new SKCanvas(bitmap);
 
@@ -633,6 +650,25 @@ namespace Frontend.Resources.PDF_Pages
             }
 
             return true;
+        }
+
+        private string GetImagePath(string imageName)
+        {
+            string imagePath;
+            if (DeviceInfo.Platform == DevicePlatform.WinUI)
+            {
+                imagePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), 
+                    "App", "StatBoard", "StatBoard", "Frontend", "Frontend", "Resources", "Images", imageName);
+            }
+            else if (DeviceInfo.Platform == DevicePlatform.Android || DeviceInfo.Platform == DevicePlatform.iOS)
+            {
+                imagePath = Path.Combine(FileSystem.AppDataDirectory, "Images", imageName);
+            }
+            else
+            {
+                imagePath = Path.Combine(FileSystem.CacheDirectory, "Images", imageName); // Fallback
+            }
+            return imagePath;
         }
     }
 }

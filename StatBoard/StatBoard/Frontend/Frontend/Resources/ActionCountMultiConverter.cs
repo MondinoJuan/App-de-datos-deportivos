@@ -1,5 +1,4 @@
-﻿// ActionCountMultiConverter.cs
-using Frontend.Resources.Entities;
+﻿using Frontend.Resources.Entities;
 using System.Globalization;
 
 namespace Frontend.Resources
