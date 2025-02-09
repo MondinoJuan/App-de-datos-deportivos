@@ -1,16 +1,29 @@
-using Microsoft.Maui.Controls;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using Frontend.Resources.Entities;
-using System;
 
 namespace Frontend
 {
-    public partial class CreateMatchPage : ContentPage
+    public partial class CreateMatchPage : ContentPage, INotifyPropertyChanged
     {
-        private bool EnableCreateBtn { get; set; } = false;
+        private bool enableCreateBtn;
+        public bool EnableCreateBtn
+        {
+            get => enableCreateBtn;
+            set
+            {
+                if (enableCreateBtn != value)
+                {
+                    enableCreateBtn = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
         public CreateMatchPage()
         {
             InitializeComponent();
+            BindingContext = this;
         }
 
         private void OnCancel(object sender, EventArgs e)
@@ -25,7 +38,6 @@ namespace Frontend
                               !string.IsNullOrEmpty(txtAwayTeam.Text) &&
                               !string.IsNullOrEmpty(txtMatchWeek.Text) &&
                               !string.IsNullOrEmpty(txtPlace.Text);
-            btnCreateMatch.IsEnabled = EnableCreateBtn;
         }
 
         private async void OnCreateMatch(object sender, EventArgs e)
@@ -74,6 +86,12 @@ namespace Frontend
             {
                 await DisplayAlert("Error", $"Ocurrió un error al crear el partido: {ex.Message}", "OK");
             }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

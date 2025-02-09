@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Frontend.Resources.Styles.Styles">
+    
+    <!--Estilo para botones "cancelar"-->
+    <Style x:Key="CancelButton" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="Red"/>
+        <Setter Property="TextColor" Value="White"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="HeightRequest" Value="40"/>
+        <Setter Property="CornerRadius" Value="5"/>
+    </Style>
+
+    <!--Estilo para botones "guardar"-->
+    <Style x:Key="SaveButton" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="Green"/>
+        <Setter Property="TextColor" Value="White"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="HeightRequest" Value="40"/>
+        <Setter Property="CornerRadius" Value="5"/>
+    </Style>
+
+    <!--Estilo para campos de texto-->
+    <Style x:Key="EntryStyle" TargetType="Entry">
+        <Setter Property="BackgroundColor" Value="Black"/>
+        <Setter Property="TextColor" Value="White"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="HeightRequest" Value="40"/>
+    </Style>
+
+    <!--Estilo para etiquetas de titulo-->
+    <Style x:Key="TitleLabel" TargetType="Label">
+        <Setter Property="FontSize" Value="24"/>
+        <Setter Property="FontAttributes" Value="Italic"/>
+        <Setter Property="HorizontalOptions" Value="Center"/>
+        <Setter Property="HorizontalTextAlignment" Value="Center"/>
+    </Style>
+
+    <!--Estilo para etiquetas de subtitulo-->
+    <Style x:Key="SubtitleLabel" TargetType="Label">
+        <Setter Property="FontSize" Value="20"/>
+        <Setter Property="FontAttributes" Value="Italic"/>
+        <Setter Property="HorizontalOptions" Value="Center"/>
+        <Setter Property="HorizontalTextAlignment" Value="Center"/>
+    </Style>
+
+    <!--Estilo para etiquetas de error-->
+    <Style x:Key="ErrorLabel" TargetType="Label">
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="FontAttributes" Value="Italic"/>
+        <Setter Property="TextColor" Value="Red"/>
+        <Setter Property="HorizontalOptions" Value="Center"/>
+        <Setter Property="HorizontalTextAlignment" Value="Center"/>
+    </Style>
+
+    <!--Estilo para etiquetas de texto-->
+    <Style x:Key="TextLabel" TargetType="Label">
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="FontAttributes" Value="Italic"/>
+        <Setter Property="TextColor" Value="White"/>
+        <Setter Property="HorizontalOptions" Value="Center"/>
+        <Setter Property="HorizontalTextAlignment" Value="Center"/>
+    </Style>
+    
+    <!--Estilo sobrio para el fondo de las paginas de la aplicacion-->
+    <Style x:Key="PageBackground" TargetType="ContentPage">
+        <Setter Property="BackgroundColor" Value="Black"/>
+    </Style>
+
+    <!--Estilo para los pickers-->
+    <Style x:Key="PickerStyle" TargetType="Picker">
+        <Setter Property="BackgroundColor" Value="Black"/>
+        <Setter Property="TextColor" Value="White"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="HeightRequest" Value="40"/>
+    </Style>
+
+    <!--Estilo para los botones de navegacion-->
+    <Style x:Key="NavigationButton" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="PaleVioletRed"/>
+        <Setter Property="TextColor" Value="Black"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="HeightRequest" Value="40"/>
+        <Setter Property="CornerRadius" Value="5"/>
+    </Style>
+
+    <!--Estilo para los botones de agregado-->
+    <Style x:Key="AddButton" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="CadetBlue"/>
+        <Setter Property="TextColor" Value="White"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="HeightRequest" Value="40"/>
+        <Setter Property="CornerRadius" Value="5"/>
+    </Style>
+    
+    <!--Estilo para los botones inhabilitados-->
+    <Style x:Key="DisabledButton" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="Gray"/>
+        <Setter Property="TextColor" Value="White"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="HeightRequest" Value="40"/>
+        <Setter Property="CornerRadius" Value="5"/>
+    </Style>
+
+</ResourceDictionary>

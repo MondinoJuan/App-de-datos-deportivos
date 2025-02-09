@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 
 namespace Frontend.Resources
 {
-    internal class Validations
+    public class Validations
     {
         // Para validar si es string "string.IsNullOrEmpty(value)"
         // Para validar si es int "int.IsEvenInteger"
@@ -19,9 +19,9 @@ namespace Frontend.Resources
         {
             if (value > 0 && value < 100)
             {
-                return false;
+                return true;
             }
-            return true;
+            return false;
         }
 
         public bool ValidateAlphabeticString(string value)
@@ -35,5 +35,8 @@ namespace Frontend.Resources
             Regex regex = new Regex("^[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ\\s]+$");
             return regex.IsMatch(value);
         }
+
+        // Validar que el maximo de jugadores a agregar sea 16.
+
     }
 }

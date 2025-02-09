@@ -75,18 +75,19 @@
                 x:Name="btnCreateMatch"
                 Text="Crear partido"
                 FontSize="18"
-                BackgroundColor="#007ACC"
                 TextColor="White"
                 CornerRadius="8"
                 HeightRequest="45"
                 Clicked="OnCreateMatch">
                 <Button.Triggers>
-                <DataTrigger TargetType="Button" Binding="{Binding EnableCreateBtn}" Value="False">
-                    <Setter Property="BackgroundColor" Value="Gray" />
-                </DataTrigger>
-                <DataTrigger TargetType="Button" Binding="{Binding EnableCreateBtn}" Value="True">
-                    <Setter Property="BackgroundColor" Value="#27AE60" />
-                </DataTrigger>
+                    <DataTrigger TargetType="Button" Binding="{Binding EnableCreateBtn}" Value="False">
+                        <Setter Property="BackgroundColor" Value="Gray" />
+                        <Setter Property="IsEnabled" Value="False" />
+                    </DataTrigger>
+                    <DataTrigger TargetType="Button" Binding="{Binding EnableCreateBtn}" Value="True">
+                        <Setter Property="BackgroundColor" Value="#007ACC" />
+                        <Setter Property="IsEnabled" Value="True" />
+                    </DataTrigger>
                 </Button.Triggers>
             </Button>
 

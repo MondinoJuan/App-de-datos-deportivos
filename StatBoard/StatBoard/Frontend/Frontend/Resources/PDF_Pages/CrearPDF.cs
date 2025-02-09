@@ -52,10 +52,13 @@ namespace Frontend.Resources.PDF_Pages
         private void BuildDocument(PdfDocument pdfDocument)
         {
             // Eliminar las imágenes marcadas
-            if (File.Exists("C:\\Users\\Pc\\Desktop\\App\\StatBoard\\StatBoard\\Frontend\\Frontend\\Resources\\Images\\cancha_marked.png"))
-                File.Delete("C:\\Users\\Pc\\Desktop\\App\\StatBoard\\StatBoard\\Frontend\\Frontend\\Resources\\Images\\cancha_marked.png");
-            if (File.Exists("C:\\Users\\Pc\\Desktop\\App\\StatBoard\\StatBoard\\Frontend\\Frontend\\Resources\\Images\\arco_marked.png"))
-                File.Delete("C:\\Users\\Pc\\Desktop\\App\\StatBoard\\StatBoard\\Frontend\\Frontend\\Resources\\Images\\arco_marked.png");
+            string canchaMarkedPath = GetImagePath("cancha_marked.png");
+            if (File.Exists(canchaMarkedPath))
+                File.Delete(canchaMarkedPath);
+
+            string arcoMarkedPath = GetImagePath("arco_marked.png");
+            if (File.Exists(arcoMarkedPath))
+                File.Delete(arcoMarkedPath);
 
             // Primera página
             var pdfPage = pdfDocument.AddPage();
@@ -469,15 +472,15 @@ namespace Frontend.Resources.PDF_Pages
             if (DeviceInfo.Platform == DevicePlatform.WinUI)
             {
                 outputPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
-                    "App", "StatBoard", "StatBoard", "Frontend", "Frontend", "Resources", "Images", imageName + "_marcada.png");
+                    "App", "StatBoard", "StatBoard", "Frontend", "Frontend", "Resources", "Images", Path.GetFileNameWithoutExtension(imageName) + "_marked.png");
             }
             else if (DeviceInfo.Platform == DevicePlatform.Android || DeviceInfo.Platform == DevicePlatform.iOS)
             {
-                outputPath = Path.Combine(FileSystem.AppDataDirectory, "Images", imageName + "_marcada.png");
+                outputPath = Path.Combine(FileSystem.AppDataDirectory, "Images", Path.GetFileNameWithoutExtension(imageName) + "_marked.png");
             }
             else
             {
-                outputPath = Path.Combine(FileSystem.CacheDirectory, "Images", imageName + "_marcada.png"); // Fallback
+                outputPath = Path.Combine(FileSystem.CacheDirectory, "Images", Path.GetFileNameWithoutExtension(imageName) + "_marked.png"); // Fallback
             }
 
             using var imageStream = File.OpenRead(imageName);
