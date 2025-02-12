@@ -3,31 +3,25 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Frontend.ActionCreate"
              Title="Registrar Acción"
-             BackgroundColor="DarkGrey">
+             Style="{StaticResource PageBackground}">
 
     <ScrollView>
         <VerticalStackLayout 
             Spacing="20" 
             Padding="20" 
-            VerticalOptions="FillAndExpand">
+            VerticalOptions="Fill">
 
             <!-- Título principal -->
-            <Label Text="Ingrese los datos de la acción"
-                   FontSize="22"
-                   FontAttributes="Bold"
-                   HorizontalOptions="Center"
-                   TextColor="#2C3E50" />
+            <Label 
+                Text="Ingrese los datos de la acción"
+                Style="{StaticResource TitleLabel}" />
 
             <!-- Selector de acción -->
-            <Picker x:Name="actionPicker"
-                    TitleColor="#2C3E50"
-                    Title="Seleccione una acción" 
-                    VerticalOptions="FillAndExpand"
-                    HorizontalOptions="FillAndExpand"
-                    TextColor="White"
-                    BackgroundColor="#2C3E50"
-                    SelectedIndexChanged="OnPickerActionSelectedIndexChanged"
-                    HeightRequest="60">
+            <Picker 
+                x:Name="actionPicker"
+                Title="Seleccione una acción" 
+                Style="{StaticResource PickerStyle}"
+                SelectedIndexChanged="OnPickerActionSelectedIndexChanged">
                 <Picker.ItemsSource>
                     <x:Array Type="{x:Type x:String}">
                         <x:String>Goal</x:String>
@@ -42,15 +36,11 @@
             </Picker>
 
             <!--Selecciono sancion-->
-            <Picker x:Name="sanctionPicker"
-                    TitleColor="#2C3E50"
-                    Title="Seleccione una sanción" 
-                    VerticalOptions="FillAndExpand"
-                    HorizontalOptions="FillAndExpand"
-                    TextColor="White"
-                    BackgroundColor="#2C3E50"
-                    SelectedIndexChanged="OnPickerSanctionSelectedIndexChanged"
-                    HeightRequest="60">
+            <Picker 
+                x:Name="sanctionPicker"
+                Title="Seleccione una sanción" 
+                Style="{StaticResource PickerStyle}"
+                SelectedIndexChanged="OnPickerSanctionSelectedIndexChanged">
                 <Picker.ItemsSource>
                     <x:Array Type="{x:Type x:String}">
                         <x:String>Two_Minutes</x:String>
@@ -66,19 +56,18 @@
                 Spacing="10" 
                 VerticalOptions="Center" 
                 HorizontalOptions="Start">
-                <Label Text="Primera mitad"
-                       FontSize="16"
-                       VerticalOptions="Center"
-                       TextColor="#2C3E50" />
-                <Switch x:Name="whichHalf"
-                        IsToggled="false"
-                        Toggled="OnSwitchToggled"
-                        OnColor="#27AE60"
-                        ThumbColor="#FFA726"/>
-                <Label Text="Segunda mitad"
-                       FontSize="16"
-                       VerticalOptions="Center"
-                       TextColor="#2C3E50" />
+                <Label 
+                    Text="Primera mitad"
+                    Style="{StaticResource TextLabel}" />
+                <Switch 
+                    x:Name="whichHalf"
+                    IsToggled="false"
+                    Toggled="OnSwitchToggled"
+                    OnColor="#27AE60"
+                    ThumbColor="#FFA726"/>
+                <Label 
+                    Text="Segunda mitad"
+                    Style="{StaticResource TextLabel}" />
             </StackLayout>
 
             <StackLayout Orientation="Horizontal"
@@ -175,38 +164,33 @@
             </StackLayout>
 
             <!-- Descripción -->
-            <Entry x:Name="txtDescription"
-                   Placeholder="Ingrese una descripción (opcional)"
-                   FontSize="16"
-                   TextChanged="OnDescriptionTextChanged" />
+            <Entry 
+               x:Name="txtDescription"
+               Placeholder="Ingrese una descripción (opcional)"
+               Style="{StaticResource EntryStyle}"
+               TextChanged="OnDescriptionTextChanged" />
 
-            <Button x:Name="btnSubmit"
-                    Text="Guardar"
-                    FontSize="16"
-                    TextColor="White"
-                    CornerRadius="10"
-                    HorizontalOptions="Fill"
-                    Command="{Binding SubmitCommand}">
+            <!--Botón: Guardar-->
+            <Button 
+                x:Name="btnSubmit"
+                Text="Guardar"
+                Command="{Binding SubmitCommand}">
                 <Button.Triggers>
                     <DataTrigger TargetType="Button" Binding="{Binding DidBtnSubmit}" Value="False">
-                        <Setter Property="BackgroundColor" Value="Gray" />
-                        <Setter Property="IsEnabled" Value="False" />
+                        <Setter Property="Style" Value="{StaticResource DisabledButton}" />
                     </DataTrigger>
                     <DataTrigger TargetType="Button" Binding="{Binding DidBtnSubmit}" Value="True">
-                        <Setter Property="BackgroundColor" Value="#27AE60" />
-                        <Setter Property="IsEnabled" Value="True" />
+                        <Setter Property="Style" Value="{StaticResource SaveButton}" />
                     </DataTrigger>
                 </Button.Triggers>
             </Button>
 
-            <Button x:Name="btnCancel"
-                    Text="Cancelar"
-                    FontSize="16"
-                    BackgroundColor="Red"
-                    TextColor="White"
-                    CornerRadius="10"
-                    HorizontalOptions="Fill" 
-                    Command="{Binding CancelCommand}"/>
+            <!-- Botón: Cancelar -->
+            <Button 
+                x:Name="btnCancel"
+                Text="Cancelar"
+                Style="{StaticResource CancelButton}"
+                Command="{Binding CancelCommand}"/>
 
         </VerticalStackLayout>
     </ScrollView>

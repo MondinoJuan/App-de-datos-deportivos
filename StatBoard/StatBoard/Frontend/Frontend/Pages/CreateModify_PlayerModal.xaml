@@ -2,7 +2,8 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Frontend.CreateModify_PlayerModal"
-             Title="Crear/Modificar Jugador">
+             Title="Crear/Modificar Jugador"
+             Style="{StaticResource PageBackground}">
 
     <ScrollView>
         <VerticalStackLayout Padding="20" Spacing="15">
@@ -10,46 +11,28 @@
             <!-- Título -->
             <Label 
                 Text="Complete los datos del nuevo jugador"
-                FontSize="24"
-                FontAttributes="Bold"
-                HorizontalOptions="Center" />
+                Style="{StaticResource TitleLabel}" />
 
             <!-- Campo: Nombre del jugador -->
             <Label 
                 Text="Nombre del jugador"
-                FontSize="16"
-                FontAttributes="Bold" />
+                Style="{StaticResource TextLabel}" />
             <Entry
                 x:Name="txtPlayerName"
                 Text="{Binding Player.Name}"
                 Placeholder="Ingrese el nombre"
-                BackgroundColor="Black"
-                FontSize="16"
-                HeightRequest="40"/>
+                Style="{StaticResource EntryStyle}" />
 
             <!-- Campo: Número del jugador -->
             <Label 
                 Text="Número del jugador"
-                FontSize="16"
-                FontAttributes="Bold" />
+                Style="{StaticResource TextLabel}" />
             <Entry
                 x:Name="txtPlayerNumber"
                 Text="{Binding Player.Number}"
                 Placeholder="Ingrese el número"
                 Keyboard="Numeric"
-                BackgroundColor="Black"
-                FontSize="16"
-                HeightRequest="40"/>
-
-            <!-- Advertencia de modificación -->
-            <!--<Label 
-                x:Name="lblModifyWarning" 
-                Text="Recuerde volver a marcar si es local o visitante." 
-                TextColor="Black"
-                BackgroundColor="Yellow"
-                FontSize="46"
-                HorizontalOptions="Center"
-                IsVisible="{Binding ModifyWarning}" />-->
+                Style="{StaticResource EntryStyle}" />
 
             <!-- Switch Local/Visitante -->
             <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
@@ -74,22 +57,12 @@
             <HorizontalStackLayout Spacing="10" Padding="10">
                 <Button 
                     Text="Guardar"
-                    BackgroundColor="Green"
-                    TextColor="White"
-                    FontSize="18"
-                    CornerRadius="10"
-                    Clicked="OnSave"
-                    WidthRequest="150"
-                    HeightRequest="50" />
+                    Style="{StaticResource SaveButton}"
+                    Clicked="OnSave"/>
                 <Button 
                     Text="Cancelar"
-                    BackgroundColor="Red"
-                    TextColor="White"
-                    FontSize="18"
-                    CornerRadius="10"
-                    Clicked="OnCancel"
-                    WidthRequest="150"
-                    HeightRequest="50" />
+                    Style="{StaticResource CancelButton}"
+                    Clicked="OnCancel" />
             </HorizontalStackLayout>
 
         </VerticalStackLayout>

@@ -5,7 +5,8 @@
              xmlns:converters="clr-namespace:Frontend.Resources"
              x:Class="Frontend.MatchView"
              x:Name="matchViewInstance"
-             Title="Vista de Partido">
+             Title="Vista de Partido"
+             Style="{StaticResource PageBackground}">
 
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -19,15 +20,10 @@
 
             <!-- Título del partido -->
             <Label x:Name="lblMatchViewTitle" 
-                   FontSize="24" 
-                   FontAttributes="Bold" 
-                   HorizontalOptions="Center" />
+                Style="{StaticResource TitleLabel}" />
 
             <Label x:Name="lblTournament" 
-                   FontSize="18" 
-                   FontAttributes="Italic" 
-                   HorizontalOptions="Center" 
-                   TextColor="Gray" />
+                Style="{StaticResource SubtitleLabel}" />
 
             <!-- Encabezado de equipos -->
             <Grid ColumnSpacing="10" Padding="10">
@@ -83,31 +79,19 @@
 
                 <Label Grid.Column="0" 
                        x:Name="lblTeamLocal" 
-                       FontSize="30"
-                       FontAttributes="Bold" 
-                       HorizontalOptions="Center" 
-                       VerticalOptions="Center" />
+                       Style="{StaticResource TextLabel}" />
 
                 <Label Grid.Column="2" 
                        x:Name="lblScoreL"
-                       FontAttributes="Bold" 
-                       FontSize="40"
-                       HorizontalOptions="Center" 
-                       VerticalOptions="Center" />
+                       Style="{StaticResource TextLabel}" />
 
                 <Label Grid.Column="3" 
                        x:Name="lblScoreA"
-                       FontAttributes="Bold"
-                       FontSize="40"
-                       HorizontalOptions="Center" 
-                       VerticalOptions="Center" />
+                       Style="{StaticResource TextLabel}" />
 
                 <Label Grid.Column="5" 
                        x:Name="lblTeamAway" 
-                       FontSize="30" 
-                       FontAttributes="Bold" 
-                       HorizontalOptions="Center" 
-                       VerticalOptions="Center" />
+                       Style="{StaticResource TextLabel}" />
             </Grid>
 
             <!-- Subtítulos de la tabla -->
@@ -166,22 +150,18 @@
                 <Label 
                     Grid.Column="0" 
                     Text="N°"
-                    FontAttributes="Bold" 
-                    HorizontalOptions="Center" 
-                    VerticalOptions="Center" />
+                    Style="{StaticResource TextLabel}" />
 
                 <Label 
-                   Grid.Column="1" Text="Nombre Jugador Local" 
-                   FontAttributes="Bold" 
-                   HorizontalOptions="Center" 
-                   VerticalOptions="Center" />
+                    Grid.Column="1" 
+                    Text="Nombre Jugador Local" 
+                    Style="{StaticResource TextLabel}" />
 
                 <Picker 
                     x:Name="pckLocalActions"
                     Grid.Column="2" 
                     Title="Acción" 
-                    HorizontalOptions="Center" 
-                    VerticalOptions="Center" 
+                    Style="{StaticResource PickerStyle}" 
                     SelectedIndexChanged="OnLocalPickerSelectedIndexChanged">
                     <Picker.ItemsSource>
                         <x:Array Type="{x:Type x:String}">
@@ -199,8 +179,7 @@
                     x:Name="pckAwayActions"
                     Grid.Column="3" 
                     Title="Acción" 
-                    HorizontalOptions="Center"
-                    VerticalOptions="Center"
+                    Style="{StaticResource PickerStyle}"
                     SelectedIndexChanged="OnAwayPickerSelectedIndexChanged">
                     <Picker.ItemsSource>
                         <x:Array Type="{x:Type x:String}">
@@ -216,17 +195,16 @@
                 </Picker>
 
                 <Label 
-                    Grid.Column="4" Text="N°" 
+                    Grid.Column="4" 
+                    Text="N°" 
                     FontAttributes="Bold" 
-                    HorizontalOptions="Center" 
-                    VerticalOptions="Center" />
+                    Style="{StaticResource TextLabel}" />
 
                 <Label 
                    Grid.Column="5" 
                    Text="Nombre Jugador Visitante" 
                    FontAttributes="Bold" 
-                   HorizontalOptions="Center" 
-                   VerticalOptions="Center" />
+                   Style="{StaticResource TextLabel}" />
             </Grid>
 
             <!-- Filas dinámicas de jugadores -->
@@ -264,8 +242,8 @@
                     x:Name="PlayerListLocal" 
                     BindableLayout.ItemsSource="{Binding TeamLocalPlayers}"
                     Grid.Column="0"
-                    HorizontalOptions="FillAndExpand" 
-                    VerticalOptions="FillAndExpand">
+                    HorizontalOptions="Fill" 
+                    VerticalOptions="Fill">
                     <StackLayout.Triggers>
                         <DataTrigger TargetType="StackLayout" Binding="{Binding TeamLocalPlayers.Count}" Value="0">
                             <Setter Property="IsVisible" Value="False" />
@@ -295,23 +273,8 @@
                     </StackLayout.Triggers>
                     <BindableLayout.ItemTemplate>
                         <DataTemplate>
-                            <!--<Label 
-                                x:Name="lblEndingsLocalPlayer"
-                                Text="{Binding Id, 
-                                    Converter={StaticResource ActionCountConverter}, 
-                                    ConverterParameter={Binding Source={x:Reference pckLocalActions}, 
-                                                        Path=SelectedItem}}" 
-                                VerticalOptions="Center" 
-                                HorizontalOptions="Center"/>-->
-                            <!--<Label 
-                                Text="{Binding Source={x:Reference matchViewInstance}, 
-                                        Path=LocalPlayerActionCounts[Id]}" 
-                                VerticalOptions="Center" 
-                                HorizontalOptions="Center"/>-->
                             <Label
-                                TextColor="White"
-                                HorizontalOptions="Center"
-                                VerticalOptions="Center">
+                                Style="{StaticResource TextLabel}">
                                 <Label.Text>
                                     <MultiBinding Converter="{StaticResource ActionCountMultiConverter}">
                                         <Binding Path="Id" />
@@ -335,9 +298,7 @@
                     </StackLayout.Triggers>
                     <Label x:Name="lblMessageLocalEmptyPlayers"
                            Text="No hay jugadores del equipo local cargados aún."
-                           TextColor="Red" 
-                           HorizontalOptions="Center"
-                           VerticalOptions="Center"/>
+                           Style="{StaticResource ErrorLabel}"/>
                 </StackLayout>
 
                 <!--Contador de endings de jugadores visitantes-->
@@ -357,9 +318,7 @@
                     <BindableLayout.ItemTemplate>
                         <DataTemplate>
                             <Label
-                                TextColor="White"
-                                HorizontalOptions="Center"
-                                VerticalOptions="Center">
+                                Style="{StaticResource TextLabel}">
                                 <Label.Text>
                                     <MultiBinding Converter="{StaticResource ActionCountMultiConverter}">
                                         <Binding Path="Id" />
@@ -376,8 +335,8 @@
                     x:Name="PlayerListAway" 
                     BindableLayout.ItemsSource="{Binding TeamAwayPlayers}"
                     Grid.Column="3"
-                    HorizontalOptions="FillAndExpand" 
-                    VerticalOptions="FillAndExpand">
+                    HorizontalOptions="Fill" 
+                    VerticalOptions="Fill">
                     <StackLayout.Triggers>
                         <DataTrigger TargetType="StackLayout" Binding="{Binding TeamAwayPlayers.Count}" Value="0">
                             <Setter Property="IsVisible" Value="False" />
@@ -406,34 +365,32 @@
                     <Label 
                        x:Name="lblMessageEmptyAwayPlayers"
                        Text="No hay jugadores del equipo visitante cargados aún."
-                       TextColor="Red" 
-                       HorizontalOptions="Center"
-                       VerticalOptions="Center"/>
+                       Style="{StaticResource ErrorLabel}" />
                 </StackLayout>
             </Grid>
 
             <!-- Botones de acción -->
             <HorizontalStackLayout Spacing="10" Padding="10">
-                <Button x:Name="btnAddPlayer"
-                        Text="Agregar jugador"
-                        BackgroundColor="Blue"
-                        TextColor="White"
-                        Margin="10"
-                        Clicked="OnAddPlayer" />
+                <Button 
+                    x:Name="btnAddPlayer"
+                    Text="Agregar jugador"
+                    Style="{StaticResource AddButton}"
+                    Margin="10"
+                    Clicked="OnAddPlayer" />
 
-                <Button x:Name="btnCancel"
-                        Text="Cancelar"
-                        BackgroundColor="Red"
-                        TextColor="White"
-                        Margin="10"
-                        Clicked="OnCancel" />
+                <Button 
+                    x:Name="btnCancel"
+                    Text="Cancelar"
+                    Style="{StaticResource CancelButton}"
+                    Margin="10"
+                    Clicked="OnCancel" />
 
-                <Button x:Name="btnFinish"
-                        Text="Finalizar"
-                        BackgroundColor="Green"
-                        TextColor="White"
-                        Margin="10"
-                        Clicked="OnFinish" />
+                <Button 
+                    x:Name="btnFinish"
+                    Text="Finalizar"
+                    Style="{StaticResource SaveButton}"
+                    Margin="10"
+                    Clicked="OnFinish" />
             </HorizontalStackLayout>
 
         </VerticalStackLayout>

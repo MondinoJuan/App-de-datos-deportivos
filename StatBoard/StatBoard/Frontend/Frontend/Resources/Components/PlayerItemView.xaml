@@ -7,8 +7,8 @@
         Padding="5"
         ColumnSpacing="10" 
         RowSpacing="0"
-        HorizontalOptions="FillAndExpand" 
-        VerticalOptions="FillAndExpand">
+        HorizontalOptions="Fill" 
+        VerticalOptions="Fill">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="30" />
             <ColumnDefinition Width="430" />
@@ -43,25 +43,20 @@
 
 
         <!-- Número del jugador -->
-        <Label Grid.Column="0"
-           TextColor="Wheat"
+        <Label 
+            Grid.Column="0"
            Text="{Binding Number}" 
-           FontSize="18" 
-           FontAttributes="Bold" 
-           HorizontalOptions="Center" 
-           VerticalOptions="Center" />
+           Style="{StaticResource TextLabel}" />
 
         <!-- Nombre del jugador -->
-        <Label Grid.Column="1" 
-           TextColor="Wheat"
+        <Label 
+           Grid.Column="1" 
            Text="{Binding Name}"
-           FontSize="16" 
-           HorizontalOptions="Center" 
-           VerticalOptions="Center" 
-           LineBreakMode="TailTruncation" />
+           Style="{StaticResource TextLabel}" />
 
         <!-- Botón de editar -->
-        <Button Grid.Column="2"
+        <Button 
+            Grid.Column="2"
             ImageSource="lapiz_edit.png"
             BackgroundColor="Wheat"
             BorderWidth="0"
@@ -73,7 +68,8 @@
             Clicked="OnEdit" />
 
         <!-- Botón de eliminar -->
-        <Button Grid.Column="2"
+        <Button 
+            Grid.Column="2"
             ImageSource="trash_can.png"
             BackgroundColor="Transparent"
             BorderWidth="0"
