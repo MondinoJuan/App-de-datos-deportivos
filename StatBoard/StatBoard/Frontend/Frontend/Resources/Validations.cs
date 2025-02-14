@@ -15,7 +15,7 @@ namespace Frontend.Resources
         // Para validar si es float "float.IsEvenFloat"
         // Para validar si es double "double.IsEvenDouble"
 
-        public bool ValidateNumber(int value)
+        public static bool ValidateNumber(int value)
         {
             if (value > 0 && value < 100)
             {
@@ -24,7 +24,7 @@ namespace Frontend.Resources
             return false;
         }
 
-        public bool ValidateAlphabeticString(string value)
+        public static bool ValidateAlphabeticString(string value)
         {
             if (string.IsNullOrEmpty(value))
             {
@@ -37,6 +37,5 @@ namespace Frontend.Resources
         }
 
         // Validar que el maximo de jugadores a agregar sea 16.
-
     }
 }

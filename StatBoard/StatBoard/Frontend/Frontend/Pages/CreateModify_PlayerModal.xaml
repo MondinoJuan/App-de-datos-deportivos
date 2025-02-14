@@ -21,7 +21,12 @@
                 x:Name="txtPlayerName"
                 Text="{Binding Player.Name}"
                 Placeholder="Ingrese el nombre"
-                Style="{StaticResource EntryStyle}" />
+                Style="{StaticResource EntryStyle}" 
+                TextChanged="OnTextChanged" />
+            <Label
+                Text="El nombre del jugador debe ser completado con caracteres correspondientes al alfabeto."
+                Style="{StaticResource ErrorLabel}" 
+                IsVisible="{Binding EnableNameErrorLabel}"/>
 
             <!-- Campo: Número del jugador -->
             <Label 
@@ -32,7 +37,12 @@
                 Text="{Binding Player.Number}"
                 Placeholder="Ingrese el número"
                 Keyboard="Numeric"
-                Style="{StaticResource EntryStyle}" />
+                Style="{StaticResource EntryStyle}" 
+                TextChanged="OnTextChanged"/>
+            <Label
+                Text="El número del jugador debe ser mayor a 0 y menor a 100."
+                Style="{StaticResource ErrorLabel}" 
+                IsVisible="{Binding EnableNumberErrorLabel}"/>
 
             <!-- Switch Local/Visitante -->
             <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
@@ -58,7 +68,17 @@
                 <Button 
                     Text="Guardar"
                     Style="{StaticResource SaveButton}"
-                    Clicked="OnSave"/>
+                    Clicked="OnSave">
+                    <Button.Triggers>
+                        <DataTrigger TargetType="Button" Binding="{Binding EnableSaveBtn}" Value="False">
+                            <Setter Property="Style" Value="{StaticResource DisabledButton}" />
+                        </DataTrigger>
+                        <DataTrigger TargetType="Button" Binding="{Binding EnableSaveBtn}" Value="True">
+                            <Setter Property="Style" Value="{StaticResource SaveButton}" />
+                        </DataTrigger>
+                    </Button.Triggers>
+                </Button>
+                
                 <Button 
                     Text="Cancelar"
                     Style="{StaticResource CancelButton}"

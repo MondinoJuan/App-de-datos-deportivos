@@ -1,14 +1,14 @@
-using Microsoft.Maui.Controls;
 using Frontend.Resources;
 using Frontend.Resources.Entities;
-using System.Threading.Tasks;
 using Microsoft.Maui.Layouts;
+using System.Threading.Tasks;
+using Microsoft.Maui.Controls;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace Frontend;
 
-public partial class ActionCreate : ContentPage
+public partial class ActionCreate : ContentPage, INotifyPropertyChanged
 {
     private PlayerAction_Dto action1 { get; set; }
     private Guid IdPlayerPasado { get; set; }
@@ -16,6 +16,7 @@ public partial class ActionCreate : ContentPage
     private TaskCompletionSource<bool> _taskCompletionSource;
 
     public ActionCreateViewModel ViewModel { get; set; }
+
 
     public ActionCreate(Guid id_Player)
     {
@@ -39,6 +40,24 @@ public partial class ActionCreate : ContentPage
             action1.Ending = (Ending)selectedIndex;
         }
         ViewModel.DidPckAction = true;
+
+        if (action1.Ending == Ending.Foul)
+        {
+            ViewModel.ActionNeedsSanction = true;
+        }
+        else
+        {
+            ViewModel.ActionNeedsSanction = false;
+        }
+
+        if (action1.Ending == Ending.Goal || action1.Ending == Ending.Miss || action1.Ending == Ending.Save)
+        {
+            ViewModel.ActionNeedsGoal = true;
+        }
+        else
+        {
+            ViewModel.ActionNeedsGoal = false;
+        }
     }
 
     private void OnPickerSanctionSelectedIndexChanged(object sender, EventArgs e)
@@ -145,6 +164,33 @@ public class ActionCreateViewModel : BaseViewModel
         this._taskCompletionSource = taskCompletionSource;
     }
 
+    private bool _actionNeedsSanction { get; set; } = false;
+    public bool ActionNeedsSanction
+    {
+        get => _actionNeedsSanction;
+        set
+        {
+            if (_actionNeedsSanction != value)
+            {
+                _actionNeedsSanction = value;
+                OnPropertyChanged();
+            }
+        }
+    }
+    private bool _actionNeedsGoal { get; set; } = false;
+    public bool ActionNeedsGoal
+    {
+        get => _actionNeedsGoal;
+        set
+        {
+            if (_actionNeedsGoal != value)
+            {
+                _actionNeedsGoal = value;
+                OnPropertyChanged();
+            }
+        }
+    }
+
     private bool _didPckAction;
     public bool DidPckAction
     {
@@ -220,7 +266,7 @@ public class ActionCreateViewModel : BaseViewModel
         }
     }
 
-    public bool DidBtnSubmit => DidPckAction && DidSwtHalf && DidFieldPlace && DidGoalPlace;
+    public bool DidBtnSubmit => DidPckAction && DidFieldPlace;
 
     public Command SubmitCommand => new Command(async () => await OnSubmit());
     public Command CancelCommand => new Command(async () => await OnCancel());

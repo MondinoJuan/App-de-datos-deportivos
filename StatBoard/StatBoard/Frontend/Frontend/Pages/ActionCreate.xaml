@@ -48,6 +48,16 @@
                         <x:String>Blue</x:String>
                     </x:Array>
                 </Picker.ItemsSource>
+                <Picker.Triggers>
+                    <DataTrigger TargetType="Picker" Binding="{Binding ActionNeedsSanction}" Value="False">
+                        <Setter Property="IsEnabled" Value="False" />
+                        <Setter Property="IsVisible" Value="False" />
+                    </DataTrigger>
+                    <DataTrigger TargetType="Picker" Binding="{Binding ActionNeedsSanction}" Value="True">
+                        <Setter Property="IsEnabled" Value="True" />
+                        <Setter Property="IsVisible" Value="True" />
+                    </DataTrigger>
+                </Picker.Triggers>
             </Picker>
 
             <!-- Selector de mitad -->
@@ -87,23 +97,28 @@
                         <RowDefinition Height="250" />
                         <RowDefinition Height="10" />
                     </Grid.RowDefinitions>
-                    <Label Text="Seleccione la posición en el campo"
-                           FontSize="16"
-                           FontAttributes="Bold"
-                           TextColor="#2C3E50"
-                           HorizontalOptions="Center" 
-                           Grid.Column="0"
-                           Grid.Row="0"
-                           InputTransparent="True"/>
+                    <Label 
+                        Text="Seleccione la posición en el campo"
+                        Style="{StaticResource TextLabel}" 
+                        Grid.Column="0"
+                        Grid.Row="0"
+                        InputTransparent="True"/>
 
-                    <Label Text="Seleccione la posición en el arco"
-                           FontSize="16"
-                           FontAttributes="Bold"
-                           TextColor="#2C3E50"
-                           HorizontalOptions="Center" 
-                           Grid.Column="1"
-                           Grid.Row="0"
-                           InputTransparent="True"/>
+                    <Label 
+                        Text="Seleccione la posición en el arco"
+                        Style="{StaticResource TextLabel}" 
+                        Grid.Column="1"
+                        Grid.Row="0"
+                        InputTransparent="True">
+                        <Label.Triggers>
+                            <DataTrigger TargetType="Label" Binding="{Binding ActionNeedsGoal}" Value="False">
+                                <Setter Property="IsVisible" Value="False" />
+                            </DataTrigger>
+                            <DataTrigger TargetType="Label" Binding="{Binding ActionNeedsGoal}" Value="True">
+                                <Setter Property="IsVisible" Value="True" />
+                            </DataTrigger>
+                        </Label.Triggers>
+                    </Label>
 
                     <!-- Matriz de campo -->
                     <AbsoluteLayout
@@ -159,6 +174,14 @@
                             InputTransparent="True">
                             <!-- Las marcas se añadirán dinámicamente aquí -->
                         </AbsoluteLayout>
+                        <AbsoluteLayout.Triggers>
+                            <DataTrigger TargetType="AbsoluteLayout" Binding="{Binding ActionNeedsGoal}" Value="False">
+                                <Setter Property="IsVisible" Value="False" />
+                            </DataTrigger>
+                            <DataTrigger TargetType="AbsoluteLayout" Binding="{Binding ActionNeedsGoal}" Value="True">
+                                <Setter Property="IsVisible" Value="True" />
+                            </DataTrigger>
+                        </AbsoluteLayout.Triggers>
                     </AbsoluteLayout>
                 </Grid>
             </StackLayout>

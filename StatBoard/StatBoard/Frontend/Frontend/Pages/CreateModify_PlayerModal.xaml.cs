@@ -1,16 +1,48 @@
 using Microsoft.Maui.Controls;
 using Frontend.Resources.Entities;
 using System.Threading.Tasks;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using Frontend.Resources;
 
 namespace Frontend;
 
-public partial class CreateModify_PlayerModal : ContentPage
+public partial class CreateModify_PlayerModal : ContentPage, INotifyPropertyChanged
 {
     private TaskCompletionSource<int> _taskCompletionSource;
     private TaskCompletionSource<Player_Dto> _playerAGuardar;
     public Player_Dto Player { get; private set; }
     public bool ModifyWarning { get; private set; }
     public bool InvModifyWarning { get; private set; }
+
+    private bool _enableSaveButton;
+    public bool EnableSaveButton
+    {
+        get => _enableSaveButton;
+        set
+        {
+            if (_enableSaveButton != value)
+            {
+                _enableSaveButton = value;
+                OnPropertyChanged();
+            }
+        }
+    }
+
+    public bool EnableNumberErrorLabel { get; set; }
+    public bool EnableNameErrorLabel { get; set; }
+
+    private void OnTextChanged(object sender, TextChangedEventArgs e)
+    {
+        EnableNumberErrorLabel = !Validations.ValidateNumber(int.Parse(txtPlayerNumber.Text));
+
+        EnableNameErrorLabel = !Validations.ValidateAlphabeticString(txtPlayerName.Text);
+
+        EnableSaveButton = !string.IsNullOrEmpty(txtPlayerName.Text) &&
+                           !string.IsNullOrEmpty(txtPlayerNumber.Text) &&
+                           Validations.ValidateNumber(int.Parse(txtPlayerNumber.Text)) &&
+                           Validations.ValidateAlphabeticString(txtPlayerName.Text);
+    }
 
     public CreateModify_PlayerModal()
     {
@@ -105,5 +137,11 @@ public partial class CreateModify_PlayerModal : ContentPage
     public Task<Player_Dto> GetPlayerAsync()
     {
         return _playerAGuardar.Task;
+    }
+
+    public event PropertyChangedEventHandler PropertyChanged;
+    protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }
