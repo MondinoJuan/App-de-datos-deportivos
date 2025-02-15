@@ -15,12 +15,19 @@ namespace Frontend.Resources
         // Para validar si es float "float.IsEvenFloat"
         // Para validar si es double "double.IsEvenDouble"
 
-        public static bool ValidateNumber(int value)
+        public static bool ValidateNumber(string value)
         {
-            if (value > 0 && value < 100)
+            Regex regex = new Regex(@"^\d+$");
+            if (!regex.IsMatch(value))
             {
-                return true;
+                return false;
             }
+
+            if (int.TryParse(value, out int ayuda))
+            {
+                return ayuda > 0 && ayuda < 100;
+            }
+
             return false;
         }
 

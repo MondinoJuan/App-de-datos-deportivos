@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Frontend.Pages.ShowMiddleGame"
+             Title="ShowMiddleGame"
+             Style="{StaticResource PageBackground}">
+
+    <Grid RowDefinitions="*, Auto">
+        <ScrollView
+            Grid.Row="1">
+            <VerticalStackLayout>
+                <Label
+                    Text="Acciones actuales"
+                    Style="{StaticResource TitleLabel}"/>
+
+                <HorizontalStackLayout
+                    Padding="10">
+                    <Label
+                        Text="Fecha: "
+                        Style="{StaticResource TextLabel}"/>
+                    <Label
+                        x:Name="lblMatchWeek"
+                        Style="{StaticResource TextLabel}"/>
+
+                    <Label
+                        Text="Cancha: "
+                        Style="{StaticResource TextLabel}"/>
+                    <Label
+                        x:Name="lblPlace"
+                        Style="{StaticResource TextLabel}"/>
+
+                    <Label
+                        Text="Día: "
+                        Style="{StaticResource TextLabel}"/>
+                    <Label
+                        x:Name="lblDay"
+                        Style="{StaticResource TextLabel}"/>
+                   
+                </HorizontalStackLayout>
+
+                <Label 
+                    Text="Acciones equipo local"
+                    Style="{StaticResource SubtitleLabel}"/>
+
+                <StackLayout
+                    x:Name="stkLocalTeam"
+                    Style="{StaticResource TextLabel}"
+                    BindableLayout.ItemsSource="{Binding TeamLocalPlayers}">
+                    <StackLayout.Triggers>
+                        <DataTrigger TargetType="StackLayout" Binding="{Binding TeamLocalPlayers.Count}" Value="0">
+                            <Setter Property="IsVisible" Value="False" />
+                        </DataTrigger>
+                    </StackLayout.Triggers>
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <!--Agregar "pagina" del equipo local-->
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </StackLayout>
+
+                <Label 
+                    Text="Acciones equipo visitante"
+                    Style="{StaticResource SubtitleLabel}"/>
+
+                <StackLayout
+                    x:Name="stkLocalTeam"
+                    Style="{StaticResource TextLabel}"
+                    BindableLayout.ItemsSource="{Binding TeamLocalPlayers}">
+                    <StackLayout.Triggers>
+                        <DataTrigger TargetType="StackLayout" Binding="{Binding TeamLocalPlayers.Count}" Value="0">
+                            <Setter Property="IsVisible" Value="False" />
+                        </DataTrigger>
+                    </StackLayout.Triggers>
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <!--Agregar "pagina" del equipo visitante-->
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </StackLayout>
+
+                <Label 
+                    Text="Acciones equipo local"
+                    Style="{StaticResource SubtitleLabel}"/>
+
+                <StackLayout
+                    x:Name="stkLocalTeam"
+                    Style="{StaticResource TextLabel}"
+                    BindableLayout.ItemsSource="{Binding TeamLocalPlayers}">
+                    <StackLayout.Triggers>
+                        <DataTrigger TargetType="StackLayout" Binding="{Binding TeamLocalPlayers.Count}" Value="0">
+                            <Setter Property="IsVisible" Value="False" />
+                        </DataTrigger>
+                    </StackLayout.Triggers>
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <!--Agregar "pagina" del jugador-->
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </StackLayout>
+
+                <Label 
+                    Text="Acciones de los jugadores visitantes"
+                    Style="{StaticResource SubtitleLabel}"/>
+
+                <StackLayout
+                    x:Name="stkLocalTeam"
+                    Style="{StaticResource TextLabel}"
+                    BindableLayout.ItemsSource="{Binding TeamLocalPlayers}">
+                    <StackLayout.Triggers>
+                        <DataTrigger TargetType="StackLayout" Binding="{Binding TeamAwayPlayers.Count}" Value="0">
+                            <Setter Property="IsVisible" Value="False" />
+                        </DataTrigger>
+                    </StackLayout.Triggers>
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <!--Agregar "pagina" del jugador-->
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </StackLayout>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <Button
+            Grid.Row="1"
+            x:Name="btnGoBack"
+            Text="Volver"
+            Style="{StaticResource NavigationButton}"
+            Clicked="OnGoBack"/>
+    </Grid>
+
+       
+</ContentPage>

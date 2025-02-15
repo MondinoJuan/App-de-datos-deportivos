@@ -343,14 +343,14 @@ namespace Frontend.Resources.PDF_Pages
             // Generar imágenes con marcas
             //string absolutePathCancha = "C:\\Users\\Pc\\Desktop\\App\\StatBoard\\StatBoard\\Frontend\\Frontend\\Resources\\Images\\cancha.png";
             string absolutePathCancha = GetImagePath("cancha.png");
-            string canchaWithMarksPath = GenerateMarkedImage(absolutePathCancha, marcasCampo, new SKColor(255, 0, 0, 150)); // Rojo fuerte
+            string canchaWithMarksPath = GenerateMarkedImage(absolutePathCancha, marcasCampo, new SKColor(255, 0, 0, 180)); // Rojo fuerte
 
             //string absolutePathArco = "C:\\Users\\Pc\\Desktop\\App\\StatBoard\\StatBoard\\Frontend\\Frontend\\Resources\\Images\\arco.png";
             string absolutePathArco = GetImagePath("arco.png");
             string arcoWithMarksPath = null;
             if (end == Ending.Goal || end == Ending.Miss || end == Ending.Save)
             {
-                arcoWithMarksPath = GenerateMarkedImage(absolutePathArco, marcasArco, new SKColor(0, 0, 255, 150)); // Azul fuerte
+                arcoWithMarksPath = GenerateMarkedImage(absolutePathArco, marcasArco, new SKColor(0, 0, 255, 180)); // Azul fuerte
             }
 
             try
@@ -419,7 +419,7 @@ namespace Frontend.Resources.PDF_Pages
             // Generar imágenes con marcas
             //string absolutePathCancha = "C:\\Users\\Pc\\Desktop\\App\\StatBoard\\StatBoard\\Frontend\\Frontend\\Resources\\Images\\cancha.png";
             string absolutePathCancha = GetImagePath("cancha.png");
-            string canchaWithMarksPath = GenerateMarkedImage(absolutePathCancha, marcasCampo, new SKColor(255, 0, 0, 150)); // Rojo fuerte
+            string canchaWithMarksPath = GenerateMarkedImage(absolutePathCancha, marcasCampo, new SKColor(255, 0, 0, 180)); // Rojo fuerte
 
             try
             {
@@ -437,7 +437,7 @@ namespace Frontend.Resources.PDF_Pages
 
                     //string absolutePathArco = "C:\\Users\\Pc\\Desktop\\App\\StatBoard\\StatBoard\\Frontend\\Frontend\\Resources\\Images\\arco.png";
                     string absolutePathArco = GetImagePath("arco.png");
-                    string arcoWithMarksPath = GenerateMarkedImage(absolutePathArco, marcasArco, new SKColor(0, 0, 255, 150)); // Azul fuerte
+                    string arcoWithMarksPath = GenerateMarkedImage(absolutePathArco, marcasArco, new SKColor(0, 0, 255, 180)); // Azul fuerte
                     var markedArcoImage = XImage.FromFile(arcoWithMarksPath);
                     gfx.DrawImage(markedArcoImage, 10 + 200, yPosition, 150, 100);
                     Console.WriteLine($"Imagen de arco añadida al documento: {arcoWithMarksPath}");

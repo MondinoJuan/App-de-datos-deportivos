@@ -29,25 +29,38 @@ public partial class CreateModify_PlayerModal : ContentPage, INotifyPropertyChan
         }
     }
 
-    public bool EnableNumberErrorLabel { get; set; }
-    public bool EnableNameErrorLabel { get; set; }
-
-    private void OnTextChanged(object sender, TextChangedEventArgs e)
+    private bool _enableNumberErrorLabel = false;
+    public bool EnableNumberErrorLabel
     {
-        EnableNumberErrorLabel = !Validations.ValidateNumber(int.Parse(txtPlayerNumber.Text));
-
-        EnableNameErrorLabel = !Validations.ValidateAlphabeticString(txtPlayerName.Text);
-
-        EnableSaveButton = !string.IsNullOrEmpty(txtPlayerName.Text) &&
-                           !string.IsNullOrEmpty(txtPlayerNumber.Text) &&
-                           Validations.ValidateNumber(int.Parse(txtPlayerNumber.Text)) &&
-                           Validations.ValidateAlphabeticString(txtPlayerName.Text);
+        get => _enableNumberErrorLabel;
+        set
+        {
+            if (_enableNumberErrorLabel != value)
+            {
+                _enableNumberErrorLabel = value;
+                OnPropertyChanged();
+            }
+        }
+    }
+    private bool _enableNameErrorLabel = false;
+    public bool EnableNameErrorLabel
+    {
+        get => _enableNameErrorLabel;
+        set
+        {
+            if (_enableNameErrorLabel != value)
+            {
+                _enableNameErrorLabel = value;
+                OnPropertyChanged();
+            }
+        }
     }
 
     public CreateModify_PlayerModal()
     {
         InitializeComponent();
         ModifyWarning = false;
+        EnableSaveButton = false;
         InvModifyWarning = !ModifyWarning;
         Player = new Player_Dto();
         Player.Id = Guid.NewGuid();
@@ -60,12 +73,32 @@ public partial class CreateModify_PlayerModal : ContentPage, INotifyPropertyChan
     {
         InitializeComponent();
         ModifyWarning = true;
+        EnableSaveButton = false;
         InvModifyWarning = !ModifyWarning;
         Player = player;
         CompleteFields();
         _taskCompletionSource = new TaskCompletionSource<int>();
         _playerAGuardar = new TaskCompletionSource<Player_Dto>();
         BindingContext = this;
+    }
+
+    private void OnTextChanged(object sender, TextChangedEventArgs e)
+    {
+        if (!string.IsNullOrEmpty(txtPlayerNumber.Text))
+        {
+            EnableNumberErrorLabel = !Validations.ValidateNumber(txtPlayerNumber.Text);
+
+        }
+
+        if (!string.IsNullOrEmpty(txtPlayerName.Text))
+        {
+            EnableNameErrorLabel = !Validations.ValidateAlphabeticString(txtPlayerName.Text);
+
+        }
+
+        EnableSaveButton = !EnableNumberErrorLabel && !EnableNameErrorLabel &&
+                      !string.IsNullOrWhiteSpace(txtPlayerName.Text) &&
+                      !string.IsNullOrWhiteSpace(txtPlayerNumber.Text);
     }
 
     private void CompleteFields()

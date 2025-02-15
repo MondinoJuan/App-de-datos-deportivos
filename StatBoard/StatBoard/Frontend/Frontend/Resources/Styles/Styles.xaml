@@ -13,7 +13,7 @@
         <Setter Property="BackgroundColor" Value="Red"/>
         <Setter Property="TextColor" Value="White"/>
         <Setter Property="FontSize" Value="16"/>
-        <Setter Property="WhidthRequest" Value="150"/>
+        <Setter Property="WidthRequest" Value="150"/>
         <Setter Property="HeightRequest" Value="50"/>
         <Setter Property="CornerRadius" Value="10"/>
     </Style>
@@ -23,7 +23,7 @@
         <Setter Property="BackgroundColor" Value="Green"/>
         <Setter Property="TextColor" Value="White"/>
         <Setter Property="FontSize" Value="16"/>
-        <Setter Property="WhidthRequest" Value="150"/>
+        <Setter Property="WidthRequest" Value="150"/>
         <Setter Property="HeightRequest" Value="50"/>
         <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="IsEnabled" Value="True"/>
@@ -31,10 +31,10 @@
 
     <!--Estilo para los botones de navegacion-->
     <Style x:Key="NavigationButton" TargetType="Button">
-        <Setter Property="BackgroundColor" Value="PaleVioletRed"/>
+        <Setter Property="BackgroundColor" Value="CadetBlue"/>
         <Setter Property="TextColor" Value="Black"/>
         <Setter Property="FontSize" Value="16"/>
-        <Setter Property="WhidthRequest" Value="150"/>
+        <Setter Property="WidthRequest" Value="150"/>
         <Setter Property="HeightRequest" Value="50"/>
         <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="IsEnabled" Value="True"/>
@@ -42,10 +42,10 @@
 
     <!--Estilo para los botones de agregado-->
     <Style x:Key="AddButton" TargetType="Button">
-        <Setter Property="BackgroundColor" Value="CadetBlue"/>
+        <Setter Property="BackgroundColor" Value="#8308FF"/>
         <Setter Property="TextColor" Value="White"/>
         <Setter Property="FontSize" Value="16"/>
-        <Setter Property="WhidthRequest" Value="150"/>
+        <Setter Property="WidthRequest" Value="150"/>
         <Setter Property="HeightRequest" Value="50"/>
         <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="IsEnabled" Value="True"/>
@@ -56,7 +56,7 @@
         <Setter Property="BackgroundColor" Value="Gray"/>
         <Setter Property="TextColor" Value="White"/>
         <Setter Property="FontSize" Value="16"/>
-        <Setter Property="WhidthRequest" Value="150"/>
+        <Setter Property="WidthRequest" Value="150"/>
         <Setter Property="HeightRequest" Value="50"/>
         <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="IsEnabled" Value="False"/>
@@ -110,9 +110,17 @@
         <Setter Property="BackgroundColor" Value="Black"/>
         <Setter Property="TextColor" Value="White"/>
         <Setter Property="FontSize" Value="16"/>
-        <Setter Property="HeightRequest" Value="40"/>
+        <Setter Property="HeightRequest" Value="70"/>
     </Style>
 
-    
+    <!--Estilo para las imagenes-->
+    <Style x:Key="ImageStyle" TargetType="Image">
+        <Setter Property="WidthRequest" Value="300"/>
+        <Setter Property="HeightRequest" Value="250"/>
+        <Setter Property="Aspect" Value="AspectFit"/>
+        <Setter Property="HorizontalOptions" Value="Center"/>
+        <Setter Property="VerticalOptions" Value="Center"/>
+        <Setter Property="BackgroundColor" Value="Transparent"/>
+    </Style>
 
 </ResourceDictionary>

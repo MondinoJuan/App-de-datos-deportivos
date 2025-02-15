@@ -19,8 +19,7 @@
                 Style="{StaticResource TextLabel}" />
             <Entry
                 x:Name="txtPlayerName"
-                Text="{Binding Player.Name}"
-                Placeholder="Ingrese el nombre"
+                Placeholder="Nombre del jugador"
                 Style="{StaticResource EntryStyle}" 
                 TextChanged="OnTextChanged" />
             <Label
@@ -34,9 +33,7 @@
                 Style="{StaticResource TextLabel}" />
             <Entry
                 x:Name="txtPlayerNumber"
-                Text="{Binding Player.Number}"
-                Placeholder="Ingrese el número"
-                Keyboard="Numeric"
+                Placeholder="Número"
                 Style="{StaticResource EntryStyle}" 
                 TextChanged="OnTextChanged"/>
             <Label

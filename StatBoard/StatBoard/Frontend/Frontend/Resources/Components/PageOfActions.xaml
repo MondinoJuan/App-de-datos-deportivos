@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Frontend.Resources.Components.PageOfActions">
+    <VerticalStackLayout>
+        <Label
+            x:Name="lblTitle"
+            Style="{StaticResource TitleLabel}"
+            />
+
+        <Grid
+            RowSpacing="10"
+            ColumnSpacing="10" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <!--Muestro bloqueos-->
+            <HorizontalStackLayout Grid.Row="0" Grid.Column="0">
+                <Label
+                    Text="Bloqueos: "
+                    Style="{StaticResource TextLabel}"
+                    />
+                <Label
+                    x:Name="lblBlockings"
+                    Style="{StaticResource TextLabel}"
+                    />
+                <AbsoluteLayout>
+                    <!-- Imagen de fondo -->
+                    <Image
+                        Source="cancha.png"
+                        Style="{StaticResource ImageStyle}"
+                        />
+
+                    <!-- Contenedor dinámico para marcas -->
+                    <AbsoluteLayout 
+                        x:Name="markContainerBlockeds"
+                        AbsoluteLayout.LayoutBounds="0,0,1,1"
+                        AbsoluteLayout.LayoutFlags="All"
+                        ZIndex="10"
+                        InputTransparent="True">
+                        <!-- Las marcas se añadirán dinámicamente aquí -->
+                    </AbsoluteLayout>
+                </AbsoluteLayout>
+            </HorizontalStackLayout>
+            
+            <!--Muestro goles-->
+            <HorizontalStackLayout Grid.Row="0" Grid.Column="1">
+                <Label
+                    Text="Bloqueos: "
+                    Style="{StaticResource TextLabel}"
+                    />
+                <Label
+                    x:Name="lblBlockings"
+                    Style="{StaticResource TextLabel}"
+                    />
+                <AbsoluteLayout>
+                    <!-- Imagen de fondo -->
+                    <Image
+                        Source="cancha.png"
+                        Style="{StaticResource ImageStyle}"
+                        />
+
+                    <!-- Contenedor dinámico para marcas -->
+                    <AbsoluteLayout 
+                        x:Name="markContainerGoalsField"
+                        AbsoluteLayout.LayoutBounds="0,0,1,1"
+                        AbsoluteLayout.LayoutFlags="All"
+                        ZIndex="10"
+                        InputTransparent="True">
+                        <!-- Las marcas se añadirán dinámicamente aquí -->
+                    </AbsoluteLayout>
+                </AbsoluteLayout>
+                <AbsoluteLayout>
+                    <!-- Imagen de fondo -->
+                    <Image
+                        Source="arco.png"
+                        Style="{StaticResource ImageStyle}"
+                        />
+
+                    <!-- Contenedor dinámico para marcas -->
+                    <AbsoluteLayout 
+                        x:Name="markContainerGoalsGoal"
+                        AbsoluteLayout.LayoutBounds="0,0,1,1"
+                        AbsoluteLayout.LayoutFlags="All"
+                        ZIndex="10"
+                        InputTransparent="True">
+                        <!-- Las marcas se añadirán dinámicamente aquí -->
+                    </AbsoluteLayout>
+                </AbsoluteLayout>
+            </HorizontalStackLayout>
+
+            <!--Muestro robos-->
+            <HorizontalStackLayout Grid.Row="1" Grid.Column="0">
+                <Label
+                    Text="Pelotas robadas: "
+                    Style="{StaticResource TextLabel}"
+                    />
+                <Label
+                    x:Name="lblSteals_W"
+                    Style="{StaticResource TextLabel}"
+                    />
+                <AbsoluteLayout>
+                    <!-- Imagen de fondo -->
+                    <Image
+                        Source="cancha.png"
+                        Style="{StaticResource ImageStyle}"
+                        />
+
+                    <!-- Contenedor dinámico para marcas -->
+                    <AbsoluteLayout 
+                        x:Name="markContainerSteals_W"
+                        AbsoluteLayout.LayoutBounds="0,0,1,1"
+                        AbsoluteLayout.LayoutFlags="All"
+                        ZIndex="10"
+                        InputTransparent="True">
+                        <!-- Las marcas se añadirán dinámicamente aquí -->
+                    </AbsoluteLayout>
+                </AbsoluteLayout>
+            </HorizontalStackLayout>
+
+            <!--Muestro saves-->
+            <HorizontalStackLayout Grid.Row="1" Grid.Column="1">
+                <Label
+                    Text="Atajadas: "
+                    Style="{StaticResource TextLabel}"
+                    />
+                <Label
+                    x:Name="lblSaves"
+                    Style="{StaticResource TextLabel}"
+                    />
+                <AbsoluteLayout>
+                    <!-- Imagen de fondo -->
+                    <Image
+                        Source="cancha.png"
+                        Style="{StaticResource ImageStyle}"
+                        />
+
+                    <!-- Contenedor dinámico para marcas -->
+                    <AbsoluteLayout 
+                        x:Name="markContainerSavesField"
+                        AbsoluteLayout.LayoutBounds="0,0,1,1"
+                        AbsoluteLayout.LayoutFlags="All"
+                        ZIndex="10"
+                        InputTransparent="True">
+                        <!-- Las marcas se añadirán dinámicamente aquí -->
+                    </AbsoluteLayout>
+                </AbsoluteLayout>
+                <AbsoluteLayout>
+                    <!-- Imagen de fondo -->
+                    <Image
+                        Source="arco.png"
+                        Style="{StaticResource ImageStyle}"
+                        />
+
+                    <!-- Contenedor dinámico para marcas -->
+                    <AbsoluteLayout 
+                        x:Name="markContainerSavesGoal"
+                        AbsoluteLayout.LayoutBounds="0,0,1,1"
+                        AbsoluteLayout.LayoutFlags="All"
+                        ZIndex="10"
+                        InputTransparent="True">
+                        <!-- Las marcas se añadirán dinámicamente aquí -->
+                    </AbsoluteLayout>
+                </AbsoluteLayout>
+            </HorizontalStackLayout>
+
+            <!--Muestro perdidas-->
+            <HorizontalStackLayout Grid.Row="2" Grid.Column="0">
+                <Label
+                    Text="Pelotas perdidas: "
+                    Style="{StaticResource TextLabel}"
+                    />
+                <Label
+                    x:Name="lblSteals_L"
+                    Style="{StaticResource TextLabel}"
+                    />
+                <AbsoluteLayout>
+                    <!-- Imagen de fondo -->
+                    <Image
+                        Source="cancha.png"
+                        Style="{StaticResource ImageStyle}"
+                        />
+
+                    <!-- Contenedor dinámico para marcas -->
+                    <AbsoluteLayout 
+                        x:Name="markContainerSteals_L"
+                        AbsoluteLayout.LayoutBounds="0,0,1,1"
+                        AbsoluteLayout.LayoutFlags="All"
+                        ZIndex="10"
+                        InputTransparent="True">
+                        <!-- Las marcas se añadirán dinámicamente aquí -->
+                    </AbsoluteLayout>
+                </AbsoluteLayout>
+            </HorizontalStackLayout>
+
+            <!--Muestro erradas-->
+            <HorizontalStackLayout Grid.Row="2" Grid.Column="1">
+                <Label
+                    Text="Tiros fuera: "
+                    Style="{StaticResource TextLabel}"
+                    />
+                <Label
+                    x:Name="lblMisses"
+                    Style="{StaticResource TextLabel}"
+                    />
+                <AbsoluteLayout>
+                    <!-- Imagen de fondo -->
+                    <Image
+                        Source="cancha.png"
+                        Style="{StaticResource ImageStyle}"
+                        />
+
+                    <!-- Contenedor dinámico para marcas -->
+                    <AbsoluteLayout 
+                        x:Name="markContainerMissesField"
+                        AbsoluteLayout.LayoutBounds="0,0,1,1"
+                        AbsoluteLayout.LayoutFlags="All"
+                        ZIndex="10"
+                        InputTransparent="True">
+                        <!-- Las marcas se añadirán dinámicamente aquí -->
+                    </AbsoluteLayout>
+                </AbsoluteLayout>
+                <AbsoluteLayout>
+                    <!-- Imagen de fondo -->
+                    <Image
+                        Source="arco.png"
+                        Style="{StaticResource ImageStyle}"
+                        />
+
+                    <!-- Contenedor dinámico para marcas -->
+                    <AbsoluteLayout 
+                        x:Name="markContainerMissesGoal"
+                        AbsoluteLayout.LayoutBounds="0,0,1,1"
+                        AbsoluteLayout.LayoutFlags="All"
+                        ZIndex="10"
+                        InputTransparent="True">
+                        <!-- Las marcas se añadirán dinámicamente aquí -->
+                    </AbsoluteLayout>
+                </AbsoluteLayout>
+            </HorizontalStackLayout>
+
+            <!--Muestro foules-->
+            <HorizontalStackLayout Grid.Row="3" Grid.Column="0">
+                <Label
+                    Text="Foules: "
+                    Style="{StaticResource TextLabel}"
+                    />
+                <Label
+                    x:Name="lblFouls"
+                    Style="{StaticResource TextLabel}"
+                    />
+                <AbsoluteLayout>
+                    <!-- Imagen de fondo -->
+                    <Image
+                        Source="cancha.png"
+                        Style="{StaticResource ImageStyle}"
+                        />
+
+                    <!-- Contenedor dinámico para marcas -->
+                    <AbsoluteLayout 
+                        x:Name="markContainerFouls"
+                        AbsoluteLayout.LayoutBounds="0,0,1,1"
+                        AbsoluteLayout.LayoutFlags="All"
+                        ZIndex="10"
+                        InputTransparent="True">
+                        <!-- Las marcas se añadirán dinámicamente aquí -->
+                    </AbsoluteLayout>
+                </AbsoluteLayout>
+            </HorizontalStackLayout>
+
+            <!--Muestro cantidad de sanciones-->
+            <VerticalStackLayout Grid.Row="3" Grid.Column="1">
+                <Label
+                    Text="Dos minutos: "
+                    Style="{StaticResource TextLabel}"
+                    />
+                <Label
+                    x:Name="lblTwoMinutes"
+                    Style="{StaticResource TextLabel}"
+                    />
+                <Label
+                    Text="Tarjetas rojas: "
+                    Style="{StaticResource TextLabel}"
+                    />
+                <Label
+                    x:Name="lblRedCards"
+                    Style="{StaticResource TextLabel}"
+                    />
+                <Label
+                    Text="Tarjetas azules: "
+                    Style="{StaticResource TextLabel}"
+                    />
+                <Label
+                    x:Name="lblBlueCards"
+                    Style="{StaticResource TextLabel}"
+                    />
+            </VerticalStackLayout>
+
+        </Grid>
+
+    </VerticalStackLayout>
+</ContentView>
