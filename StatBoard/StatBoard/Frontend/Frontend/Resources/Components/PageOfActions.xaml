@@ -29,7 +29,7 @@
                     Style="{StaticResource TextLabel}"
                     />
                 <Label
-                    x:Name="lblBlockings"
+                    x:Name="lblBlockeds"
                     Style="{StaticResource TextLabel}"
                     />
                 <AbsoluteLayout>
@@ -44,7 +44,6 @@
                         x:Name="markContainerBlockeds"
                         AbsoluteLayout.LayoutBounds="0,0,1,1"
                         AbsoluteLayout.LayoutFlags="All"
-                        ZIndex="10"
                         InputTransparent="True">
                         <!-- Las marcas se añadirán dinámicamente aquí -->
                     </AbsoluteLayout>
@@ -54,11 +53,11 @@
             <!--Muestro goles-->
             <HorizontalStackLayout Grid.Row="0" Grid.Column="1">
                 <Label
-                    Text="Bloqueos: "
+                    Text="Goles: "
                     Style="{StaticResource TextLabel}"
                     />
                 <Label
-                    x:Name="lblBlockings"
+                    x:Name="lblGoals"
                     Style="{StaticResource TextLabel}"
                     />
                 <AbsoluteLayout>
@@ -73,7 +72,6 @@
                         x:Name="markContainerGoalsField"
                         AbsoluteLayout.LayoutBounds="0,0,1,1"
                         AbsoluteLayout.LayoutFlags="All"
-                        ZIndex="10"
                         InputTransparent="True">
                         <!-- Las marcas se añadirán dinámicamente aquí -->
                     </AbsoluteLayout>
@@ -90,7 +88,6 @@
                         x:Name="markContainerGoalsGoal"
                         AbsoluteLayout.LayoutBounds="0,0,1,1"
                         AbsoluteLayout.LayoutFlags="All"
-                        ZIndex="10"
                         InputTransparent="True">
                         <!-- Las marcas se añadirán dinámicamente aquí -->
                     </AbsoluteLayout>
@@ -119,7 +116,6 @@
                         x:Name="markContainerSteals_W"
                         AbsoluteLayout.LayoutBounds="0,0,1,1"
                         AbsoluteLayout.LayoutFlags="All"
-                        ZIndex="10"
                         InputTransparent="True">
                         <!-- Las marcas se añadirán dinámicamente aquí -->
                     </AbsoluteLayout>
@@ -148,7 +144,6 @@
                         x:Name="markContainerSavesField"
                         AbsoluteLayout.LayoutBounds="0,0,1,1"
                         AbsoluteLayout.LayoutFlags="All"
-                        ZIndex="10"
                         InputTransparent="True">
                         <!-- Las marcas se añadirán dinámicamente aquí -->
                     </AbsoluteLayout>
@@ -165,7 +160,6 @@
                         x:Name="markContainerSavesGoal"
                         AbsoluteLayout.LayoutBounds="0,0,1,1"
                         AbsoluteLayout.LayoutFlags="All"
-                        ZIndex="10"
                         InputTransparent="True">
                         <!-- Las marcas se añadirán dinámicamente aquí -->
                     </AbsoluteLayout>
@@ -194,7 +188,6 @@
                         x:Name="markContainerSteals_L"
                         AbsoluteLayout.LayoutBounds="0,0,1,1"
                         AbsoluteLayout.LayoutFlags="All"
-                        ZIndex="10"
                         InputTransparent="True">
                         <!-- Las marcas se añadirán dinámicamente aquí -->
                     </AbsoluteLayout>
@@ -223,7 +216,6 @@
                         x:Name="markContainerMissesField"
                         AbsoluteLayout.LayoutBounds="0,0,1,1"
                         AbsoluteLayout.LayoutFlags="All"
-                        ZIndex="10"
                         InputTransparent="True">
                         <!-- Las marcas se añadirán dinámicamente aquí -->
                     </AbsoluteLayout>
@@ -240,7 +232,6 @@
                         x:Name="markContainerMissesGoal"
                         AbsoluteLayout.LayoutBounds="0,0,1,1"
                         AbsoluteLayout.LayoutFlags="All"
-                        ZIndex="10"
                         InputTransparent="True">
                         <!-- Las marcas se añadirán dinámicamente aquí -->
                     </AbsoluteLayout>
@@ -269,7 +260,6 @@
                         x:Name="markContainerFouls"
                         AbsoluteLayout.LayoutBounds="0,0,1,1"
                         AbsoluteLayout.LayoutFlags="All"
-                        ZIndex="10"
                         InputTransparent="True">
                         <!-- Las marcas se añadirán dinámicamente aquí -->
                     </AbsoluteLayout>
@@ -306,5 +296,9 @@
 
         </Grid>
 
+        <BoxView
+            HeightRequest="1" 
+            BackgroundColor="White"
+            VerticalOptions="Start"/>
     </VerticalStackLayout>
 </ContentView>

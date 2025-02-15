@@ -2,6 +2,7 @@
 using SkiaSharp;
 using PdfSharp.Pdf;
 using Frontend.Resources.Entities;
+using Frontend.Resources;
 using System.Text.RegularExpressions;
 
 namespace Frontend.Resources.PDF_Pages
@@ -174,7 +175,7 @@ namespace Frontend.Resources.PDF_Pages
                         var playerL = resultL.Data;
                         gfx.DrawString(playerL.Number.ToString(), normalFont, XBrushes.DarkGray, new XPoint(xStart + 10, currentY + 15));
                         gfx.DrawString(playerL.Name, normalFont, XBrushes.DarkGray, new XPoint(xStart + 30, currentY + 15));
-                        gfx.DrawString(CountEndings(Match.Id, playerL.Id, Ending.Goal).QuantityEnding.ToString(), normalFont, 
+                        gfx.DrawString(Functions.GetActionCountForPlayer(playerL.Id, Ending.Goal).QuantityEnding.ToString(), normalFont, 
                             XBrushes.DarkGray, new XPoint(xStart + columnWidths[0] + 10, currentY + 15));
                     }
                 }
@@ -185,7 +186,7 @@ namespace Frontend.Resources.PDF_Pages
                     if (resultA.Success)
                     {
                         var playerA = resultA.Data;
-                        gfx.DrawString(CountEndings(Match.Id, playerA.Id, Ending.Goal).QuantityEnding.ToString(), normalFont, XBrushes.DarkGray, 
+                        gfx.DrawString(Functions.GetActionCountForPlayer(playerA.Id, Ending.Goal).QuantityEnding.ToString(), normalFont, XBrushes.DarkGray, 
                             new XPoint(xStart + columnWidths[0] + columnWidths[1] + 10, currentY + 15));
                         gfx.DrawString(playerA.Number.ToString(), normalFont, XBrushes.DarkGray, 
                             new XPoint(xStart + columnWidths[0] + columnWidths[1] + columnWidths[2] + 10, currentY + 15));
@@ -239,7 +240,7 @@ namespace Frontend.Resources.PDF_Pages
             yPosition = EndingSection(gfx, pdfPage, result.Data.Id, Ending.Steal_L, yPosition);
 
             // Contar cantidad de 2mins, rojas y azules por equipo
-            var temp = CountSanctions(Match.Id, idPlayer);
+            var temp = Functions.GetActionCountForPlayer(idPlayer, Ending.Foul);
 
             var infoFont = new XFont("Verdana", 12);
             if (temp.Quantity2min.HasValue)
@@ -292,7 +293,7 @@ namespace Frontend.Resources.PDF_Pages
             // Contar cantidad de 2mins, rojas y azules por equipo
             foreach (var idPlayer in team.IdPlayers)
             {
-                var temp = CountSanctions(Match.Id, idPlayer);
+                var temp = Functions.GetActionCountForPlayer(idPlayer, Ending.Foul);
                 if (temp.Quantity2min.HasValue)
                 {
                     minutes2 += temp.Quantity2min.Value;
@@ -330,7 +331,7 @@ namespace Frontend.Resources.PDF_Pages
             var marcasCampo = new List<Coordenates>();
             var marcasArco = new List<Coordenates>();
             // Contar cantidad de endings por jugador y generar imágenes con marcas
-            var temp = CountEndings(Match.Id, idPlayer, end);
+            var temp = Functions.GetActionCountForPlayer(idPlayer, end);
             if (temp.CooField != null)
                 marcasCampo.AddRange(temp.CooField);
 
@@ -402,7 +403,7 @@ namespace Frontend.Resources.PDF_Pages
 
             foreach (var idPlayer in team.IdPlayers)
             {
-                var temp = CountEndings(Match.Id, idPlayer, end);
+                var temp = Functions.GetActionCountForPlayer(idPlayer, end);
 
                 cantidadEndingsTeam += temp.QuantityEnding;
 
@@ -499,122 +500,6 @@ namespace Frontend.Resources.PDF_Pages
             data.SaveTo(fileStream);
 
             return outputPath;
-        }
-
-        private Coordenadas CountEndings(Guid idMatch, Guid idPlayer, Ending ending)
-        {
-            var count = 0;
-
-            var contabilizo = new Coordenadas
-            {
-                CooField = new List<Coordenates>(),
-                CooGoal = new List<Coordenates>()
-            };
-
-            var result = Simulo_BdD.GetAllPlayerMatches();
-            if (!result.Success)
-            {
-                Console.WriteLine(result.Message);
-                return new Coordenadas
-                {
-                    Success = false
-                };
-            }
-
-            var allPlayersMatches = result.Data;
-            var playerMatch = allPlayersMatches.FirstOrDefault(pm => pm.IdMatch == idMatch && pm.IdPlayer == idPlayer);
-
-            foreach (var idPA in playerMatch.IdActions)
-            {
-                var result1 = Simulo_BdD.GetOneAction(idPA);
-                if (!result1.Success)
-                {
-                    Console.WriteLine(result1.Message);
-                    return new Coordenadas
-                    {
-                        Success = false
-                    };
-                }
-                else
-                {
-                    if (result1.Data.Ending == ending)
-                    {
-                        contabilizo.CooField.Add(new Coordenates
-                        {
-                            X = result1.Data.ActionPositionX,
-                            Y = result1.Data.ActionPositionY
-                        });
-                        if (ending == Ending.Goal || ending == Ending.Miss || ending == Ending.Save)
-                            contabilizo.CooGoal.Add(new Coordenates
-                            {
-                                X = result1.Data.DefinitionPlaceX,
-                                Y = result1.Data.DefinitionPlaceY
-                            });
-                        count++;
-                    }
-                }
-            }
-            contabilizo.Success = true;
-            contabilizo.QuantityEnding = count;
-            return contabilizo;
-        }
-
-        private Coordenadas CountSanctions(Guid idMatch, Guid idPlayer)
-        {
-            var rojas = 0;
-            var azules = 0;
-            var twoMinutes = 0;
-
-            var contabilizo = new Coordenadas();
-
-            var result = Simulo_BdD.GetAllPlayerMatches();
-            if (!result.Success)
-            {
-                Console.WriteLine(result.Message);
-                return new Coordenadas
-                {
-                    Success = false
-                };
-            }
-
-            var allPlayersMatches = result.Data;
-            var playerMatch = allPlayersMatches.FirstOrDefault(pm => pm.IdMatch == idMatch && pm.IdPlayer == idPlayer);
-
-            foreach (var idPA in playerMatch.IdActions)
-            {
-                var result1 = Simulo_BdD.GetOneAction(idPA);
-                if (!result1.Success)
-                {
-                    Console.WriteLine(result1.Message);
-                    return new Coordenadas
-                    {
-                        Success = false
-                    };
-                }
-                else
-                {
-                    if (result1.Data.Ending == Ending.Foul)
-                    {
-                        if (result1.Data.Sanction == Sanction.Blue)
-                        {
-                            azules++;
-                        }
-                        else if (result1.Data.Sanction == Sanction.Red)
-                        {
-                            rojas++;
-                        }
-                        else if (result1.Data.Sanction == Sanction.Two_Minutes)
-                        {
-                            twoMinutes++;
-                        }
-                    }
-                }
-            }
-            contabilizo.Success = true;
-            contabilizo.Quantity2min = twoMinutes;
-            contabilizo.Red = rojas;
-            contabilizo.Blue = azules;
-            return contabilizo;
         }
 
         private bool LoadData(Guid idMatch)
