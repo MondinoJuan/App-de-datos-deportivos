@@ -6,7 +6,7 @@ using System.Globalization;
 using System;
 using System.ComponentModel;
 
-namespace Frontend;
+namespace Frontend.Pages;
 
 public partial class MatchView : ContentPage, INotifyPropertyChanged
 {
@@ -342,6 +342,11 @@ public partial class MatchView : ContentPage, INotifyPropertyChanged
         Simulo_BdD.CleanTournamentList();
 
         Application.Current.Quit();
+    }
+
+    private void GoSummary(object sender, EventArgs e)
+    {
+        Navigation.PushAsync(new ShowMiddleGame(Match.Id));
     }
 
     private void RefreshView()

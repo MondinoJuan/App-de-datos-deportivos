@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Frontend.ActionCreate"
+             x:Class="Frontend.Pages.ActionCreate"
              Title="Registrar Acción"
              Style="{StaticResource PageBackground}">
 
@@ -193,27 +193,29 @@
                Style="{StaticResource EntryStyle}"
                TextChanged="OnDescriptionTextChanged" />
 
-            <!--Botón: Guardar-->
-            <Button 
-                x:Name="btnSubmit"
-                Text="Guardar"
-                Command="{Binding SubmitCommand}">
-                <Button.Triggers>
-                    <DataTrigger TargetType="Button" Binding="{Binding DidBtnSubmit}" Value="False">
-                        <Setter Property="Style" Value="{StaticResource DisabledButton}" />
-                    </DataTrigger>
-                    <DataTrigger TargetType="Button" Binding="{Binding DidBtnSubmit}" Value="True">
-                        <Setter Property="Style" Value="{StaticResource SaveButton}" />
-                    </DataTrigger>
-                </Button.Triggers>
-            </Button>
+            <HorizontalStackLayout>
+                <!--Botón: Guardar-->
+                <Button 
+                    x:Name="btnSubmit"
+                    Text="Guardar"
+                    Command="{Binding SubmitCommand}">
+                    <Button.Triggers>
+                        <DataTrigger TargetType="Button" Binding="{Binding DidBtnSubmit}" Value="False">
+                            <Setter Property="Style" Value="{StaticResource DisabledButton}" />
+                        </DataTrigger>
+                        <DataTrigger TargetType="Button" Binding="{Binding DidBtnSubmit}" Value="True">
+                            <Setter Property="Style" Value="{StaticResource SaveButton}" />
+                        </DataTrigger>
+                    </Button.Triggers>
+                </Button>
 
-            <!-- Botón: Cancelar -->
-            <Button 
-                x:Name="btnCancel"
-                Text="Cancelar"
-                Style="{StaticResource CancelButton}"
-                Command="{Binding CancelCommand}"/>
+                <!-- Botón: Cancelar -->
+                <Button 
+                    x:Name="btnCancel"
+                    Text="Cancelar"
+                    Style="{StaticResource CancelButton}"
+                    Command="{Binding CancelCommand}"/>
+            </HorizontalStackLayout>
 
         </VerticalStackLayout>
     </ScrollView>

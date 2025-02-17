@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:components="clr-namespace:Frontend.Resources.Components"
              xmlns:converters="clr-namespace:Frontend.Resources"
-             x:Class="Frontend.MatchView"
+             x:Class="Frontend.Pages.MatchView"
              x:Name="matchViewInstance"
              Title="Vista de Partido"
              Style="{StaticResource PageBackground}">
@@ -79,19 +79,19 @@
 
                 <Label Grid.Column="0" 
                        x:Name="lblTeamLocal" 
-                       Style="{StaticResource TextLabel}" />
+                       Style="{StaticResource SubtitleLabel}" />
 
                 <Label Grid.Column="2" 
                        x:Name="lblScoreL"
-                       Style="{StaticResource TextLabel}" />
+                       Style="{StaticResource SubtitleLabel}" />
 
                 <Label Grid.Column="3" 
                        x:Name="lblScoreA"
-                       Style="{StaticResource TextLabel}" />
+                       Style="{StaticResource SubtitleLabel}" />
 
                 <Label Grid.Column="5" 
                        x:Name="lblTeamAway" 
-                       Style="{StaticResource TextLabel}" />
+                       Style="{StaticResource SubtitleLabel}" />
             </Grid>
 
             <!-- Subtítulos de la tabla -->
@@ -377,6 +377,12 @@
                     Style="{StaticResource AddButton}"
                     Margin="10"
                     Clicked="OnAddPlayer" />
+
+                <Button
+                    Text="Resumen"
+                    Style="{StaticResource NavigationButton}"
+                    Margin="10"
+                    Clicked="GoSummary"/>
 
                 <Button 
                     x:Name="btnCancel"

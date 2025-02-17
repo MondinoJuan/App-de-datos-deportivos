@@ -6,7 +6,7 @@
         <Label
             x:Name="lblTitle"
             Style="{StaticResource TitleLabel}"
-            />
+            Text="{Binding Title}" />
 
         <Grid
             RowSpacing="10"
@@ -31,7 +31,7 @@
                 <Label
                     x:Name="lblBlockeds"
                     Style="{StaticResource TextLabel}"
-                    />
+                    Text="{Binding Blockeds}" />
                 <AbsoluteLayout>
                     <!-- Imagen de fondo -->
                     <Image
@@ -49,7 +49,7 @@
                     </AbsoluteLayout>
                 </AbsoluteLayout>
             </HorizontalStackLayout>
-            
+
             <!--Muestro goles-->
             <HorizontalStackLayout Grid.Row="0" Grid.Column="1">
                 <Label
@@ -59,7 +59,7 @@
                 <Label
                     x:Name="lblGoals"
                     Style="{StaticResource TextLabel}"
-                    />
+                    Text="{Binding Goals}" />
                 <AbsoluteLayout>
                     <!-- Imagen de fondo -->
                     <Image
@@ -103,7 +103,7 @@
                 <Label
                     x:Name="lblSteals_W"
                     Style="{StaticResource TextLabel}"
-                    />
+                    Text="{Binding Steals_W}" />
                 <AbsoluteLayout>
                     <!-- Imagen de fondo -->
                     <Image
@@ -131,7 +131,7 @@
                 <Label
                     x:Name="lblSaves"
                     Style="{StaticResource TextLabel}"
-                    />
+                    Text="{Binding Saves}" />
                 <AbsoluteLayout>
                     <!-- Imagen de fondo -->
                     <Image
@@ -175,7 +175,7 @@
                 <Label
                     x:Name="lblSteals_L"
                     Style="{StaticResource TextLabel}"
-                    />
+                    Text="{Binding Steals_L}" />
                 <AbsoluteLayout>
                     <!-- Imagen de fondo -->
                     <Image
@@ -203,7 +203,7 @@
                 <Label
                     x:Name="lblMisses"
                     Style="{StaticResource TextLabel}"
-                    />
+                    Text="{Binding Misses}" />
                 <AbsoluteLayout>
                     <!-- Imagen de fondo -->
                     <Image
@@ -247,7 +247,7 @@
                 <Label
                     x:Name="lblFouls"
                     Style="{StaticResource TextLabel}"
-                    />
+                    Text="{Binding Fouls}" />
                 <AbsoluteLayout>
                     <!-- Imagen de fondo -->
                     <Image
@@ -268,30 +268,37 @@
 
             <!--Muestro cantidad de sanciones-->
             <VerticalStackLayout Grid.Row="3" Grid.Column="1">
-                <Label
-                    Text="Dos minutos: "
-                    Style="{StaticResource TextLabel}"
-                    />
-                <Label
-                    x:Name="lblTwoMinutes"
-                    Style="{StaticResource TextLabel}"
-                    />
-                <Label
-                    Text="Tarjetas rojas: "
-                    Style="{StaticResource TextLabel}"
-                    />
-                <Label
-                    x:Name="lblRedCards"
-                    Style="{StaticResource TextLabel}"
-                    />
-                <Label
-                    Text="Tarjetas azules: "
-                    Style="{StaticResource TextLabel}"
-                    />
-                <Label
-                    x:Name="lblBlueCards"
-                    Style="{StaticResource TextLabel}"
-                    />
+                <HorizontalStackLayout>
+                    <Label
+                        Text="Dos minutos: "
+                        Style="{StaticResource TextLabel}"
+                        />
+                    <Label
+                        x:Name="lblTwoMinutes"
+                        Style="{StaticResource TextLabel}"
+                        Text="{Binding TwoMinutes}" />
+                </HorizontalStackLayout>
+                <HorizontalStackLayout>
+                    <Label
+                        Text="Tarjetas rojas: "
+                        Style="{StaticResource TextLabel}"
+                        />
+                    <Label
+                        x:Name="lblRedCards"
+                        Style="{StaticResource TextLabel}"
+                        Text="{Binding RedCards}" />
+                </HorizontalStackLayout>
+                <HorizontalStackLayout>
+                    <Label
+                        Text="Tarjetas azules: "
+                        Style="{StaticResource TextLabel}"
+                        />
+                    <Label
+                        x:Name="lblBlueCards"
+                        Style="{StaticResource TextLabel}"
+                        Text="{Binding BlueCards}" />
+                </HorizontalStackLayout>
+                
             </VerticalStackLayout>
 
         </Grid>

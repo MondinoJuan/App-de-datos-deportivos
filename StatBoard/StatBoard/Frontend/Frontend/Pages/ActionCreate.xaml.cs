@@ -6,7 +6,7 @@ using Microsoft.Maui.Controls;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace Frontend;
+namespace Frontend.Pages;
 
 public partial class ActionCreate : ContentPage, INotifyPropertyChanged
 {

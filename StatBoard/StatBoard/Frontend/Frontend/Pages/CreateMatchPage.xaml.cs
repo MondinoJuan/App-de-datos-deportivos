@@ -2,7 +2,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Frontend.Resources.Entities;
 
-namespace Frontend
+namespace Frontend.Pages
 {
     public partial class CreateMatchPage : ContentPage, INotifyPropertyChanged
     {

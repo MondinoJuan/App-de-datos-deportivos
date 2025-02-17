@@ -1,5 +1,6 @@
 ﻿using Frontend.Resources.Entities;
 using Microsoft.Maui.Controls;
+using Frontend.Pages;
 
 namespace Frontend;
 public partial class MainPage : ContentPage

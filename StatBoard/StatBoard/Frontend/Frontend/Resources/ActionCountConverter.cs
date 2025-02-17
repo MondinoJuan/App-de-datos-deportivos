@@ -1,5 +1,6 @@
 using Frontend.Resources.Entities;
 using System.Globalization;
+using Frontend.Pages;
 
 namespace Frontend.Resources
 {

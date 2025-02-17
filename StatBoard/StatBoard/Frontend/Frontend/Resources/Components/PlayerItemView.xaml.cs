@@ -1,6 +1,7 @@
 using Microsoft.Maui.Controls;
 using Frontend.Resources.Entities;
 using System;
+using Frontend.Pages;
 
 namespace Frontend.Resources.Components;
 

@@ -5,7 +5,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Frontend.Resources;
 
-namespace Frontend;
+namespace Frontend.Pages;
 
 public partial class CreateModify_PlayerModal : ContentPage, INotifyPropertyChanged
 {
@@ -15,7 +15,7 @@ public partial class CreateModify_PlayerModal : ContentPage, INotifyPropertyChan
     public bool ModifyWarning { get; private set; }
     public bool InvModifyWarning { get; private set; }
 
-    private bool _enableSaveButton;
+    private bool _enableSaveButton = false;
     public bool EnableSaveButton
     {
         get => _enableSaveButton;

@@ -22,6 +22,7 @@
                         Style="{StaticResource TextLabel}"/>
                     <Label
                         x:Name="lblMatchWeek"
+                        Text="{Binding Match.MatchWeek}"
                         Style="{StaticResource TextLabel}"/>
 
                     <Label
@@ -29,6 +30,7 @@
                         Style="{StaticResource TextLabel}"/>
                     <Label
                         x:Name="lblPlace"
+                        Text="{Binding Match.Place}"
                         Style="{StaticResource TextLabel}"/>
 
                     <Label
@@ -36,6 +38,7 @@
                         Style="{StaticResource TextLabel}"/>
                     <Label
                         x:Name="lblDay"
+                        Text="{Binding Match.Date, StringFormat='{0:dddd, dd MMMM yyyy}'}"
                         Style="{StaticResource TextLabel}"/>
 
                 </HorizontalStackLayout>
@@ -45,15 +48,14 @@
                     Style="{StaticResource SubtitleLabel}"/>
 
                 <StackLayout
-                    x:Name="stkLocalTeam"
-                    Style="{StaticResource TextLabel}">
+                    x:Name="stkLocalTeam">
                     <StackLayout.Triggers>
                         <DataTrigger TargetType="StackLayout" Binding="{Binding TeamLocal.IdPlayers.Count}" Value="0">
                             <Setter Property="IsVisible" Value="False" />
                         </DataTrigger>
                     </StackLayout.Triggers>
-                    <!--"Pagina" del equipo local-->
-                    <components:PageOfActions Team="{Binding TeamLocal}" />
+                    <!-- Página del equipo local -->
+                    <components:PageOfActions IdTeam="{Binding TeamLocal.Id}" />
                 </StackLayout>
 
                 <Label 
@@ -61,27 +63,23 @@
                     Style="{StaticResource SubtitleLabel}"/>
 
                 <StackLayout
-                    x:Name="stkLocalTeam"
-                    Style="{StaticResource TextLabel}"
-                    BindableLayout.ItemsSource="{Binding TeamAway}">
+                    x:Name="stkAwayTeam">
                     <StackLayout.Triggers>
                         <DataTrigger TargetType="StackLayout" Binding="{Binding TeamAway.IdPlayers.Count}" Value="0">
                             <Setter Property="IsVisible" Value="False" />
                         </DataTrigger>
                     </StackLayout.Triggers>
-                    <!--Agregar "pagina" del equipo visitante-->
-                    <components:PageOfActions
-                        Team="{Binding TeamAway}"/>
+                    <!-- Página del equipo visitante -->
+                    <components:PageOfActions IdTeam="{Binding TeamAway.Id}" />
                 </StackLayout>
 
                 <Label 
-                    Text="Acciones equipo local"
+                    Text="Acciones de los jugadores locales"
                     Style="{StaticResource SubtitleLabel}"/>
 
                 <StackLayout
-                    x:Name="stkLocalTeam"
-                    Style="{StaticResource TextLabel}"
-                    BindableLayout.ItemsSource="{Binding TeamLocal}">
+                    x:Name="stkLocalPlayers"
+                    BindableLayout.ItemsSource="{Binding TeamLocal.IdPlayers}">
                     <StackLayout.Triggers>
                         <DataTrigger TargetType="StackLayout" Binding="{Binding TeamLocal.IdPlayers.Count}" Value="0">
                             <Setter Property="IsVisible" Value="False" />
@@ -89,9 +87,8 @@
                     </StackLayout.Triggers>
                     <BindableLayout.ItemTemplate>
                         <DataTemplate>
-                            <!--Agregar "pagina" del jugador-->
-                            <components:PageOfActions
-                                IdPlayer="{Binding .}"/>
+                            <!-- Página del jugador -->
+                            <components:PageOfActions IdPlayer="{Binding .}"/>
                         </DataTemplate>
                     </BindableLayout.ItemTemplate>
                 </StackLayout>
@@ -101,9 +98,8 @@
                     Style="{StaticResource SubtitleLabel}"/>
 
                 <StackLayout
-                    x:Name="stkLocalTeam"
-                    Style="{StaticResource TextLabel}"
-                    BindableLayout.ItemsSource="{Binding TeamAway}">
+                    x:Name="stkAwayPlayers"
+                    BindableLayout.ItemsSource="{Binding TeamAway.IdPlayers}">
                     <StackLayout.Triggers>
                         <DataTrigger TargetType="StackLayout" Binding="{Binding TeamAway.IdPlayers.Count}" Value="0">
                             <Setter Property="IsVisible" Value="False" />
@@ -111,9 +107,8 @@
                     </StackLayout.Triggers>
                     <BindableLayout.ItemTemplate>
                         <DataTemplate>
-                            <!--Agregar "pagina" del jugador-->
-                            <components:PageOfActions
-                                IdPlayer="{Binding .}"/>
+                            <!-- Página del jugador -->
+                            <components:PageOfActions IdPlayer="{Binding .}"/>
                         </DataTemplate>
                     </BindableLayout.ItemTemplate>
                 </StackLayout>

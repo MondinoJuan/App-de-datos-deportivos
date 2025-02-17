@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Frontend.CreateModify_PlayerModal"
+             x:Class="Frontend.Pages.CreateModify_PlayerModal"
              Title="Crear/Modificar Jugador"
              Style="{StaticResource PageBackground}">
 
@@ -67,10 +67,10 @@
                     Style="{StaticResource SaveButton}"
                     Clicked="OnSave">
                     <Button.Triggers>
-                        <DataTrigger TargetType="Button" Binding="{Binding EnableSaveBtn}" Value="False">
+                        <DataTrigger TargetType="Button" Binding="{Binding EnableSaveBtn}" Value="false">
                             <Setter Property="Style" Value="{StaticResource DisabledButton}" />
                         </DataTrigger>
-                        <DataTrigger TargetType="Button" Binding="{Binding EnableSaveBtn}" Value="True">
+                        <DataTrigger TargetType="Button" Binding="{Binding EnableSaveBtn}" Value="true">
                             <Setter Property="Style" Value="{StaticResource SaveButton}" />
                         </DataTrigger>
                     </Button.Triggers>
