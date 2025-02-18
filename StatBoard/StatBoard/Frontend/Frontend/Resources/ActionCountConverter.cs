@@ -12,7 +12,7 @@ namespace Frontend.Resources
             {
                 var matchView = Application.Current.MainPage as MatchView;
                 if(!Enum.TryParse(actionType, out Ending ending)) return "-";
-                return Functions.GetActionCountForPlayer(playerId, ending).ToString() ?? "-";
+                return Functions.GetActionCountForPlayer(playerId, ending).QuantityEnding.ToString() ?? "-";
             }
             return "-";
         }

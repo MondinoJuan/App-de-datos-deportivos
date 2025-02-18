@@ -7,9 +7,14 @@
              Title="ShowMiddleGame"
              Style="{StaticResource PageBackground}">
 
-    <Grid RowDefinitions="*, Auto">
+    <Grid 
+        RowDefinitions="*, Auto">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="100"/>
+        </Grid.ColumnDefinitions>
         <ScrollView
-            Grid.Row="1">
+            Grid.Column="0">
             <VerticalStackLayout>
                 <Label
                     Text="Acciones actuales"
@@ -117,11 +122,13 @@
         </ScrollView>
 
         <Button
-            Grid.Row="1"
+            Grid.Column="1"
             x:Name="btnGoBack"
             Text="Volver"
             Style="{StaticResource NavigationButton}"
-            Clicked="OnGoBack"/>
+            Clicked="OnGoBack"
+            VerticalOptions="Start"
+            HorizontalOptions="End"/>
     </Grid>
 
 

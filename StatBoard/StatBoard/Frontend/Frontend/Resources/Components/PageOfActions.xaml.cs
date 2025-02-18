@@ -7,41 +7,54 @@ using System.Collections.Generic;
 using System.Linq;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using Microsoft.Maui.Layouts;
 
 namespace Frontend.Resources.Components
 {
     public partial class PageOfActions : ContentView, INotifyPropertyChanged
     {
-        // Propiedad bindable para IdPlayer
-        private Guid _idPlayer;
+        // BindableProperty para IdPlayer
+        public static readonly BindableProperty IdPlayerProperty =
+            BindableProperty.Create(
+                nameof(IdPlayer),
+                typeof(Guid),
+                typeof(PageOfActions),
+                defaultValue: Guid.Empty,
+                propertyChanged: OnIdPlayerChanged);
+
         public Guid IdPlayer
         {
-            get => _idPlayer;
-            set
-            {
-                if (_idPlayer != value)
-                {
-                    _idPlayer = value;
-                    OnPropertyChanged();
-                    LoadPlayerData(_idPlayer); // Llamada directa a LoadPlayerData al cambiar el valor
-                }
-            }
+            get => (Guid)GetValue(IdPlayerProperty);
+            set => SetValue(IdPlayerProperty, value);
         }
 
-        // Propiedad bindable para IdTeam
-        private Guid _idTeam;
+        // Método que se ejecuta cuando cambia el valor de IdPlayer
+        private static void OnIdPlayerChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            var control = (PageOfActions)bindable;
+            control.LoadPlayerData((Guid)newValue);
+        }
+
+        // BindableProperty para IdTeam
+        public static readonly BindableProperty IdTeamProperty =
+            BindableProperty.Create(
+                nameof(IdTeam),
+                typeof(Guid),
+                typeof(PageOfActions),
+                defaultValue: Guid.Empty,
+                propertyChanged: OnIdTeamChanged);
+
         public Guid IdTeam
         {
-            get => _idTeam;
-            set
-            {
-                if (_idTeam != value)
-                {
-                    _idTeam = value;
-                    OnPropertyChanged();
-                    LoadTeamData(_idTeam); // Llamada directa a LoadTeamData al cambiar el valor
-                }
-            }
+            get => (Guid)GetValue(IdTeamProperty);
+            set => SetValue(IdTeamProperty, value);
+        }
+
+        // Método que se ejecuta cuando cambia el valor de IdTeam
+        private static void OnIdTeamChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            var control = (PageOfActions)bindable;
+            control.LoadTeamData((Guid)newValue);
         }
 
         // ViewModel: el contexto de datos de la vista
@@ -294,14 +307,80 @@ namespace Frontend.Resources.Components
             BlueCards = cantidadAzules.ToString();
         }
 
-        // Lógica para obtener las acciones de un jugador
+        //// Lógica para obtener las acciones de un jugador
+        //private int GetQuantityAndPlaceOfActionForPlayer(Guid idPlayer, Ending ending)
+        //{
+        //    var result = Functions.GetActionCountForPlayer(idPlayer, ending);
+        //    if (!result.Success) return 0;
+
+        //    // Lógica para transformar la cantidad y ubicar la acción en el campo
+        //    return result.QuantityEnding;
+        //}
+
         private int GetQuantityAndPlaceOfActionForPlayer(Guid idPlayer, Ending ending)
         {
             var result = Functions.GetActionCountForPlayer(idPlayer, ending);
             if (!result.Success) return 0;
-
-            // Lógica para transformar la cantidad y ubicar la acción en el campo
+            var container = new AbsoluteLayout();
+            switch (ending)
+            {
+                case Ending.Blocked:
+                    container = markContainerBlockeds;
+                    break;
+                case Ending.Goal:
+                    container = markContainerGoalsField;
+                    break;
+                case Ending.Steal_W:
+                    container = markContainerSteals_W;
+                    break;
+                case Ending.Save:
+                    container = markContainerSavesField;
+                    break;
+                case Ending.Steal_L:
+                    container = markContainerSteals_L;
+                    break;
+                case Ending.Miss:
+                    container = markContainerMissesField;
+                    break;
+                case Ending.Foul:
+                    container = markContainerFouls;
+                    break;
+            }
+            AddMarkToImage(container, result.CooField);
+            if (ending == Ending.Goal || ending == Ending.Miss || ending == Ending.Save)
+            {
+                AddMarkToImage(markContainerGoalsGoal, result.CooGoal);
+            }
+            if (ending == Ending.Foul)
+            {
+                var cantidadFoules = result.QuantityEnding;
+                var cantidadRojas = result.Red ?? 0;
+                var cantidadAzules = result.Blue ?? 0;
+                var cantidad2Minutos = result.Quantity2min ?? 0;
+                var valorTransformado = cantidadFoules * 1000 + cantidad2Minutos * 100 + cantidadRojas * 10 + cantidadAzules;
+                return valorTransformado;
+            }
             return result.QuantityEnding;
         }
-    }
+
+        private void AddMarkToImage(AbsoluteLayout container, List<Coordenates> coordenadas)
+        {
+            foreach (var coo in coordenadas)
+            {
+                // Crea una nueva marca (círculo)
+                var circle = new BoxView
+                {
+                    WidthRequest = 20,
+                    HeightRequest = 20,
+                    BackgroundColor = Colors.Red,
+                    CornerRadius = 10,
+                    Opacity = 0.6
+                };
+                // Calcula la posición en la pantalla
+                AbsoluteLayout.SetLayoutBounds(circle, new Rect(coo.X, coo.Y, 20, 20));
+                AbsoluteLayout.SetLayoutFlags(circle, AbsoluteLayoutFlags.None);
+                // Añade el círculo al contenedor de marcas
+                container.Children.Add(circle);
+            }
+        }
 }
