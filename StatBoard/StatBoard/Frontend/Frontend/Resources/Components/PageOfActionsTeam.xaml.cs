@@ -60,7 +60,7 @@ namespace Frontend.Resources.Components
                 if (_title != value)
                 {
                     _title = value;
-                    OnPropertyChanged();  // Notifica el cambio de propiedad
+                    OnPropertyChanged();
                     lblTitle.Text = value;
                 }
             }
@@ -279,6 +279,7 @@ namespace Frontend.Resources.Components
             Saves = cantidadSaves.ToString();
             StealsL = cantidadStealsL.ToString();
             Misses = cantidadMisses.ToString();
+            Foules = cantidadFoules.ToString();
             TwoMinutes = cantidad2Minutos.ToString();
             RedCards = cantidadRojas.ToString();
             BlueCards = cantidadAzules.ToString();
@@ -338,7 +339,6 @@ namespace Frontend.Resources.Components
         {
             foreach (var coo in coordenadas)
             {
-                // Crea una nueva marca (círculo)
                 var circle = new BoxView
                 {
                     WidthRequest = 20,
@@ -350,7 +350,6 @@ namespace Frontend.Resources.Components
                 // Calcula la posición en la pantalla
                 AbsoluteLayout.SetLayoutBounds(circle, new Rect(coo.X + 10, coo.Y, 20, 20));
                 AbsoluteLayout.SetLayoutFlags(circle, AbsoluteLayoutFlags.None);
-                // Añade el círculo al contenedor de marcas
                 container.Children.Add(circle);
             }
         }

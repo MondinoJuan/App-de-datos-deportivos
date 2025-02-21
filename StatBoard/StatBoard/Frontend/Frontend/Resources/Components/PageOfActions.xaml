@@ -2,26 +2,9 @@
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Frontend.Resources.Components.PageOfActions"
-             xmlns:local="clr-namespace:Frontend.Resources.Components"
-             >
-
-    <!--<ContentView.BindingContext>
-        <local:PageOfActions />
-    </ContentView.BindingContext>-->
+             xmlns:local="clr-namespace:Frontend.Resources.Components">
 
     <VerticalStackLayout>
-
-        <!-- ////////////////////////////////// A borrar /////////////////////////////////////// -->
-        <Label
-            x:Name="lblPlayerId"
-            TextColor="Orange"
-            />
-
-        <Label
-                x:Name="lblTeamId"
-                TextColor="Orange"
-                />
-        <!-- ////////////////////////////////// A borrar /////////////////////////////////////// -->
 
         <Label
             x:Name="lblTitle"
@@ -53,7 +36,6 @@
                     Style="{StaticResource TextLabel}"
                     Text="{Binding Blockeds}" />
                 <AbsoluteLayout>
-                    <!-- Imagen de fondo -->
                     <Image
                         Source="cancha.png"
                         Style="{StaticResource ImageStyle}"
@@ -65,7 +47,6 @@
                         AbsoluteLayout.LayoutBounds="0,0,1,1"
                         AbsoluteLayout.LayoutFlags="All"
                         InputTransparent="True">
-                        <!-- Las marcas se añadirán dinámicamente aquí -->
                     </AbsoluteLayout>
                 </AbsoluteLayout>
             </HorizontalStackLayout>
@@ -81,7 +62,6 @@
                     Style="{StaticResource TextLabel}"
                     Text="{Binding Goals}" />
                 <AbsoluteLayout>
-                    <!-- Imagen de fondo -->
                     <Image
                         Source="cancha.png"
                         Style="{StaticResource ImageStyle}"
@@ -93,11 +73,9 @@
                         AbsoluteLayout.LayoutBounds="0,0,1,1"
                         AbsoluteLayout.LayoutFlags="All"
                         InputTransparent="True">
-                        <!-- Las marcas se añadirán dinámicamente aquí -->
                     </AbsoluteLayout>
                 </AbsoluteLayout>
                 <AbsoluteLayout>
-                    <!-- Imagen de fondo -->
                     <Image
                         Source="arco.png"
                         Style="{StaticResource ImageStyle}"
@@ -109,7 +87,6 @@
                         AbsoluteLayout.LayoutBounds="0,0,1,1"
                         AbsoluteLayout.LayoutFlags="All"
                         InputTransparent="True">
-                        <!-- Las marcas se añadirán dinámicamente aquí -->
                     </AbsoluteLayout>
                 </AbsoluteLayout>
             </HorizontalStackLayout>
@@ -125,7 +102,6 @@
                     Style="{StaticResource TextLabel}"
                     Text="{Binding StealsW}" />
                 <AbsoluteLayout>
-                    <!-- Imagen de fondo -->
                     <Image
                         Source="cancha.png"
                         Style="{StaticResource ImageStyle}"
@@ -137,7 +113,6 @@
                         AbsoluteLayout.LayoutBounds="0,0,1,1"
                         AbsoluteLayout.LayoutFlags="All"
                         InputTransparent="True">
-                        <!-- Las marcas se añadirán dinámicamente aquí -->
                     </AbsoluteLayout>
                 </AbsoluteLayout>
             </HorizontalStackLayout>
@@ -153,7 +128,6 @@
                     Style="{StaticResource TextLabel}"
                     Text="{Binding Saves}" />
                 <AbsoluteLayout>
-                    <!-- Imagen de fondo -->
                     <Image
                         Source="cancha.png"
                         Style="{StaticResource ImageStyle}"
@@ -165,11 +139,9 @@
                         AbsoluteLayout.LayoutBounds="0,0,1,1"
                         AbsoluteLayout.LayoutFlags="All"
                         InputTransparent="True">
-                        <!-- Las marcas se añadirán dinámicamente aquí -->
                     </AbsoluteLayout>
                 </AbsoluteLayout>
                 <AbsoluteLayout>
-                    <!-- Imagen de fondo -->
                     <Image
                         Source="arco.png"
                         Style="{StaticResource ImageStyle}"
@@ -181,7 +153,6 @@
                         AbsoluteLayout.LayoutBounds="0,0,1,1"
                         AbsoluteLayout.LayoutFlags="All"
                         InputTransparent="True">
-                        <!-- Las marcas se añadirán dinámicamente aquí -->
                     </AbsoluteLayout>
                 </AbsoluteLayout>
             </HorizontalStackLayout>
@@ -197,7 +168,6 @@
                     Style="{StaticResource TextLabel}"
                     Text="{Binding StealsL}" />
                 <AbsoluteLayout>
-                    <!-- Imagen de fondo -->
                     <Image
                         Source="cancha.png"
                         Style="{StaticResource ImageStyle}"
@@ -209,7 +179,6 @@
                         AbsoluteLayout.LayoutBounds="0,0,1,1"
                         AbsoluteLayout.LayoutFlags="All"
                         InputTransparent="True">
-                        <!-- Las marcas se añadirán dinámicamente aquí -->
                     </AbsoluteLayout>
                 </AbsoluteLayout>
             </HorizontalStackLayout>
@@ -225,7 +194,6 @@
                     Style="{StaticResource TextLabel}"
                     Text="{Binding Misses}" />
                 <AbsoluteLayout>
-                    <!-- Imagen de fondo -->
                     <Image
                         Source="cancha.png"
                         Style="{StaticResource ImageStyle}"
@@ -237,11 +205,9 @@
                         AbsoluteLayout.LayoutBounds="0,0,1,1"
                         AbsoluteLayout.LayoutFlags="All"
                         InputTransparent="True">
-                        <!-- Las marcas se añadirán dinámicamente aquí -->
                     </AbsoluteLayout>
                 </AbsoluteLayout>
                 <AbsoluteLayout>
-                    <!-- Imagen de fondo -->
                     <Image
                         Source="arco.png"
                         Style="{StaticResource ImageStyle}"
@@ -253,7 +219,6 @@
                         AbsoluteLayout.LayoutBounds="0,0,1,1"
                         AbsoluteLayout.LayoutFlags="All"
                         InputTransparent="True">
-                        <!-- Las marcas se añadirán dinámicamente aquí -->
                     </AbsoluteLayout>
                 </AbsoluteLayout>
             </HorizontalStackLayout>
@@ -269,7 +234,6 @@
                     Style="{StaticResource TextLabel}"
                     Text="{Binding Foules}" />
                 <AbsoluteLayout>
-                    <!-- Imagen de fondo -->
                     <Image
                         Source="cancha.png"
                         Style="{StaticResource ImageStyle}"
@@ -281,7 +245,6 @@
                         AbsoluteLayout.LayoutBounds="0,0,1,1"
                         AbsoluteLayout.LayoutFlags="All"
                         InputTransparent="True">
-                        <!-- Las marcas se añadirán dinámicamente aquí -->
                     </AbsoluteLayout>
                 </AbsoluteLayout>
             </HorizontalStackLayout>

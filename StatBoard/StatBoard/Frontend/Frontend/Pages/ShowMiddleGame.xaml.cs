@@ -78,16 +78,10 @@ public partial class ShowMiddleGame : ContentPage, INotifyPropertyChanged
         }
     }
 
-    //public ShowMiddleGame()
-    //{
-    //    InitializeComponent();
-    //}
-
     public ShowMiddleGame(Guid idMatch)
     {
         InitializeComponent();
         BindingContext = this;
-        //BindingContext = new ShowMiddleGame_ViewModel();
         LoadData(idMatch);
     }
 
@@ -102,27 +96,21 @@ public partial class ShowMiddleGame : ContentPage, INotifyPropertyChanged
             if (result1.Success && result1.Data != null)
             {
                 TeamLocal = result1.Data;
-                OnPropertyChanged(nameof(TeamLocal)); // Forzamos el update
+                OnPropertyChanged(nameof(TeamLocal));
             }
 
             var result2 = Simulo_BdD.GetOneClub(Match.IdTeamAway);
             if (result2.Success && result2.Data != null)
             {
                 TeamAway = result2.Data;
-                OnPropertyChanged(nameof(TeamAway)); // Forzamos el update
+                OnPropertyChanged(nameof(TeamAway));
             }
 
             Teams = new List<Club_Dto> { TeamLocal, TeamAway };
             TeamsIds = new List<Guid> { TeamLocal.Id, TeamAway.Id };
 
-            OnPropertyChanged(nameof(Teams)); // Forzamos el update
-            OnPropertyChanged(nameof(TeamsIds)); // Forzamos el update
-
-            lblMatchIdTeam.Text = "Id del local del match: " + Match.IdTeamLocal.ToString();
-            lblTeamId.Text = "Id equipo local: " + TeamLocal?.Id.ToString();
-
-            lblMatchIdTeam2.Text = "Id del visitante del match: " + Match.IdTeamAway.ToString();
-            lblTeamId2.Text = "Id equipo visitante: " + TeamAway?.Id.ToString();
+            OnPropertyChanged(nameof(Teams));
+            OnPropertyChanged(nameof(TeamsIds));
         }
     }
 
@@ -138,55 +126,3 @@ public partial class ShowMiddleGame : ContentPage, INotifyPropertyChanged
         await Navigation.PopAsync();
     }
 }
-
-//public class ShowMiddleGame_ViewModel : INotifyPropertyChanged
-//{
-//    private Match_Dto _match = new();
-//    private Club_Dto _teamLocal = new();
-//    private Club_Dto _teamAway = new();
-
-//    public Match_Dto Match
-//    {
-//        get => _match;
-//        set
-//        {
-//            _match = value;
-//            OnPropertyChanged();
-//            // Cargar equipos cuando se establece el partido
-//            LoadTeams();
-//        }
-//    }
-
-//    public Club_Dto TeamLocal
-//    {
-//        get => _teamLocal;
-//        set
-//        {
-//            _teamLocal = value;
-//            OnPropertyChanged();
-//        }
-//    }
-
-//    public Club_Dto TeamAway
-//    {
-//        get => _teamAway;
-//        set
-//        {
-//            _teamAway = value;
-//            OnPropertyChanged();
-//        }
-//    }
-
-//    private void LoadTeams()
-//    {
-//        TeamLocal = Simulo_BdD.GetOneClub(Match.IdTeamLocal).Data;
-//        TeamAway = Simulo_BdD.GetOneClub(Match.IdTeamAway).Data;
-//    }
-
-//    public new event PropertyChangedEventHandler? PropertyChanged;
-
-//    protected new void OnPropertyChanged([CallerMemberName] string propertyName = null!)
-//    {
-//        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-//    }
-//}
