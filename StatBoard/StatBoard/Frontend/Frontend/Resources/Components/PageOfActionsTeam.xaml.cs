@@ -11,28 +11,26 @@ using Microsoft.Maui.Layouts;
 
 namespace Frontend.Resources.Components
 {
-    public partial class PageOfActions : ContentView, INotifyPropertyChanged
+    public partial class PageOfActionsTeam : ContentView, INotifyPropertyChanged
     {
-        // BindableProperty para IdPlayer
-        public static readonly BindableProperty IdPlayerProperty =
+        public static readonly BindableProperty IdTeamProperty =
             BindableProperty.Create(
-                nameof(IdPlayer),
+                nameof(IdTeam),
                 typeof(Guid),
-                typeof(PageOfActions),
-                defaultValue: Guid.Empty,
-                propertyChanged: OnIdPlayerChanged);
+                typeof(PageOfActionsTeam),
+                propertyChanged: OnIdTeamChanged);
 
-        public Guid IdPlayer
+        public Guid IdTeam
         {
-            get => (Guid)GetValue(IdPlayerProperty);
-            set => SetValue(IdPlayerProperty, value);
+            get => (Guid)GetValue(IdTeamProperty);
+            set => SetValue(IdTeamProperty, value);
         }
 
         public static readonly BindableProperty TeamProperty =
             BindableProperty.Create(
                 nameof(Team),
                 typeof(Club_Dto),
-                typeof(PageOfActions),
+                typeof(PageOfActionsTeam),
                 propertyChanged: OnTeamChanged);
 
         public Club_Dto Team
@@ -208,27 +206,23 @@ namespace Frontend.Resources.Components
             }
         }
 
-        public PageOfActions()
+        public PageOfActionsTeam()
         {
             InitializeComponent();
-            BindingContext = this;
         }
 
-        private static void OnIdPlayerChanged(BindableObject bindable, object oldValue, object newValue)
+        private static void OnIdTeamChanged(BindableObject bindable, object oldValue, object newValue)
         {
-            var control = (PageOfActions)bindable;
-            control.LoadPlayerData((Guid)newValue);
+            if (newValue is Guid id && id != Guid.Empty)
+            {
+                var control = (PageOfActionsTeam)bindable;
+                control.LoadTeamData(id);
+            }
         }
-
-        //private static void OnIdTeamChanged(BindableObject bindable, object oldValue, object newValue)
-        //{
-        //    var control = (PageOfActions)bindable;
-        //    control.LoadTeamData((Guid)newValue);
-        //}
 
         private static void OnTeamChanged(BindableObject bindable, object oldValue, object newValue)
         {
-            var control = (PageOfActions)bindable;
+            var control = (PageOfActionsTeam)bindable;
             control.LoadTeamData((Club_Dto)newValue);
         }
 
@@ -239,43 +233,17 @@ namespace Frontend.Resources.Components
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public void LoadPlayerData(Guid playerId)
+        public void LoadTeamData(Guid idTeam)
         {
-            lblPlayerId.Text = IdPlayer.ToString();
-
-            var result = Simulo_BdD.GetOnePlayer(playerId);
-            if (!result.Success) return;
-
-            Title = $"{result.Data.Number} {result.Data.Name}";
-
-            Blockeds = GetQuantityAndPlaceOfActionForPlayer(playerId, Ending.Blocked).ToString();
-            Goals = GetQuantityAndPlaceOfActionForPlayer(playerId, Ending.Goal).ToString();
-            StealsW = GetQuantityAndPlaceOfActionForPlayer(playerId, Ending.Steal_W).ToString();
-            Saves = GetQuantityAndPlaceOfActionForPlayer(playerId, Ending.Save).ToString();
-            StealsL = GetQuantityAndPlaceOfActionForPlayer(playerId, Ending.Steal_L).ToString();
-            Misses = GetQuantityAndPlaceOfActionForPlayer(playerId, Ending.Miss).ToString();
-
-            var fouls = GetQuantityAndPlaceOfActionForPlayer(playerId, Ending.Foul);
-            Foules = (fouls / 1000).ToString();
-            TwoMinutes = ((fouls % 1000) / 100).ToString();
-            RedCards = ((fouls % 100) / 10).ToString();
-            BlueCards = (fouls % 10).ToString();
+            var result = Simulo_BdD.GetOneClub(idTeam);
+            if (!result.Success || result.Data == null) return;
+            var team = result.Data;
+            LoadTeamData(team);
         }
 
-        //public void LoadTeamData(Guid idTeam)
-        //{
-        //    lblTeamId.Text = IdTeam.ToString();
-
-        //    var result = Simulo_BdD.GetOneClub(idTeam);
-        //    if (!result.Success) return;
-        //    var team = result.Data;
         public void LoadTeamData(Club_Dto team)
         {
-            lblTeamId.Text = team.Id.ToString();
-
-            //var result = Simulo_BdD.GetOneClub(idTeam);
-            //if (!result.Success) return;
-            //var team = result.Data;
+            if (team == null) return;
 
             Title = team.Name;
 

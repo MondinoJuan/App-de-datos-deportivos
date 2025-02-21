@@ -45,8 +45,8 @@
         <!-- Número del jugador -->
         <Label 
             Grid.Column="0"
-           Text="{Binding Number}" 
-           Style="{StaticResource TextLabel}" />
+            Text="{Binding Number}" 
+            Style="{StaticResource TextLabel}" />
 
         <!-- Nombre del jugador -->
         <Label 

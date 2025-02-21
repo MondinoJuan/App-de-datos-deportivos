@@ -1,26 +1,32 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Frontend.Resources.Components.PageOfActions"
-             xmlns:local="clr-namespace:Frontend.Resources.Components"
-             >
+             x:Class="Frontend.Resources.Components.PageOfActionsTeam"
+             xmlns:local="clr-namespace:Frontend.Resources.Components">
 
     <!--<ContentView.BindingContext>
-        <local:PageOfActions />
+        <local:PageOfActionsTeam />
     </ContentView.BindingContext>-->
 
     <VerticalStackLayout>
 
         <!-- ////////////////////////////////// A borrar /////////////////////////////////////// -->
         <Label
-            x:Name="lblPlayerId"
-            TextColor="Orange"
-            />
-
-        <Label
                 x:Name="lblTeamId"
                 TextColor="Orange"
                 />
+
+        <Label
+            x:Name="lblTeam_Id"
+            Text="{Binding Id}"
+            TextColor="Moccasin"
+            />
+
+        <Label
+            x:Name="lblTeam_Name"
+            Text="{Binding Name}"
+            TextColor="Moccasin"
+            />
         <!-- ////////////////////////////////// A borrar /////////////////////////////////////// -->
 
         <Label

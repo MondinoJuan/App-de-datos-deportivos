@@ -10,24 +10,26 @@ namespace Frontend.Pages;
 
 public partial class ActionCreate : ContentPage, INotifyPropertyChanged
 {
-    private PlayerAction_Dto action1 { get; set; }
+    private PlayerAction_Dto Action1 { get; set; }
     private Guid IdPlayerPasado { get; set; }
-    private Match_Dto MatchActual { get; set; }
+    private Match_Dto MatchActual { get; set; } = new();
     private TaskCompletionSource<bool> _taskCompletionSource;
 
-    public ActionCreateViewModel ViewModel { get; set; }
+    public ActionCreate_ViewModel ViewModel { get; set; }
 
 
     public ActionCreate(Guid id_Player)
     {
         InitializeComponent();
-        action1 = new PlayerAction_Dto { Id = Guid.NewGuid() };
+        Action1 = new PlayerAction_Dto { Id = Guid.NewGuid() };
         _taskCompletionSource = new TaskCompletionSource<bool>();
         IdPlayerPasado = id_Player;
 
-        MatchActual = Simulo_BdD.GetAllMatches().Data.First();
+        var result = Simulo_BdD.GetAllMatches();
+        if (!result.Success) return;
+        MatchActual = result.Data.First();
 
-        ViewModel = new ActionCreateViewModel(action1, IdPlayerPasado, MatchActual, _taskCompletionSource);
+        ViewModel = new ActionCreate_ViewModel(Action1, IdPlayerPasado, MatchActual, _taskCompletionSource);
         BindingContext = ViewModel;
     }
 
@@ -37,11 +39,11 @@ public partial class ActionCreate : ContentPage, INotifyPropertyChanged
         int selectedIndex = picker.SelectedIndex;
         if (selectedIndex != -1)
         {
-            action1.Ending = (Ending)selectedIndex;
+            Action1.Ending = (Ending)selectedIndex;
         }
         ViewModel.DidPckAction = true;
 
-        if (action1.Ending == Ending.Foul)
+        if (Action1.Ending == Ending.Foul)
         {
             ViewModel.ActionNeedsSanction = true;
         }
@@ -50,7 +52,7 @@ public partial class ActionCreate : ContentPage, INotifyPropertyChanged
             ViewModel.ActionNeedsSanction = false;
         }
 
-        if (action1.Ending == Ending.Goal || action1.Ending == Ending.Miss || action1.Ending == Ending.Save)
+        if (Action1.Ending == Ending.Goal || Action1.Ending == Ending.Miss || Action1.Ending == Ending.Save)
         {
             ViewModel.ActionNeedsGoal = true;
         }
@@ -66,7 +68,7 @@ public partial class ActionCreate : ContentPage, INotifyPropertyChanged
         int selectedIndex = picker.SelectedIndex;
         if (selectedIndex != -1)
         {
-            action1.Sanction = ((Sanction)selectedIndex);
+            Action1.Sanction = ((Sanction)selectedIndex);
         }
         ViewModel.DidPckSanction = true;
     }
@@ -77,8 +79,8 @@ public partial class ActionCreate : ContentPage, INotifyPropertyChanged
         var touchPosition = e.GetPosition((VisualElement)sender);
         if (touchPosition is not null)
         {
-            action1.ActionPositionX = (float)touchPosition.Value.X;
-            action1.ActionPositionY = (float)touchPosition.Value.Y;
+            Action1.ActionPositionX = (float)touchPosition.Value.X;
+            Action1.ActionPositionY = (float)touchPosition.Value.Y;
 
             // Crea una nueva marca (círculo)
             var circle = new BoxView
@@ -91,7 +93,7 @@ public partial class ActionCreate : ContentPage, INotifyPropertyChanged
             };
 
             // Calcula la posición en la pantalla
-            AbsoluteLayout.SetLayoutBounds(circle, new Rect(action1.ActionPositionX + 10, action1.ActionPositionY - 10, 20, 20));
+            AbsoluteLayout.SetLayoutBounds(circle, new Rect(Action1.ActionPositionX + 10, Action1.ActionPositionY - 10, 20, 20));
             AbsoluteLayout.SetLayoutFlags(circle, AbsoluteLayoutFlags.None);
 
             // Añade el círculo al contenedor de marcas
@@ -107,8 +109,8 @@ public partial class ActionCreate : ContentPage, INotifyPropertyChanged
         var touchPosition = e.GetPosition((VisualElement)sender);
         if (touchPosition is not null)
         {
-            action1.DefinitionPlaceX = (float)touchPosition.Value.X;
-            action1.DefinitionPlaceY = (float)touchPosition.Value.Y;
+            Action1.DefinitionPlaceX = (float)touchPosition.Value.X;
+            Action1.DefinitionPlaceY = (float)touchPosition.Value.Y;
 
             // Crea una nueva marca (círculo)
             var circle = new BoxView
@@ -121,7 +123,7 @@ public partial class ActionCreate : ContentPage, INotifyPropertyChanged
             };
 
             // Calcula la posición en la pantalla
-            AbsoluteLayout.SetLayoutBounds(circle, new Rect(action1.DefinitionPlaceX - 10, action1.DefinitionPlaceY, 20, 20));
+            AbsoluteLayout.SetLayoutBounds(circle, new Rect(Action1.DefinitionPlaceX - 10, Action1.DefinitionPlaceY, 20, 20));
             AbsoluteLayout.SetLayoutFlags(circle, AbsoluteLayoutFlags.None);
 
             // Añade el círculo al contenedor de marcas
@@ -133,14 +135,14 @@ public partial class ActionCreate : ContentPage, INotifyPropertyChanged
 
     private void OnSwitchToggled(object sender, ToggledEventArgs e)
     {
-        action1.WhichHalf = e.Value;
+        Action1.WhichHalf = e.Value;
 
         ViewModel.DidSwtHalf = true;
     }
 
     private void OnDescriptionTextChanged(object sender, TextChangedEventArgs e)
     {
-        action1.Description = e.NewTextValue;
+        Action1.Description = e.NewTextValue;
     }
 
     public Task<bool> GetResultAsync()
@@ -149,14 +151,14 @@ public partial class ActionCreate : ContentPage, INotifyPropertyChanged
     }
 }
 
-public class ActionCreateViewModel : BaseViewModel
+public class ActionCreate_ViewModel : BaseViewModel
 {
-    private PlayerAction_Dto action1;
+    private PlayerAction_Dto? action1;
     private Guid IdPlayerPasado;
-    private Match_Dto MatchActual;
+    private Match_Dto? MatchActual;
     private TaskCompletionSource<bool> _taskCompletionSource;
 
-    public ActionCreateViewModel(PlayerAction_Dto action1, Guid idPlayerPasado, Match_Dto matchActual, TaskCompletionSource<bool> taskCompletionSource)
+    public ActionCreate_ViewModel(PlayerAction_Dto action1, Guid idPlayerPasado, Match_Dto matchActual, TaskCompletionSource<bool> taskCompletionSource)
     {
         this.action1 = action1;
         this.IdPlayerPasado = idPlayerPasado;
@@ -273,6 +275,7 @@ public class ActionCreateViewModel : BaseViewModel
 
     private async Task OnSubmit()
     {
+        if (action1 == null) return;
         var result = Simulo_BdD.AddAction(action1);
         Console.WriteLine(result.Message);
 
@@ -299,7 +302,10 @@ public class ActionCreateViewModel : BaseViewModel
             _taskCompletionSource.SetResult(false);
         }
 
-        await Application.Current.MainPage.Navigation.PushAsync(new MatchView());
+        if (Application.Current?.Windows.Count > 0 && Application.Current.Windows[0].Page is NavigationPage navPage)
+        {
+            await navPage.PushAsync(new MatchView());
+        }
     }
 
     private async Task OnCancel()
@@ -309,6 +315,9 @@ public class ActionCreateViewModel : BaseViewModel
         MatchActual = null;
 
         _taskCompletionSource.SetResult(false);
-        await Application.Current.MainPage.Navigation.PushAsync(new MatchView());
+        if (Application.Current?.Windows.Count > 0 && Application.Current.Windows[0].Page is NavigationPage navPage)
+        {
+            await navPage.PushAsync(new MatchView());
+        }
     }
 }

@@ -172,8 +172,9 @@ public partial class CreateModify_PlayerModal : ContentPage, INotifyPropertyChan
         return _playerAGuardar.Task;
     }
 
-    public event PropertyChangedEventHandler PropertyChanged;
-    protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+    public new event PropertyChangedEventHandler? PropertyChanged;
+
+    protected new void OnPropertyChanged([CallerMemberName] string propertyName = null!)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }

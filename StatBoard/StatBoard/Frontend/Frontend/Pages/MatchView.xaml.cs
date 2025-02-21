@@ -5,18 +5,19 @@ using Frontend.Resources.PDF_Pages;
 using System.Globalization;
 using System;
 using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace Frontend.Pages;
 
 public partial class MatchView : ContentPage, INotifyPropertyChanged
 {
     private Match_Dto Match { get; set; }
-    private Club_Dto LocalTeam { get; set; }
-    private Club_Dto AwayTeam { get; set; }
+    private Club_Dto LocalTeam { get; set; } = new();
+    private Club_Dto AwayTeam { get; set; } = new();
     public ObservableCollection<Player_Dto> TeamLocalPlayers { get; set; } = new ObservableCollection<Player_Dto>();
     public ObservableCollection<Player_Dto> TeamAwayPlayers { get; set; } = new ObservableCollection<Player_Dto>();
 
-    private string _localActionSelected;
+    private string _localActionSelected = string.Empty;
     public string LocalActionSelected
     {
         get => _localActionSelected;
@@ -26,7 +27,7 @@ public partial class MatchView : ContentPage, INotifyPropertyChanged
             OnPropertyChanged(nameof(LocalActionSelected));
         }
     }
-    private string _awayActionSelected;
+    private string _awayActionSelected = string.Empty;
     public string AwayActionSelected
     {
         get => _awayActionSelected;
@@ -68,6 +69,13 @@ public partial class MatchView : ContentPage, INotifyPropertyChanged
         LoadTeams();
 
         BindingContext = this;
+    }
+
+    public new event PropertyChangedEventHandler? PropertyChanged;
+
+    protected new void OnPropertyChanged([CallerMemberName] string propertyName = null!)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 
     public void UpdateScore()
