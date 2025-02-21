@@ -73,12 +73,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Resources\Components\PageOfActionsTeam.xaml.cs">
-      <DependentUpon>PageOfActionsTeam.xaml</DependentUpon>
-    </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
     <MauiXaml Update="Pages\ActionCreate.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
@@ -95,9 +89,6 @@
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
     <MauiXaml Update="Resources\Components\AnimacionPensar.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </MauiXaml>
-    <MauiXaml Update="Resources\Components\PageOfActionsTeam.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
     <MauiXaml Update="Resources\Components\PageOfActions.xaml">
