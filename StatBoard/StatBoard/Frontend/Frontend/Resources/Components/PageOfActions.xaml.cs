@@ -53,7 +53,6 @@ namespace Frontend.Resources.Components
         private string _redCards = string.Empty;
         private string _blueCards = string.Empty;
 
-        // Propiedades públicas para el enlace de datos
         public string Title
         {
             get => _title;
@@ -62,7 +61,7 @@ namespace Frontend.Resources.Components
                 if (_title != value)
                 {
                     _title = value;
-                    OnPropertyChanged();  // Notifica el cambio de propiedad
+                    OnPropertyChanged();
                     lblTitle.Text = value;
                 }
             }
@@ -137,7 +136,7 @@ namespace Frontend.Resources.Components
                 }
             }
         }
-
+        
         public string Misses
         {
             get => _misses;
@@ -220,12 +219,6 @@ namespace Frontend.Resources.Components
             control.LoadPlayerData((Guid)newValue);
         }
 
-        //private static void OnIdTeamChanged(BindableObject bindable, object oldValue, object newValue)
-        //{
-        //    var control = (PageOfActions)bindable;
-        //    control.LoadTeamData((Guid)newValue);
-        //}
-
         private static void OnTeamChanged(BindableObject bindable, object oldValue, object newValue)
         {
             var control = (PageOfActions)bindable;
@@ -241,7 +234,6 @@ namespace Frontend.Resources.Components
 
         public void LoadPlayerData(Guid playerId)
         {
-            lblPlayerId.Text = IdPlayer.ToString();
 
             var result = Simulo_BdD.GetOnePlayer(playerId);
             if (!result.Success) return;
@@ -261,21 +253,8 @@ namespace Frontend.Resources.Components
             RedCards = ((fouls % 100) / 10).ToString();
             BlueCards = (fouls % 10).ToString();
         }
-
-        //public void LoadTeamData(Guid idTeam)
-        //{
-        //    lblTeamId.Text = IdTeam.ToString();
-
-        //    var result = Simulo_BdD.GetOneClub(idTeam);
-        //    if (!result.Success) return;
-        //    var team = result.Data;
         public void LoadTeamData(Club_Dto team)
         {
-            lblTeamId.Text = team.Id.ToString();
-
-            //var result = Simulo_BdD.GetOneClub(idTeam);
-            //if (!result.Success) return;
-            //var team = result.Data;
 
             Title = team.Name;
 
@@ -311,6 +290,7 @@ namespace Frontend.Resources.Components
             Saves = cantidadSaves.ToString();
             StealsL = cantidadStealsL.ToString();
             Misses = cantidadMisses.ToString();
+            Foules = cantidadFoules.ToString();
             TwoMinutes = cantidad2Minutos.ToString();
             RedCards = cantidadRojas.ToString();
             BlueCards = cantidadAzules.ToString();
@@ -370,7 +350,6 @@ namespace Frontend.Resources.Components
         {
             foreach (var coo in coordenadas)
             {
-                // Crea una nueva marca (círculo)
                 var circle = new BoxView
                 {
                     WidthRequest = 20,
@@ -379,10 +358,8 @@ namespace Frontend.Resources.Components
                     CornerRadius = 10,
                     Opacity = 0.6
                 };
-                // Calcula la posición en la pantalla
                 AbsoluteLayout.SetLayoutBounds(circle, new Rect(coo.X + 10, coo.Y, 20, 20));
                 AbsoluteLayout.SetLayoutFlags(circle, AbsoluteLayoutFlags.None);
-                // Añade el círculo al contenedor de marcas
                 container.Children.Add(circle);
             }
         }
