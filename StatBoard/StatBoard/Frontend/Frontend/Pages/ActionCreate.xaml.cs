@@ -93,7 +93,10 @@ public partial class ActionCreate : ContentPage, INotifyPropertyChanged
             };
 
             // Calcula la posición en la pantalla
-            AbsoluteLayout.SetLayoutBounds(circle, new Rect(Action1.ActionPositionX + 10, Action1.ActionPositionY - 10, 20, 20));
+            //AbsoluteLayout.SetLayoutBounds(circle, 
+            //    new Rect(Action1.ActionPositionX + 10, Action1.ActionPositionY - 10, 20, 20));
+            AbsoluteLayout.SetLayoutBounds(circle,
+                new Rect(Action1.ActionPositionX, Action1.ActionPositionY, 20, 20));
             AbsoluteLayout.SetLayoutFlags(circle, AbsoluteLayoutFlags.None);
 
             // Añade el círculo al contenedor de marcas

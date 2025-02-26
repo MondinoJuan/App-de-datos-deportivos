@@ -100,10 +100,27 @@ namespace Frontend.Resources.PDF_Pages
 
         private void SummaryMatch(XGraphics gfx, PdfPage pdfPage)
         {
-            XFont titleFont = new XFont("Times New Roman", 18);
-            XFont normalFont = new XFont("Arial", 12);
-            XFont boldFont = new XFont("Arial", 12);
-            XFont subTitleFont = new XFont("Times New Roman", 14);
+            XFont titleFont;
+            XFont normalFont;
+            XFont boldFont;
+            XFont subTitleFont;
+
+            try
+            {
+                titleFont = new XFont("Times New Roman", 18);
+                normalFont = new XFont("Arial", 12);
+                boldFont = new XFont("Arial", 12);
+                subTitleFont = new XFont("Times New Roman", 14);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al crear la fuente: {ex.Message}");
+                // Usar una fuente alternativa
+                titleFont = new XFont("Verdana", 18);
+                normalFont = new XFont("Verdana", 12);
+                boldFont = new XFont("Verdana", 12);
+                subTitleFont = new XFont("Verdana", 14);
+            }
 
             double yPos = 40;
             gfx.DrawString("STAT-BOARD", titleFont, XBrushes.Black, new XPoint(200, yPos));

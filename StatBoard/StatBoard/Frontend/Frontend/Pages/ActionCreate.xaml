@@ -83,13 +83,10 @@
             </StackLayout>
 
             <StackLayout Orientation="Horizontal"
-                         ZIndex="0"
-                         InputTransparent="True">
+                         ZIndex="0">
                 <Grid ColumnSpacing="60"
                       RowSpacing="80"
-                      ZIndex="1"
-                      InputTransparent="True"
-                      BackgroundColor="Blue">
+                      ZIndex="1">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="300" />
@@ -103,15 +100,13 @@
                         Text="Seleccione la posición en el campo"
                         Style="{StaticResource TextLabel}" 
                         Grid.Column="0"
-                        Grid.Row="0"
-                        InputTransparent="True"/>
+                        Grid.Row="0"/>
 
                     <Label 
                         Text="Seleccione la posición en el arco"
                         Style="{StaticResource TextLabel}" 
                         Grid.Column="1"
-                        Grid.Row="0"
-                        InputTransparent="True">
+                        Grid.Row="0">
                         <Label.Triggers>
                             <DataTrigger TargetType="Label" Binding="{Binding ActionNeedsGoal}" Value="False">
                                 <Setter Property="IsVisible" Value="False" />

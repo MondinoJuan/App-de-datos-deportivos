@@ -10,37 +10,14 @@
         HorizontalOptions="Fill" 
         VerticalOptions="Fill">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="30" />
-            <ColumnDefinition Width="430" />
-            <ColumnDefinition Width="70" />
+            <ColumnDefinition Width="0.1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="0.1*" />
+            <ColumnDefinition Width="0.1*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="30"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-
-        <!-- Líneas horizontales -->
-        <BoxView 
-            Grid.Row="0" 
-            Grid.ColumnSpan="6" 
-            HeightRequest="1" 
-            BackgroundColor="Green"
-            VerticalOptions="Start"/>
-        <BoxView 
-            Grid.Row="0" 
-            Grid.ColumnSpan="6" 
-            HeightRequest="1" 
-            BackgroundColor="Green"
-            VerticalOptions="End"/>
-
-        <!-- Líneas verticales -->
-        <BoxView Grid.RowSpan="2" Grid.Column="0" WidthRequest="1" BackgroundColor="Green" HorizontalOptions="Start"/>
-        <BoxView Grid.RowSpan="2" Grid.Column="1" WidthRequest="1" BackgroundColor="Green" HorizontalOptions="Start"/>
-        <BoxView Grid.RowSpan="2" Grid.Column="2" WidthRequest="1" BackgroundColor="Green" HorizontalOptions="Start"/>
-
-        <BoxView Grid.RowSpan="2" Grid.Column="0" WidthRequest="1" BackgroundColor="Green" HorizontalOptions="End"/>
-        <BoxView Grid.RowSpan="2" Grid.Column="1" WidthRequest="1" BackgroundColor="Green" HorizontalOptions="End"/>
-        <BoxView Grid.RowSpan="2" Grid.Column="2" WidthRequest="1" BackgroundColor="Green" HorizontalOptions="End"/>
-
 
         <!-- Número del jugador -->
         <Label 
@@ -60,7 +37,7 @@
             ImageSource="lapiz_edit.png"
             BackgroundColor="Wheat"
             BorderWidth="0"
-            HorizontalOptions="Start"
+            HorizontalOptions="Center"
             VerticalOptions="Center"
             Padding="5"
             WidthRequest="30"
@@ -69,11 +46,11 @@
 
         <!-- Botón de eliminar -->
         <Button 
-            Grid.Column="2"
+            Grid.Column="3"
             ImageSource="trash_can.png"
             BackgroundColor="Transparent"
             BorderWidth="0"
-            HorizontalOptions="End"
+            HorizontalOptions="Center"
             VerticalOptions="Center"
             Padding="5"
             WidthRequest="30"

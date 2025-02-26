@@ -30,142 +30,64 @@
             <!-- Encabezado de equipos -->
             <Grid 
                 ColumnSpacing="10" 
-                Padding="10, 0, 0, -10">
+                Padding="10, 0, 0, -10"
+                >
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="2*" />
-                    <ColumnDefinition Width="50" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="50" />
-                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="0.1*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width=".2*" />
+                    <ColumnDefinition Width=".2*" />
+                    <ColumnDefinition Width="0.1*" />
+                    <ColumnDefinition Width="1*" />
                 </Grid.ColumnDefinitions>
 
-                <!-- Líneas horizontales -->
-                <BoxView 
-                    Grid.Row="0" 
-                    Grid.ColumnSpan="6" 
-                    HeightRequest="1" 
-                    BackgroundColor="White"
-                    VerticalOptions="Start"/>
-                <BoxView 
-                    Grid.Row="0" 
-                    Grid.ColumnSpan="6" 
-                    HeightRequest="1" 
-                    BackgroundColor="White"
-                    VerticalOptions="End"/>
-                <BoxView 
-                    Grid.Row="1"
-                    Grid.ColumnSpan="6" 
-                    HeightRequest="1" 
-                    BackgroundColor="White"
-                    VerticalOptions="Start"/>
-                <BoxView 
-                    Grid.Row="1" 
-                    Grid.ColumnSpan="6" 
-                    HeightRequest="1" 
-                    BackgroundColor="White"
-                    VerticalOptions="End"/>
-
-                <!-- Líneas verticales -->
-                <BoxView Grid.RowSpan="2" Grid.Column="0" WidthRequest="1" BackgroundColor="White" HorizontalOptions="Start"/>
-                <BoxView Grid.RowSpan="2" Grid.Column="1" WidthRequest="1" BackgroundColor="White" HorizontalOptions="Start"/>
-                <BoxView Grid.RowSpan="2" Grid.Column="2" WidthRequest="1" BackgroundColor="White" HorizontalOptions="Start"/>
-                <BoxView Grid.RowSpan="2" Grid.Column="3" WidthRequest="1" BackgroundColor="White" HorizontalOptions="Start"/>
-                <BoxView Grid.RowSpan="2" Grid.Column="4" WidthRequest="1" BackgroundColor="White" HorizontalOptions="Start"/>
-                <BoxView Grid.RowSpan="2" Grid.Column="5" WidthRequest="1" BackgroundColor="White" HorizontalOptions="Start"/>
-                
-                <BoxView Grid.RowSpan="2" Grid.Column="0" WidthRequest="1" BackgroundColor="White" HorizontalOptions="End"/>
-                <BoxView Grid.RowSpan="2" Grid.Column="1" WidthRequest="1" BackgroundColor="White" HorizontalOptions="End"/>
-                <BoxView Grid.RowSpan="2" Grid.Column="2" WidthRequest="1" BackgroundColor="White" HorizontalOptions="End"/>
-                <BoxView Grid.RowSpan="2" Grid.Column="3" WidthRequest="1" BackgroundColor="White" HorizontalOptions="End"/>
-                <BoxView Grid.RowSpan="2" Grid.Column="4" WidthRequest="1" BackgroundColor="White" HorizontalOptions="End"/>
-                <BoxView Grid.RowSpan="2" Grid.Column="5" WidthRequest="1" BackgroundColor="White" HorizontalOptions="End"/>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
 
                 <Label Grid.Column="0" 
+                       Grid.Row="0"
+                       Grid.ColumnSpan="2"
                        x:Name="lblTeamLocal" 
                        Style="{StaticResource SubtitleLabel}" />
 
                 <Label Grid.Column="2" 
+                       Grid.Row="0" 
                        x:Name="lblScoreL"
                        Style="{StaticResource SubtitleLabel}" />
 
                 <Label Grid.Column="3" 
+                       Grid.Row="0"
                        x:Name="lblScoreA"
                        Style="{StaticResource SubtitleLabel}" />
 
-                <Label Grid.Column="5" 
+                <Label Grid.Column="4"
+                       Grid.Row="0"
+                       Grid.ColumnSpan="2"
                        x:Name="lblTeamAway" 
                        Style="{StaticResource SubtitleLabel}" />
-            </Grid>
 
-            <!-- Subtítulos de la tabla -->
-            <Grid 
-                ColumnSpacing="10" 
-                Padding="10, 0, 0, -10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="1*" />
-                    <ColumnDefinition Width="100" />
-                    <ColumnDefinition Width="100" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="1*" />
-                </Grid.ColumnDefinitions>
-
-                <!-- Líneas horizontales -->
-                <BoxView 
-                    Grid.Row="0" 
-                    Grid.ColumnSpan="6" 
-                    HeightRequest="1" 
-                    BackgroundColor="White" 
-                    VerticalOptions="Start"/>
-                <BoxView 
-                    Grid.Row="0" 
-                    Grid.ColumnSpan="6" 
-                    HeightRequest="1" 
-                    BackgroundColor="White" 
-                    VerticalOptions="End"/>
-                <BoxView 
-                    Grid.Row="1" 
-                    Grid.ColumnSpan="6" 
-                    HeightRequest="1" 
-                    BackgroundColor="White" 
-                    VerticalOptions="Start"/>
-                <BoxView 
-                    Grid.Row="1" 
-                    Grid.ColumnSpan="6" 
-                    HeightRequest="1" 
-                    BackgroundColor="White" 
-                    VerticalOptions="End"/>
-
-                <!-- Líneas verticales -->
-                <BoxView Grid.RowSpan="2" Grid.Column="0" WidthRequest="1" BackgroundColor="White" HorizontalOptions="Start"/>
-                <BoxView Grid.RowSpan="2" Grid.Column="1" WidthRequest="1" BackgroundColor="White" HorizontalOptions="Start"/>
-                <BoxView Grid.RowSpan="2" Grid.Column="2" WidthRequest="1" BackgroundColor="White" HorizontalOptions="Start"/>
-                <BoxView Grid.RowSpan="2" Grid.Column="3" WidthRequest="1" BackgroundColor="White" HorizontalOptions="Start"/>
-                <BoxView Grid.RowSpan="2" Grid.Column="4" WidthRequest="1" BackgroundColor="White" HorizontalOptions="Start"/>
-                <BoxView Grid.RowSpan="2" Grid.Column="5" WidthRequest="1" BackgroundColor="White" HorizontalOptions="Start"/>
-                
-                <BoxView Grid.RowSpan="2" Grid.Column="0" WidthRequest="1" BackgroundColor="White" HorizontalOptions="End"/>
-                <BoxView Grid.RowSpan="2" Grid.Column="1" WidthRequest="1" BackgroundColor="White" HorizontalOptions="End"/>
-                <BoxView Grid.RowSpan="2" Grid.Column="2" WidthRequest="1" BackgroundColor="White" HorizontalOptions="End"/>
-                <BoxView Grid.RowSpan="2" Grid.Column="3" WidthRequest="1" BackgroundColor="White" HorizontalOptions="End"/>
-                <BoxView Grid.RowSpan="2" Grid.Column="4" WidthRequest="1" BackgroundColor="White" HorizontalOptions="End"/>
-                <BoxView Grid.RowSpan="2" Grid.Column="5" WidthRequest="1" BackgroundColor="White" HorizontalOptions="End"/>
-                
+                <!-- Subtítulos de la tabla -->
 
                 <Label 
                     Grid.Column="0" 
+                    Grid.Row="1"
+                    Grid.ColumnSpan="1"
                     Text="N°"
                     Style="{StaticResource TextLabel}" />
 
                 <Label 
                     Grid.Column="1" 
+                    Grid.Row="1"
                     Text="Nombre Jugador Local" 
                     Style="{StaticResource TextLabel}" />
 
                 <Picker 
                     x:Name="pckLocalActions"
                     Grid.Column="2" 
+                    Grid.Row="1"
                     Title="Acción" 
                     Style="{StaticResource PickerStyle}" 
                     SelectedIndexChanged="OnLocalPickerSelectedIndexChanged">
@@ -183,6 +105,7 @@
                 </Picker>
                 <Picker 
                     x:Name="pckAwayActions"
+                    Grid.Row="1"
                     Grid.Column="3" 
                     Title="Acción" 
                     Style="{StaticResource PickerStyle}"
@@ -201,55 +124,28 @@
                 </Picker>
 
                 <Label 
+                    Grid.Row="1"
                     Grid.Column="4" 
                     Text="N°" 
                     FontAttributes="Bold" 
                     Style="{StaticResource TextLabel}" />
 
                 <Label 
-                   Grid.Column="5" 
-                   Text="Nombre Jugador Visitante" 
-                   FontAttributes="Bold" 
-                   Style="{StaticResource TextLabel}" />
-            </Grid>
+                    Grid.Row="1"
+                    Grid.Column="5" 
+                    Text="Nombre Jugador Visitante" 
+                    FontAttributes="Bold" 
+                    Style="{StaticResource TextLabel}" />
 
-            <!-- Filas dinámicas de jugadores -->
-            <Grid 
-                ColumnSpacing="10" 
-                Padding="10, 0, 0, -10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*" />
-                    <ColumnDefinition Width="100" />
-                    <ColumnDefinition Width="100" />
-                    <ColumnDefinition Width="1*" />
-                </Grid.ColumnDefinitions>
-
-                <!-- Líneas horizontales -->
-                <BoxView Grid.Row="0" Grid.ColumnSpan="4" HeightRequest="1" BackgroundColor="White" VerticalOptions="Start"/>
-                <BoxView Grid.Row="1" Grid.ColumnSpan="4" HeightRequest="1" BackgroundColor="White" VerticalOptions="Start"/>
-                <BoxView Grid.Row="2" Grid.ColumnSpan="4" HeightRequest="1" BackgroundColor="White" VerticalOptions="Start"/>
-                
-                <BoxView Grid.Row="0" Grid.ColumnSpan="4" HeightRequest="1" BackgroundColor="White" VerticalOptions="End"/>
-                <BoxView Grid.Row="1" Grid.ColumnSpan="4" HeightRequest="1" BackgroundColor="White" VerticalOptions="End"/>
-                <BoxView Grid.Row="2" Grid.ColumnSpan="4" HeightRequest="1" BackgroundColor="White" VerticalOptions="End"/>
-                
-
-                <!-- Líneas verticales -->
-                <BoxView Grid.RowSpan="3" Grid.Column="0" WidthRequest="1" BackgroundColor="White" HorizontalOptions="Start"/>
-                <BoxView Grid.RowSpan="3" Grid.Column="1" WidthRequest="1" BackgroundColor="White" HorizontalOptions="Start"/>
-                <BoxView Grid.RowSpan="3" Grid.Column="2" WidthRequest="1" BackgroundColor="White" HorizontalOptions="Start"/>
-                <BoxView Grid.RowSpan="3" Grid.Column="3" WidthRequest="1" BackgroundColor="White" HorizontalOptions="Start"/>
-
-                <BoxView Grid.RowSpan="3" Grid.Column="0" WidthRequest="1" BackgroundColor="White" HorizontalOptions="End"/>
-                <BoxView Grid.RowSpan="3" Grid.Column="1" WidthRequest="1" BackgroundColor="White" HorizontalOptions="End"/>
-                <BoxView Grid.RowSpan="3" Grid.Column="2" WidthRequest="1" BackgroundColor="White" HorizontalOptions="End"/>
-                <BoxView Grid.RowSpan="3" Grid.Column="3" WidthRequest="1" BackgroundColor="White" HorizontalOptions="End"/>
+                <!-- Filas dinámicas de jugadores -->
 
                 <!-- Jugadores locales -->
                 <StackLayout 
                     x:Name="PlayerListLocal" 
                     BindableLayout.ItemsSource="{Binding TeamLocalPlayers}"
+                    Grid.Row="2"
                     Grid.Column="0"
+                    Grid.ColumnSpan="2"
                     HorizontalOptions="Fill" 
                     VerticalOptions="Fill">
                     <StackLayout.Triggers>
@@ -270,7 +166,8 @@
                     Spacing="17"
                     x:Name="stklListLocalEndings" 
                     BindableLayout.ItemsSource="{Binding TeamLocalPlayers}"
-                    Grid.Column="1"
+                    Grid.Row="2"
+                    Grid.Column="2"
                     HorizontalOptions="Center"
                     VerticalOptions="Start"
                     Padding="0,10,0,0">
@@ -295,10 +192,13 @@
                 </StackLayout>
 
                 <!-- Mensaje de jugadores locales vacíos -->
-                <StackLayout IsVisible="False"
-                             Grid.Column="0"
-                             HorizontalOptions="Center"
-                             VerticalOptions="Center">
+                <StackLayout 
+                    IsVisible="False"
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center">
                     <StackLayout.Triggers>
                         <DataTrigger TargetType="StackLayout" Binding="{Binding TeamLocalPlayers.Count}" Value="0">
                             <Setter Property="IsVisible" Value="True" />
@@ -314,7 +214,8 @@
                     x:Name="stklListAwayEndings" 
                     BindableLayout.ItemsSource="{Binding TeamAwayPlayers}"
                     Spacing="20"
-                    Grid.Column="2"
+                    Grid.Row="2"
+                    Grid.Column="3"
                     HorizontalOptions="Center"
                     VerticalOptions="Start"
                     Padding="0,10,0,0">
@@ -342,7 +243,9 @@
                 <StackLayout 
                     x:Name="PlayerListAway" 
                     BindableLayout.ItemsSource="{Binding TeamAwayPlayers}"
-                    Grid.Column="3"
+                    Grid.Row="2"
+                    Grid.Column="4"
+                    Grid.ColumnSpan="2"
                     HorizontalOptions="Fill" 
                     VerticalOptions="Fill">
                     <StackLayout.Triggers>
@@ -361,10 +264,12 @@
 
                 <!-- Mensaje de jugadores visitantes vacíos -->
                 <StackLayout
-                     IsVisible="False"
-                     Grid.Column="3"
-                     HorizontalOptions="Center"
-                     VerticalOptions="Center">
+                    IsVisible="False"
+                    Grid.Row="2"
+                    Grid.Column="4"
+                    Grid.ColumnSpan="2"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center">
                     <StackLayout.Triggers>
                         <DataTrigger TargetType="StackLayout" Binding="{Binding TeamAwayPlayers.Count}" Value="0">
                             <Setter Property="IsVisible" Value="True" />
