@@ -4,8 +4,13 @@
              x:Class="Frontend.Pages.ActionCreate"
              Title="Registrar Acción"
              Style="{StaticResource PageBackground}"
+             xmlns:converters="clr-namespace:Frontend.Resources.Converters"
              xmlns:vm="clr-namespace:Frontend.Pages"
              x:DataType="vm:ActionCreate_ViewModel">
+
+    <ContentPage.Resources>
+        <converters:GreaterThanConverter x:Key="GreaterThanConverter"/>
+    </ContentPage.Resources>
 
     <ScrollView>
         <VerticalStackLayout 
@@ -65,71 +70,66 @@
             <!-- Selector de mitad -->
             <StackLayout 
                 Orientation="Horizontal" 
-                Spacing="10" 
+                Spacing="5" 
                 VerticalOptions="Center" 
-                HorizontalOptions="Start">
+                HorizontalOptions="Center">
+
                 <Label 
-                    Text="Primera mitad"
+                    Text="Primera mitad" 
                     Style="{StaticResource TextLabel}" />
-                <Switch 
-                    x:Name="whichHalf"
-                    IsToggled="false"
-                    Toggled="OnSwitchToggled"
-                    OnColor="#27AE60"
-                    ThumbColor="#FFA726"/>
+
+                <Grid 
+                    WidthRequest="40" 
+                    HeightRequest="30"
+                    Padding="0, -5, 0, 0">
+                    <Switch 
+                        x:Name="whichHalf"
+                        IsToggled="false"
+                        Toggled="OnSwitchToggled"
+                        OnColor="#FFA726"
+                        ThumbColor="#003364"
+                        BackgroundColor="Transparent"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"/>
+                </Grid>
+
                 <Label 
-                    Text="Segunda mitad"
+                    Text="Segunda mitad" 
                     Style="{StaticResource TextLabel}" />
+
             </StackLayout>
 
-            <StackLayout Orientation="Horizontal"
-                         ZIndex="0"
-                         InputTransparent="True">
-                <Grid ColumnSpacing="60"
-                      RowSpacing="80"
-                      ZIndex="1"
-                      InputTransparent="True"
-                      BackgroundColor="Blue">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="300" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="20" />
-                        <RowDefinition Height="250" />
-                        <RowDefinition Height="10" />
-                    </Grid.RowDefinitions>
+            <StackLayout 
+                Orientation="Vertical"
+                Spacing="20">
+                <StackLayout.Style>
+                    <Style TargetType="StackLayout">
+                        <Style.Triggers>
+                            <DataTrigger 
+                                TargetType="StackLayout" 
+                                Binding="{Binding Width, Source={RelativeSource AncestorType={x:Type Window}}, 
+                                            Converter={StaticResource GreaterThanConverter}, ConverterParameter=700}" 
+                                Value="True">
+                                <Setter Property="Orientation" Value="Horizontal" />
+                                <Setter Property="HorizontalOptions" Value="Center"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </StackLayout.Style>
+                
+                <VerticalStackLayout
+                    Spacing="10">
                     <Label 
                         Text="Seleccione la posición en el campo"
-                        Style="{StaticResource TextLabel}" 
-                        Grid.Column="0"
-                        Grid.Row="0"
-                        InputTransparent="True"/>
-
-                    <Label 
-                        Text="Seleccione la posición en el arco"
-                        Style="{StaticResource TextLabel}" 
-                        Grid.Column="1"
-                        Grid.Row="0"
-                        InputTransparent="True">
-                        <Label.Triggers>
-                            <DataTrigger TargetType="Label" Binding="{Binding ActionNeedsGoal}" Value="False">
-                                <Setter Property="IsVisible" Value="False" />
-                            </DataTrigger>
-                            <DataTrigger TargetType="Label" Binding="{Binding ActionNeedsGoal}" Value="True">
-                                <Setter Property="IsVisible" Value="True" />
-                            </DataTrigger>
-                        </Label.Triggers>
-                    </Label>
-
+                        Style="{StaticResource TextLabel}" />
                     <!-- Matriz de campo -->
-                    <AbsoluteLayout
-                        Grid.Column="0"
-                        Grid.Row="1">
+                    <AbsoluteLayout 
+                        HeightRequest="250"
+                        WidthRequest="300">
                         <!-- Imagen de fondo -->
                         <Image 
-                            Source="cancha.png" 
-                            Aspect="AspectFit"
+                            Source="cancha.png"
+                            Style="{StaticResource ImageStyle}"
                             BackgroundColor="Transparent"
                             AbsoluteLayout.LayoutBounds="0,0,1,1"
                             AbsoluteLayout.LayoutFlags="All"
@@ -149,15 +149,29 @@
                             <!-- Las marcas se añadirán dinámicamente aquí -->
                         </AbsoluteLayout>
                     </AbsoluteLayout>
-
+                </VerticalStackLayout>
+                
+                <VerticalStackLayout>
+                    <VerticalStackLayout.Triggers>
+                        <DataTrigger TargetType="VerticalStackLayout" Binding="{Binding ActionNeedsGoal}" Value="False">
+                            <Setter Property="IsVisible" Value="False" />
+                        </DataTrigger>
+                        <DataTrigger TargetType="VerticalStackLayout" Binding="{Binding ActionNeedsGoal}" Value="True">
+                            <Setter Property="IsVisible" Value="True" />
+                        </DataTrigger>
+                    </VerticalStackLayout.Triggers>
+                    <Label 
+                        Text="Seleccione la posición en el arco"
+                        Style="{StaticResource TextLabel}" >
+                    </Label>
                     <!-- Matriz de arco -->
                     <AbsoluteLayout
-                        Grid.Column="1"
-                        Grid.Row="1">
+                        HeightRequest="250"
+                        WidthRequest="300">
                         <!-- Imagen de fondo -->
                         <Image 
                             Source="arco.png" 
-                            Aspect="AspectFit"
+                            Style="{StaticResource ImageStyle}"
                             BackgroundColor="Transparent"
                             AbsoluteLayout.LayoutBounds="0,0,1,1"
                             AbsoluteLayout.LayoutFlags="All"
@@ -176,16 +190,9 @@
                             InputTransparent="True">
                             <!-- Las marcas se añadirán dinámicamente aquí -->
                         </AbsoluteLayout>
-                        <AbsoluteLayout.Triggers>
-                            <DataTrigger TargetType="AbsoluteLayout" Binding="{Binding ActionNeedsGoal}" Value="False">
-                                <Setter Property="IsVisible" Value="False" />
-                            </DataTrigger>
-                            <DataTrigger TargetType="AbsoluteLayout" Binding="{Binding ActionNeedsGoal}" Value="True">
-                                <Setter Property="IsVisible" Value="True" />
-                            </DataTrigger>
-                        </AbsoluteLayout.Triggers>
                     </AbsoluteLayout>
-                </Grid>
+                </VerticalStackLayout>
+                
             </StackLayout>
 
             <!-- Descripción -->
@@ -195,7 +202,8 @@
                Style="{StaticResource EntryStyle}"
                TextChanged="OnDescriptionTextChanged" />
 
-            <HorizontalStackLayout>
+            <HorizontalStackLayout
+                HorizontalOptions="Center">
                 <!--Botón: Guardar-->
                 <Button 
                     x:Name="btnSubmit"

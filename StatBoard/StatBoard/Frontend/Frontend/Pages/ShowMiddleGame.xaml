@@ -4,25 +4,24 @@
              x:Class="Frontend.Pages.ShowMiddleGame"
              xmlns:components="clr-namespace:Frontend.Resources.Components"
              xmlns:local="clr-namespace:Frontend.Pages"
-             xmlns:converters="clr-namespace:Frontend.Resources"
+             xmlns:converters="clr-namespace:Frontend.Resources.Converters"
              Title="ShowMiddleGame"
              Style="{StaticResource PageBackground}">
 
-    <Grid 
-        RowDefinitions="*, Auto">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="100"/>
-        </Grid.ColumnDefinitions>
+    <AbsoluteLayout>
         <ScrollView
-            Grid.Column="0">
+            AbsoluteLayout.LayoutBounds="0,0,1,1"
+            AbsoluteLayout.LayoutFlags="All"
+            Padding="10, 0, 0, 0">
             <VerticalStackLayout>
                 <Label
                     Text="Acciones actuales"
-                    Style="{StaticResource TitleLabel}"/>
+                    Style="{StaticResource TitleLabel}"
+                    HorizontalOptions="Center"/>
 
                 <HorizontalStackLayout
-                    Padding="10">
+                    Padding="10"
+                    HorizontalOptions="Center">
                     <Label
                         Text="Fecha: "
                         Style="{StaticResource TextLabel}"/>
@@ -54,7 +53,8 @@
 
                 <StackLayout
                     x:Name="stks"
-                    BindableLayout.ItemsSource="{Binding Teams}">
+                    BindableLayout.ItemsSource="{Binding Teams}"
+                    HorizontalOptions="Center">
                     <BindableLayout.ItemTemplate>
                         <DataTemplate>
                             <!-- Página del jugador -->
@@ -67,7 +67,13 @@
 
                 <Label 
                     Text="Acciones de los jugadores locales"
-                    Style="{StaticResource SubtitleLabel}"/>
+                    Style="{StaticResource SubtitleLabel}">
+                    <Label.Triggers>
+                        <DataTrigger TargetType="Label" Binding="{Binding TeamLocal.IdPlayers.Count}" Value="0">
+                            <Setter Property="IsVisible" Value="False" />
+                        </DataTrigger>
+                    </Label.Triggers>
+                </Label>
 
                 <StackLayout
                     x:Name="stkLocalPlayers"
@@ -89,7 +95,13 @@
 
                 <Label 
                     Text="Acciones de los jugadores visitantes"
-                    Style="{StaticResource SubtitleLabel}"/>
+                    Style="{StaticResource SubtitleLabel}">
+                    <Label.Triggers>
+                        <DataTrigger TargetType="Label" Binding="{Binding TeamAway.IdPlayers.Count}" Value="0">
+                            <Setter Property="IsVisible" Value="False" />
+                        </DataTrigger>
+                    </Label.Triggers>
+                </Label>
 
                 <StackLayout
                     x:Name="stkAwayPlayers"
@@ -113,14 +125,15 @@
         </ScrollView>
 
         <Button
-            Grid.Column="1"
+            AbsoluteLayout.LayoutBounds="1,0,AutoSize,AutoSize"
+            AbsoluteLayout.LayoutFlags="PositionProportional"
             x:Name="btnGoBack"
             Text="Volver"
             Style="{StaticResource NavigationButton}"
             Clicked="OnGoBack"
             VerticalOptions="Start"
             HorizontalOptions="End"/>
-    </Grid>
+    </AbsoluteLayout>
 
 
 </ContentPage>

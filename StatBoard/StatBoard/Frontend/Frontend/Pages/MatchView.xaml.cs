@@ -317,7 +317,7 @@ public partial class MatchView : ContentPage, INotifyPropertyChanged
         Application.Current.Quit();
     }
 
-    private void OnFinish(object sender, EventArgs e)
+    private async void OnFinish(object sender, EventArgs e)
     {
         var result = Simulo_BdD.ReplaceMatch(Match);
         if (!result.Success)
@@ -339,8 +339,16 @@ public partial class MatchView : ContentPage, INotifyPropertyChanged
         }
 
         // Finalizar el partido, debería armar el PDF en esta función.
-        var pdf1 = new CrearPDF();
-        pdf1.CrearPDF1(Match.Id);
+        if (DeviceInfo.Platform == DevicePlatform.Android)
+        {
+            var pdf = new CrearPDF_Android();
+            _ = await pdf.CrearPDF_A(Match.Id);
+        }
+        else if (DeviceInfo.Platform == DevicePlatform.WinUI)
+        {
+            var pdf = new CrearPDF();
+            pdf.CrearPDF_PC(Match.Id);
+        }
 
         Simulo_BdD.CleanClubList();
         Simulo_BdD.CleanPlayerList();

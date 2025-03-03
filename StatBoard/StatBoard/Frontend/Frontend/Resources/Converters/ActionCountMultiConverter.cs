@@ -2,7 +2,7 @@
 using System.Globalization;
 using Frontend.Pages;
 
-namespace Frontend.Resources
+namespace Frontend.Resources.Converters
 {
     public class ActionCountMultiConverter : IMultiValueConverter
     {
