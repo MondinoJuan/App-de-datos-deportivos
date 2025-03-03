@@ -13,6 +13,7 @@ namespace Frontend.Resources.PDF_Pages
         private Club_Dto? TeamLocal { get; set; }
         private Club_Dto? TeamAway { get; set; }
 
+
         public async Task<PdfDocument> CrearPDF_A(Guid idMatch)
         {
             if (!LoadData(idMatch))
