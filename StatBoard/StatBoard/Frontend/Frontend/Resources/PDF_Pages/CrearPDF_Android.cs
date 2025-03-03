@@ -2,6 +2,9 @@
 using Frontend.Resources.Entities;
 using PdfSharp.Pdf;
 
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Maui.Controls.PlatformConfiguration;
+
 namespace Frontend.Resources.PDF_Pages
 {
     public class CrearPDF_Android
@@ -34,27 +37,51 @@ namespace Frontend.Resources.PDF_Pages
 
             string fileName = "StatBoard_Android.pdf";
             //var customFilePath = FileSystem.Current.AppDataDirectory;
-            string customFilePath = Path.Combine(FileSystem.CacheDirectory, "Documents");
+            //string customFilePath = Path.Combine(FileSystem.CacheDirectory, "Documents");
             //string filePath = Path.Combine(FileSystem.AppDataDirectory, fileName);
 
             // Verificar y crear la carpeta si no existe
-            if (!Directory.Exists(customFilePath))
-            {
-                Directory.CreateDirectory(customFilePath);
-            }
+            //if (!Directory.Exists(customFilePath))
+            //{
+            //    Directory.CreateDirectory(customFilePath);
+            //}
 
-            string filePath = Path.Combine(customFilePath, fileName);
+            //string filePath = Path.Combine(customFilePath, fileName);
 
             try
             {
-                Console.WriteLine($"Guardando PDF en: {filePath}");
+                //Console.WriteLine($"Guardando PDF en: {filePath}");
                 //using (var stream = new FileStream(filePath, FileMode.Create))
                 //{
                 //    pdfDocument.Save(stream);
                 //}
-                pdfDocument.Save(filePath);
 
-                Console.WriteLine($"PDF guardado en: {filePath}");
+                //pdfDocument.Save(filePath);
+
+
+                //------------------------------------------------- PRUEBA -------------------------------------------------
+
+#if ANDROID
+                //var mauiContext = new MauiContext(Microsoft.Maui.Controls.Application.Current.Handler.MauiContext.Services);
+                
+                var externalStorage = Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryDownloads)!.AbsolutePath;
+
+                //var androidContext = mauiContext.Services.GetRequiredService<Android.App.Application>();
+                
+                var path4 = Path.Combine(externalStorage, fileName);
+                //var path3 = Path.Combine(androidContext.GetExternalFilesDir(null)!.AbsolutePath, fileName);
+                
+                //Console.WriteLine($"PDF guardado en path3: {path3}");
+                Console.WriteLine($"PDF guardado en path4: {path4}");               //Funciona
+
+                pdfDocument.Save(path4);
+
+#endif
+
+                //------------------------------------------------- PRUEBA -------------------------------------------------
+                //Console.WriteLine($"PDF guardado en: {filePath}");
+                
+
             }
             catch (Exception ex)
             {
@@ -512,8 +539,16 @@ namespace Frontend.Resources.PDF_Pages
 
             // Acceder a los recursos incrustados en la aplicación
             var assembly = typeof(CrearPDF_Android).Assembly;
-            var resourcePath = $"Frontend.Resources.Images.{imageName}";
+            var resourcePath = $"StatBoard.Frontend.Resources.Images.{imageName}"; // Formato corregido
             using var stream = assembly.GetManifestResourceStream(resourcePath);
+
+            // Depuración: Listar todos los recursos incrustados
+            var resourceNames = assembly.GetManifestResourceNames();
+            foreach (var name in resourceNames)
+            {
+                Console.WriteLine($"Recurso encontrado: {name}");
+            }
+
             if (stream == null)
             {
                 Console.WriteLine($"Imagen no encontrada: {resourcePath}");
