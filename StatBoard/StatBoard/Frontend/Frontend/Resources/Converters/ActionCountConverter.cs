@@ -2,7 +2,7 @@ using Frontend.Resources.Entities;
 using System.Globalization;
 using Frontend.Pages;
 
-namespace Frontend.Resources
+namespace Frontend.Resources.Converters
 {
     public class ActionCountConverter : IValueConverter
     {

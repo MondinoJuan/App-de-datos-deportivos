@@ -2,328 +2,416 @@
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Frontend.Resources.Components.PageOfActions"
-             xmlns:local="clr-namespace:Frontend.Resources.Components">
+             xmlns:local="clr-namespace:Frontend.Resources.Components"
+             xmlns:converters="clr-namespace:Frontend.Resources.Converters">
+
+    <ContentView.Resources>
+        <converters:GreaterThanConverter x:Key="GreaterThanConverter" />
+    </ContentView.Resources>
 
     <VerticalStackLayout
         Padding="20, 0, 0, 0"
-        HorizontalOptions="Center">
+        HorizontalOptions="Center"
+        Spacing="20">
 
         <Label
             x:Name="lblTitle"
             Style="{StaticResource TitleLabel}"
             Text="{Binding Title}" />
 
-        <Grid
-            RowSpacing="10"
-            ColumnSpacing="10">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
+        <StackLayout
+            Orientation="Vertical"
+            Spacing="20">
+            <StackLayout.Style>
+                <Style TargetType="StackLayout">
+                    <Style.Triggers>
+                        <DataTrigger 
+                            TargetType="StackLayout" 
+                            Binding="{Binding Width, Source={RelativeSource AncestorType={x:Type Window}}, 
+                                        Converter={StaticResource GreaterThanConverter}, ConverterParameter=1000}" 
+                            Value="True">
+                            <Setter Property="Orientation" Value="Horizontal" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </StackLayout.Style>
 
             <!--Muestro bloqueos-->
-            <HorizontalStackLayout
-                Grid.Column="0"
-                Grid.Row="0"
-                Spacing="10"
-                HorizontalOptions="Center">
-                <Label
+            <VerticalStackLayout>
+                <HorizontalStackLayout
+                    Spacing="10"
+                    HorizontalOptions="Center">
+                    <Label
                         Text="Bloqueos: "
-                        Style="{StaticResource TextLabel}"
-                        />
-                <Label
+                        Style="{StaticResource TextLabel}"/>
+                    <Label
                         x:Name="lblBlockeds"
                         Style="{StaticResource TextLabel}"
                         Text="{Binding Blockeds}" />
-            </HorizontalStackLayout>
+                </HorizontalStackLayout>
 
-            <AbsoluteLayout
-                Grid.Column="0"
-                Grid.Row="1"
-                HorizontalOptions="Center">
-                <Image
+                <AbsoluteLayout
+                    HorizontalOptions="Center"
+                    HeightRequest="250"
+                    WidthRequest="300">
+                    <Image
                         Source="cancha.png"
-                        Style="{StaticResource ImageStyle}"
-                        />
+                        Style="{StaticResource ImageStyle}" />
 
-                <!-- Contenedor dinámico para marcas -->
-                <AbsoluteLayout 
+                    <!-- Contenedor dinámico para marcas -->
+                    <AbsoluteLayout 
                         x:Name="markContainerBlockeds"
                         AbsoluteLayout.LayoutBounds="0,0,1,1"
                         AbsoluteLayout.LayoutFlags="All"
                         InputTransparent="True">
+                    </AbsoluteLayout>
                 </AbsoluteLayout>
-            </AbsoluteLayout>
+            </VerticalStackLayout>
 
             <!--Muestro goles-->
-            <HorizontalStackLayout
-                HorizontalOptions="Center"
-                Grid.Row="0" 
-                Grid.Column="1"
-                Spacing="10">
-                <Label
+            <VerticalStackLayout>
+                <HorizontalStackLayout
+                    HorizontalOptions="Center"
+                    Spacing="10">
+                    <Label
                         Text="Goles: "
-                        Style="{StaticResource TextLabel}"
-                        />
-                <Label
+                        Style="{StaticResource TextLabel}"/>
+                    <Label
                         x:Name="lblGoals"
                         Style="{StaticResource TextLabel}"
                         Text="{Binding Goals}" />
-            </HorizontalStackLayout>
-            <HorizontalStackLayout
-                Grid.Row="1" 
-                Grid.Column="1"
-                HorizontalOptions="Center">
-                <AbsoluteLayout>
-                    <Image
-                            Source="cancha.png"
-                            Style="{StaticResource ImageStyle}"
-                            />
+                </HorizontalStackLayout>
+                <StackLayout
+                    Orientation="Vertical">
+                    <StackLayout.Style>
+                        <Style TargetType="StackLayout">
+                            <Style.Triggers>
+                                <DataTrigger 
+                                    TargetType="StackLayout" 
+                                    Binding="{Binding Width, Source={RelativeSource AncestorType={x:Type Window}}, 
+                                                Converter={StaticResource GreaterThanConverter}, ConverterParameter=700}" 
+                                    Value="True">
+                                    <Setter Property="Orientation" Value="Horizontal" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </StackLayout.Style>
 
-                    <!-- Contenedor dinámico para marcas -->
-                    <AbsoluteLayout 
+                    <AbsoluteLayout
+                        HeightRequest="250"
+                        WidthRequest="300">
+                        <Image
+                            Source="cancha.png"
+                            Style="{StaticResource ImageStyle}"/>
+
+                        <!-- Contenedor dinámico para marcas -->
+                        <AbsoluteLayout 
                             x:Name="markContainerGoalsField"
                             AbsoluteLayout.LayoutBounds="0,0,1,1"
                             AbsoluteLayout.LayoutFlags="All"
                             InputTransparent="True">
+                        </AbsoluteLayout>
                     </AbsoluteLayout>
-                </AbsoluteLayout>
-                <AbsoluteLayout>
-                    <Image
+                    <AbsoluteLayout
+                        HeightRequest="250"
+                        WidthRequest="300">
+                        <Image
                             Source="arco.png"
-                            Style="{StaticResource ImageStyle}"
-                            />
+                            Style="{StaticResource ImageStyle}"/>
 
-                    <!-- Contenedor dinámico para marcas -->
-                    <AbsoluteLayout 
+                        <!-- Contenedor dinámico para marcas -->
+                        <AbsoluteLayout 
                             x:Name="markContainerGoalsGoal"
                             AbsoluteLayout.LayoutBounds="0,0,1,1"
                             AbsoluteLayout.LayoutFlags="All"
                             InputTransparent="True">
+                        </AbsoluteLayout>
                     </AbsoluteLayout>
-                </AbsoluteLayout>
-            </HorizontalStackLayout>
+                </StackLayout>
+            </VerticalStackLayout>
+        </StackLayout>
+
+        <StackLayout
+            Spacing="20"
+            Orientation="Vertical">
+            <StackLayout.Style>
+                <Style TargetType="StackLayout">
+                    <Style.Triggers>
+                        <DataTrigger 
+                TargetType="StackLayout" 
+                Binding="{Binding Width, Source={RelativeSource AncestorType={x:Type Window}}, 
+                            Converter={StaticResource GreaterThanConverter}, ConverterParameter=1000}" 
+                Value="True">
+                            <Setter Property="Orientation" Value="Horizontal" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </StackLayout.Style>
 
             <!--Muestro robos-->
-            <HorizontalStackLayout 
-                Spacing="10"
-                Grid.Row="2" 
-                Grid.Column="0"
-                HorizontalOptions="Center">
-                <Label
-                    Text="Pelotas robadas: "
-                    Style="{StaticResource TextLabel}"
-                    />
-                <Label
-                    x:Name="lblSteals_W"
-                    Style="{StaticResource TextLabel}"
-                    Text="{Binding StealsW}" />
-            </HorizontalStackLayout>
-            <AbsoluteLayout
-                Grid.Column="0"
-                Grid.Row="3"
-                HorizontalOptions="Center">
-                <Image
-                    Source="cancha.png"
-                    Style="{StaticResource ImageStyle}"
-                    />
+            <VerticalStackLayout>
+                <HorizontalStackLayout 
+                    Spacing="10"
+                    HorizontalOptions="Center">
+                    <Label
+                        Text="Pelotas robadas: "
+                        Style="{StaticResource TextLabel}"/>
+                    <Label
+                        x:Name="lblSteals_W"
+                        Style="{StaticResource TextLabel}"
+                        Text="{Binding StealsW}" />
+                </HorizontalStackLayout>
+                <AbsoluteLayout
+                    HorizontalOptions="Center"
+                    HeightRequest="250"
+                    WidthRequest="300">
+                    <Image
+                        Source="cancha.png"
+                        Style="{StaticResource ImageStyle}"/>
 
-                <!-- Contenedor dinámico para marcas -->
-                <AbsoluteLayout 
-                    x:Name="markContainerSteals_W"
-                    AbsoluteLayout.LayoutBounds="0,0,1,1"
-                    AbsoluteLayout.LayoutFlags="All"
-                    InputTransparent="True">
+                    <!-- Contenedor dinámico para marcas -->
+                    <AbsoluteLayout 
+                        x:Name="markContainerSteals_W"
+                        AbsoluteLayout.LayoutBounds="0,0,1,1"
+                        AbsoluteLayout.LayoutFlags="All"
+                        InputTransparent="True">
+                    </AbsoluteLayout>
                 </AbsoluteLayout>
-            </AbsoluteLayout>
+            </VerticalStackLayout>
 
             <!--Muestro saves-->
-            <HorizontalStackLayout 
-                Spacing="10"
-                Grid.Row="2" 
-                Grid.Column="1"
-                HorizontalOptions="Center">
-                <Label
-                    Text="Atajadas: "
-                    Style="{StaticResource TextLabel}"
-                    />
-                <Label
-                    x:Name="lblSaves"
-                    Style="{StaticResource TextLabel}"
-                    Text="{Binding Saves}" />
-            </HorizontalStackLayout>
-            <HorizontalStackLayout
-                Grid.Column="1"
-                Grid.Row="3"
-                HorizontalOptions="Center">
-                <AbsoluteLayout>
-                    <Image
-                        Source="cancha.png"
-                        Style="{StaticResource ImageStyle}"
-                        />
+            <VerticalStackLayout>
+                <HorizontalStackLayout 
+                    Spacing="10"
+                    HorizontalOptions="Center">
+                    <Label
+                        Text="Atajadas: "
+                        Style="{StaticResource TextLabel}"/>
+                    <Label
+                        x:Name="lblSaves"
+                        Style="{StaticResource TextLabel}"
+                        Text="{Binding Saves}" />
+                </HorizontalStackLayout>
+                <StackLayout
+                    HorizontalOptions="Center">
+                    <StackLayout.Style>
+                        <Style TargetType="StackLayout">
+                            <Style.Triggers>
+                                <DataTrigger 
+                                    TargetType="StackLayout" 
+                                    Binding="{Binding Width, Source={RelativeSource AncestorType={x:Type Window}}, 
+                                                Converter={StaticResource GreaterThanConverter}, ConverterParameter=700}" 
+                                    Value="True">
+                                    <Setter Property="Orientation" Value="Horizontal" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </StackLayout.Style>
 
-                    <!-- Contenedor dinámico para marcas -->
-                    <AbsoluteLayout 
-                        x:Name="markContainerSavesField"
-                        AbsoluteLayout.LayoutBounds="0,0,1,1"
-                        AbsoluteLayout.LayoutFlags="All"
-                        InputTransparent="True">
-                    </AbsoluteLayout>
-                </AbsoluteLayout>
-                <AbsoluteLayout>
-                    <Image
-                        Source="arco.png"
-                        Style="{StaticResource ImageStyle}"
-                        />
+                    <AbsoluteLayout
+                    HeightRequest="250"
+                    WidthRequest="300">
+                        <Image
+                            Source="cancha.png"
+                            Style="{StaticResource ImageStyle}"/>
 
-                    <!-- Contenedor dinámico para marcas -->
-                    <AbsoluteLayout 
-                        x:Name="markContainerSavesGoal"
-                        AbsoluteLayout.LayoutBounds="0,0,1,1"
-                        AbsoluteLayout.LayoutFlags="All"
-                        InputTransparent="True">
+                        <!-- Contenedor dinámico para marcas -->
+                        <AbsoluteLayout 
+                            x:Name="markContainerSavesField"
+                            AbsoluteLayout.LayoutBounds="0,0,1,1"
+                            AbsoluteLayout.LayoutFlags="All"
+                            InputTransparent="True">
+                        </AbsoluteLayout>
                     </AbsoluteLayout>
-                </AbsoluteLayout>
-            </HorizontalStackLayout>
+                    <AbsoluteLayout
+                        HeightRequest="250"
+                        WidthRequest="300">
+                        <Image
+                            Source="arco.png"
+                            Style="{StaticResource ImageStyle}"/>
+
+                        <!-- Contenedor dinámico para marcas -->
+                        <AbsoluteLayout 
+                            x:Name="markContainerSavesGoal"
+                            AbsoluteLayout.LayoutBounds="0,0,1,1"
+                            AbsoluteLayout.LayoutFlags="All"
+                            InputTransparent="True">
+                        </AbsoluteLayout>
+                    </AbsoluteLayout>
+                </StackLayout>
+            </VerticalStackLayout>
+            
+        </StackLayout>
+
+
+        <StackLayout
+            Spacing="20"
+            Orientation="Vertical">
+            <StackLayout.Style>
+                <Style TargetType="StackLayout">
+                    <Style.Triggers>
+                        <DataTrigger 
+                            TargetType="StackLayout" 
+                            Binding="{Binding Width, Source={RelativeSource AncestorType={x:Type Window}}, 
+                                        Converter={StaticResource GreaterThanConverter}, ConverterParameter=1000}" 
+                            Value="True">
+                            <Setter Property="Orientation" Value="Horizontal" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </StackLayout.Style>
 
             <!--Muestro perdidas-->
-            <HorizontalStackLayout 
-                Spacing="10"
-                Grid.Row="4"
-                Grid.Column="0"
-                HorizontalOptions="Center">
-                <Label
-                    Text="Pelotas perdidas: "
-                    Style="{StaticResource TextLabel}"
-                    />
-                <Label
-                    x:Name="lblSteals_L"
-                    Style="{StaticResource TextLabel}"
-                    Text="{Binding StealsL}" />
-            </HorizontalStackLayout>
-            <AbsoluteLayout
-                Grid.Row="5"
-                Grid.Column="0"
-                HorizontalOptions="Center">
-                <Image
-                    Source="cancha.png"
-                    Style="{StaticResource ImageStyle}"
-                    />
-
-                <!-- Contenedor dinámico para marcas -->
-                <AbsoluteLayout 
-                    x:Name="markContainerSteals_L"
-                    AbsoluteLayout.LayoutBounds="0,0,1,1"
-                    AbsoluteLayout.LayoutFlags="All"
-                    InputTransparent="True">
-                </AbsoluteLayout>
-            </AbsoluteLayout>
-
-            <!--Muestro erradas-->
-            <HorizontalStackLayout 
-                Spacing="10"
-                Grid.Row="4" 
-                Grid.Column="1"
-                HorizontalOptions="Center">
-                <Label
-                    Text="Tiros fuera: "
-                    Style="{StaticResource TextLabel}"
-                    />
-                <Label
-                    x:Name="lblMisses"
-                    Style="{StaticResource TextLabel}"
-                    Text="{Binding Misses}" />
-            </HorizontalStackLayout>
-            <HorizontalStackLayout
-                Grid.Row="5" 
-                Grid.Column="1"
-                HorizontalOptions="Center">
-                <AbsoluteLayout>
+            <VerticalStackLayout>
+                <HorizontalStackLayout 
+                    Spacing="10"
+                    HorizontalOptions="Center">
+                    <Label
+                        Text="Pelotas perdidas: "
+                        Style="{StaticResource TextLabel}"/>
+                    <Label
+                        x:Name="lblSteals_L"
+                        Style="{StaticResource TextLabel}"
+                        Text="{Binding StealsL}" />
+                </HorizontalStackLayout>
+                <AbsoluteLayout
+                    HeightRequest="250"
+                    WidthRequest="300"
+                    HorizontalOptions="Center">
                     <Image
                         Source="cancha.png"
-                        Style="{StaticResource ImageStyle}"
-                        />
+                        Style="{StaticResource ImageStyle}"/>
 
                     <!-- Contenedor dinámico para marcas -->
                     <AbsoluteLayout 
-                        x:Name="markContainerMissesField"
+                        x:Name="markContainerSteals_L"
                         AbsoluteLayout.LayoutBounds="0,0,1,1"
                         AbsoluteLayout.LayoutFlags="All"
                         InputTransparent="True">
                     </AbsoluteLayout>
                 </AbsoluteLayout>
-                <AbsoluteLayout>
-                    <Image
-                        Source="arco.png"
-                        Style="{StaticResource ImageStyle}"
-                        />
+            </VerticalStackLayout>
 
-                    <!-- Contenedor dinámico para marcas -->
-                    <AbsoluteLayout 
-                        x:Name="markContainerMissesGoal"
-                        AbsoluteLayout.LayoutBounds="0,0,1,1"
-                        AbsoluteLayout.LayoutFlags="All"
-                        InputTransparent="True">
+            <!--Muestro erradas-->
+            <VerticalStackLayout>
+                <HorizontalStackLayout 
+                    Spacing="10"
+                    HorizontalOptions="Center">
+                    <Label
+                        Text="Tiros fuera: "
+                        Style="{StaticResource TextLabel}" />
+                    <Label
+                        x:Name="lblMisses"
+                        Style="{StaticResource TextLabel}"
+                        Text="{Binding Misses}" />
+                </HorizontalStackLayout>
+                <StackLayout
+                    Orientation="Vertical">
+                    <StackLayout.Style>
+                        <Style TargetType="StackLayout">
+                            <Style.Triggers>
+                                <DataTrigger 
+                                    TargetType="StackLayout" 
+                                    Binding="{Binding Width, Source={RelativeSource AncestorType={x:Type Window}}, 
+                                                Converter={StaticResource GreaterThanConverter}, ConverterParameter=700}" 
+                                    Value="True">
+                                    <Setter Property="Orientation" Value="Horizontal" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </StackLayout.Style>
+
+                    <AbsoluteLayout
+                        HeightRequest="250"
+                        WidthRequest="300">
+                        <Image
+                            Source="cancha.png"
+                            Style="{StaticResource ImageStyle}"/>
+
+                        <!-- Contenedor dinámico para marcas -->
+                        <AbsoluteLayout 
+                            x:Name="markContainerMissesField"
+                            AbsoluteLayout.LayoutBounds="0,0,1,1"
+                            AbsoluteLayout.LayoutFlags="All"
+                            InputTransparent="True">
+                        </AbsoluteLayout>
                     </AbsoluteLayout>
-                </AbsoluteLayout>
-            </HorizontalStackLayout>
+                    <AbsoluteLayout
+                        HeightRequest="250"
+                        WidthRequest="300">
+                        <Image
+                            Source="arco.png"
+                            Style="{StaticResource ImageStyle}"/>
+
+                        <!-- Contenedor dinámico para marcas -->
+                        <AbsoluteLayout 
+                            x:Name="markContainerMissesGoal"
+                            AbsoluteLayout.LayoutBounds="0,0,1,1"
+                            AbsoluteLayout.LayoutFlags="All"
+                            InputTransparent="True">
+                        </AbsoluteLayout>
+                    </AbsoluteLayout>
+                </StackLayout>
+            </VerticalStackLayout>
+        </StackLayout>
+
+        <StackLayout
+            Orientation="Vertical">
+            <StackLayout.Style>
+                <Style TargetType="StackLayout">
+                    <Style.Triggers>
+                        <DataTrigger 
+                            TargetType="StackLayout" 
+                            Binding="{Binding Width, Source={RelativeSource AncestorType={x:Type Window}}, 
+                                        Converter={StaticResource GreaterThanConverter}, ConverterParameter=1000}" 
+                            Value="True">
+                            <Setter Property="Orientation" Value="Horizontal" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </StackLayout.Style>
 
             <!--Muestro foules-->
-            <HorizontalStackLayout 
-                Spacing="10"
-                Grid.Row="6" 
-                Grid.Column="0"
-                HorizontalOptions="Center">
-                <Label
-                    Text="Foules: "
-                    Style="{StaticResource TextLabel}"
-                    />
-                <Label
-                    x:Name="lblFouls"
-                    Style="{StaticResource TextLabel}"
-                    Text="{Binding Foules}" />
-            </HorizontalStackLayout>
-            <AbsoluteLayout
-                Grid.Row="7" 
-                Grid.Column="0"
-                HorizontalOptions="Center">
-                <Image
-                    Source="cancha.png"
-                    Style="{StaticResource ImageStyle}"
-                    />
+            <VerticalStackLayout>
+                <HorizontalStackLayout 
+                    Spacing="10"
+                    HorizontalOptions="Center">
+                    <Label
+                        Text="Foules: "
+                        Style="{StaticResource TextLabel}"/>
+                    <Label
+                        x:Name="lblFouls"
+                        Style="{StaticResource TextLabel}"
+                        Text="{Binding Foules}" />
+                </HorizontalStackLayout>
+                <AbsoluteLayout
+                    HorizontalOptions="Center"
+                    HeightRequest="250"
+                    WidthRequest="300">
+                    <Image
+                        Source="cancha.png"
+                        Style="{StaticResource ImageStyle}"/>
 
-                <!-- Contenedor dinámico para marcas -->
-                <AbsoluteLayout 
-                    x:Name="markContainerFouls"
-                    AbsoluteLayout.LayoutBounds="0,0,1,1"
-                    AbsoluteLayout.LayoutFlags="All"
-                    InputTransparent="True">
+                    <!-- Contenedor dinámico para marcas -->
+                    <AbsoluteLayout 
+                        x:Name="markContainerFouls"
+                        AbsoluteLayout.LayoutBounds="0,0,1,1"
+                        AbsoluteLayout.LayoutFlags="All"
+                        InputTransparent="True">
+                    </AbsoluteLayout>
                 </AbsoluteLayout>
-            </AbsoluteLayout>
+            </VerticalStackLayout>
 
             <!--Muestro cantidad de sanciones-->
             <VerticalStackLayout 
-                Padding="0, 40, 0, 0"
+                Padding="0, 80, 0, 50"
                 Spacing="30"
-                Grid.Row="7" 
-                Grid.Column="1"
                 HorizontalOptions="Center">
                 <HorizontalStackLayout
                     Spacing="10">
                     <Label
                         Text="Dos minutos: "
-                        Style="{StaticResource TextLabel}"
-                        />
+                        Style="{StaticResource TextLabel}"/>
                     <Label
                         x:Name="lblTwoMinutes"
                         Style="{StaticResource TextLabel}"
@@ -333,8 +421,7 @@
                     Spacing="10">
                     <Label
                         Text="Tarjetas rojas: "
-                        Style="{StaticResource TextLabel}"
-                        />
+                        Style="{StaticResource TextLabel}"/>
                     <Label
                         x:Name="lblRedCards"
                         Style="{StaticResource TextLabel}"
@@ -344,16 +431,21 @@
                     Spacing="10">
                     <Label
                         Text="Tarjetas azules: "
-                        Style="{StaticResource TextLabel}"
-                        />
+                        Style="{StaticResource TextLabel}"/>
                     <Label
                         x:Name="lblBlueCards"
                         Style="{StaticResource TextLabel}"
                         Text="{Binding BlueCards}" />
                 </HorizontalStackLayout>
             </VerticalStackLayout>
+        </StackLayout>
+        
 
-        </Grid>
+        
+
+        
+
+        
 
         <BoxView
             HeightRequest="1" 

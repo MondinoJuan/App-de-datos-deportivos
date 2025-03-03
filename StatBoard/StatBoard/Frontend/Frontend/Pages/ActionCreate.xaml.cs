@@ -79,8 +79,8 @@ public partial class ActionCreate : ContentPage, INotifyPropertyChanged
         var touchPosition = e.GetPosition((VisualElement)sender);
         if (touchPosition is not null)
         {
-            Action1.ActionPositionX = (float)touchPosition.Value.X;
-            Action1.ActionPositionY = (float)touchPosition.Value.Y;
+            Action1.ActionPositionX = (float)touchPosition.Value.X + 20;
+            Action1.ActionPositionY = (float)touchPosition.Value.Y - 10;
 
             // Crea una nueva marca (círculo)
             var circle = new BoxView
@@ -96,7 +96,7 @@ public partial class ActionCreate : ContentPage, INotifyPropertyChanged
             //AbsoluteLayout.SetLayoutBounds(circle, 
             //    new Rect(Action1.ActionPositionX + 10, Action1.ActionPositionY - 10, 20, 20));
             AbsoluteLayout.SetLayoutBounds(circle,
-                new Rect(Action1.ActionPositionX, Action1.ActionPositionY, 20, 20));
+                new Rect(Action1.ActionPositionX + 10, Action1.ActionPositionY, 20, 20));
             AbsoluteLayout.SetLayoutFlags(circle, AbsoluteLayoutFlags.None);
 
             // Añade el círculo al contenedor de marcas
@@ -112,7 +112,7 @@ public partial class ActionCreate : ContentPage, INotifyPropertyChanged
         var touchPosition = e.GetPosition((VisualElement)sender);
         if (touchPosition is not null)
         {
-            Action1.DefinitionPlaceX = (float)touchPosition.Value.X;
+            Action1.DefinitionPlaceX = (float)touchPosition.Value.X - 20;
             Action1.DefinitionPlaceY = (float)touchPosition.Value.Y;
 
             // Crea una nueva marca (círculo)
@@ -126,7 +126,10 @@ public partial class ActionCreate : ContentPage, INotifyPropertyChanged
             };
 
             // Calcula la posición en la pantalla
-            AbsoluteLayout.SetLayoutBounds(circle, new Rect(Action1.DefinitionPlaceX - 10, Action1.DefinitionPlaceY, 20, 20));
+            //AbsoluteLayout.SetLayoutBounds(circle, 
+            //    new Rect(Action1.DefinitionPlaceX - 10, Action1.DefinitionPlaceY, 20, 20));
+            AbsoluteLayout.SetLayoutBounds(circle,
+                new Rect(Action1.DefinitionPlaceX + 10, Action1.DefinitionPlaceY, 20, 20));
             AbsoluteLayout.SetLayoutFlags(circle, AbsoluteLayoutFlags.None);
 
             // Añade el círculo al contenedor de marcas

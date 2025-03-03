@@ -4,7 +4,7 @@
              x:Class="Frontend.Pages.ShowMiddleGame"
              xmlns:components="clr-namespace:Frontend.Resources.Components"
              xmlns:local="clr-namespace:Frontend.Pages"
-             xmlns:converters="clr-namespace:Frontend.Resources"
+             xmlns:converters="clr-namespace:Frontend.Resources.Converters"
              Title="ShowMiddleGame"
              Style="{StaticResource PageBackground}">
 

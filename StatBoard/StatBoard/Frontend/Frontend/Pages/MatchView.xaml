@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:components="clr-namespace:Frontend.Resources.Components"
-             xmlns:converters="clr-namespace:Frontend.Resources"
+             xmlns:converters="clr-namespace:Frontend.Resources.Converters"
              xmlns:local="clr-namespace:Frontend.Pages"
              x:DataType="{x:Type local:MatchView}"
              x:Class="Frontend.Pages.MatchView"
@@ -15,6 +15,7 @@
             <converters:ActionCountConverter x:Key="ActionCountConverter" />
             <converters:ActionCountMultiConverter x:Key="ActionCountMultiConverter" />
         </ResourceDictionary>
+        <converters:GreaterThanConverter x:Key="GreaterThanConverter"/>
     </ContentPage.Resources>
 
     <ScrollView>
@@ -283,7 +284,23 @@
             </Grid>
 
             <!-- Botones de acción -->
-            <HorizontalStackLayout Spacing="10" Padding="10">
+            <StackLayout 
+                Padding="10"
+                Orientation="Vertical">
+                <StackLayout.Style>
+                    <Style TargetType="StackLayout">
+                        <Style.Triggers>
+                            <DataTrigger 
+                                TargetType="StackLayout" 
+                                Binding="{Binding Width, Source={RelativeSource AncestorType={x:Type Window}}, 
+                                            Converter={StaticResource GreaterThanConverter}, ConverterParameter=700}" 
+                                Value="True">
+                                <Setter Property="Orientation" Value="Horizontal" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </StackLayout.Style>
+                
                 <Button 
                     x:Name="btnAddPlayer"
                     Text="Agregar jugador"
@@ -298,19 +315,19 @@
                     Clicked="GoSummary"/>
 
                 <Button 
-                    x:Name="btnCancel"
-                    Text="Cancelar"
-                    Style="{StaticResource CancelButton}"
-                    Margin="10"
-                    Clicked="OnCancel" />
-
-                <Button 
                     x:Name="btnFinish"
                     Text="Finalizar"
                     Style="{StaticResource SaveButton}"
                     Margin="10"
                     Clicked="OnFinish" />
-            </HorizontalStackLayout>
+
+                <Button 
+                    x:Name="btnCancel"
+                    Text="Cancelar"
+                    Style="{StaticResource CancelButton}"
+                    Margin="10"
+                    Clicked="OnCancel" />
+            </StackLayout>
 
         </VerticalStackLayout>
     </ScrollView>

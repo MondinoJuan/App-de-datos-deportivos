@@ -13,7 +13,7 @@ namespace Frontend.Resources.PDF_Pages
         private Club_Dto? TeamLocal { get; set; }
         private Club_Dto? TeamAway { get; set; }
 
-        public PdfDocument CrearPDF1(Guid idMatch)
+        public PdfDocument CrearPDF_PC(Guid idMatch)
         {
             if (!LoadData(idMatch))
             {
@@ -36,7 +36,7 @@ namespace Frontend.Resources.PDF_Pages
             }
             else if (DeviceInfo.Platform == DevicePlatform.Android || DeviceInfo.Platform == DevicePlatform.iOS)
             {
-                filePath = Path.Combine(FileSystem.AppDataDirectory, fileName);
+                filePath = Path.Combine(FileSystem.AppDataDirectory, fileName);             //Eliminar luego
             }
             else
             {
@@ -100,27 +100,10 @@ namespace Frontend.Resources.PDF_Pages
 
         private void SummaryMatch(XGraphics gfx, PdfPage pdfPage)
         {
-            XFont titleFont;
-            XFont normalFont;
-            XFont boldFont;
-            XFont subTitleFont;
-
-            try
-            {
-                titleFont = new XFont("Times New Roman", 18);
-                normalFont = new XFont("Arial", 12);
-                boldFont = new XFont("Arial", 12);
-                subTitleFont = new XFont("Times New Roman", 14);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error al crear la fuente: {ex.Message}");
-                // Usar una fuente alternativa
-                titleFont = new XFont("Verdana", 18);
-                normalFont = new XFont("Verdana", 12);
-                boldFont = new XFont("Verdana", 12);
-                subTitleFont = new XFont("Verdana", 14);
-            }
+            XFont titleFont = new XFont("Times New Roman", 18);
+            XFont normalFont = new XFont("Arial", 12);
+            XFont boldFont = new XFont("Arial", 12);
+            XFont subTitleFont = new XFont("Times New Roman", 14);
 
             double yPos = 40;
             gfx.DrawString("STAT-BOARD", titleFont, XBrushes.Black, new XPoint(200, yPos));
@@ -149,11 +132,11 @@ namespace Frontend.Resources.PDF_Pages
 
             // Encabezado de la tabla
             gfx.DrawString(TeamLocal.Name.ToUpper(), subTitleFont, XBrushes.Black, new XPoint(xStart + 10, yPos + 15));
-            gfx.DrawString(Match.GoalsTeamA.ToString(), subTitleFont, XBrushes.Black, 
+            gfx.DrawString(Match.GoalsTeamA.ToString(), subTitleFont, XBrushes.Black,
                 new XPoint(xStart + columnWidths[0] + 10, yPos + 15));
-            gfx.DrawString(Match.GoalsTeamB.ToString(), subTitleFont, XBrushes.Black, 
+            gfx.DrawString(Match.GoalsTeamB.ToString(), subTitleFont, XBrushes.Black,
                 new XPoint(xStart + columnWidths[0] + columnWidths[1] + 10, yPos + 15));
-            gfx.DrawString(TeamAway.Name.ToUpper(), subTitleFont, XBrushes.Black, 
+            gfx.DrawString(TeamAway.Name.ToUpper(), subTitleFont, XBrushes.Black,
                 new XPoint(xStart + columnWidths[0] + columnWidths[1] + columnWidths[2] + 10, yPos + 15));
 
             yPos += rowHeight;
@@ -163,7 +146,7 @@ namespace Frontend.Resources.PDF_Pages
             double xColumn = xStart;
             foreach (var width in columnWidths)
             {
-                gfx.DrawLine(XPens.Black, xColumn, yPos - rowHeight, xColumn, yPos + ((CreatedVariablesTypes.QuantityOfPlayersPerClub+1) * rowHeight));
+                gfx.DrawLine(XPens.Black, xColumn, yPos - rowHeight, xColumn, yPos + ((CreatedVariablesTypes.QuantityOfPlayersPerClub + 1) * rowHeight));
                 xColumn += width;
             }
             gfx.DrawLine(XPens.Black, xColumn, yPos - rowHeight, xColumn, yPos + ((CreatedVariablesTypes.QuantityOfPlayersPerClub + 1) * rowHeight)); // Última línea vertical
@@ -192,7 +175,7 @@ namespace Frontend.Resources.PDF_Pages
                         var playerL = resultL.Data;
                         gfx.DrawString(playerL.Number.ToString(), normalFont, XBrushes.DarkGray, new XPoint(xStart + 10, currentY + 15));
                         gfx.DrawString(playerL.Name, normalFont, XBrushes.DarkGray, new XPoint(xStart + 30, currentY + 15));
-                        gfx.DrawString(Functions.GetActionCountForPlayer(playerL.Id, Ending.Goal).QuantityEnding.ToString(), normalFont, 
+                        gfx.DrawString(Functions.GetActionCountForPlayer(playerL.Id, Ending.Goal).QuantityEnding.ToString(), normalFont,
                             XBrushes.DarkGray, new XPoint(xStart + columnWidths[0] + 10, currentY + 15));
                     }
                 }
@@ -203,11 +186,11 @@ namespace Frontend.Resources.PDF_Pages
                     if (resultA.Success)
                     {
                         var playerA = resultA.Data;
-                        gfx.DrawString(Functions.GetActionCountForPlayer(playerA.Id, Ending.Goal).QuantityEnding.ToString(), normalFont, XBrushes.DarkGray, 
+                        gfx.DrawString(Functions.GetActionCountForPlayer(playerA.Id, Ending.Goal).QuantityEnding.ToString(), normalFont, XBrushes.DarkGray,
                             new XPoint(xStart + columnWidths[0] + columnWidths[1] + 10, currentY + 15));
-                        gfx.DrawString(playerA.Number.ToString(), normalFont, XBrushes.DarkGray, 
+                        gfx.DrawString(playerA.Number.ToString(), normalFont, XBrushes.DarkGray,
                             new XPoint(xStart + columnWidths[0] + columnWidths[1] + columnWidths[2] + 10, currentY + 15));
-                        gfx.DrawString(playerA.Name, normalFont, XBrushes.DarkGray, 
+                        gfx.DrawString(playerA.Name, normalFont, XBrushes.DarkGray,
                             new XPoint(xStart + columnWidths[0] + columnWidths[1] + columnWidths[2] + 30, currentY + 15));
                     }
                 }
@@ -237,7 +220,7 @@ namespace Frontend.Resources.PDF_Pages
             // Título
             var font = new XFont("Verdana", 16);
             double yPosition = 0;
-            gfx.DrawString($"{result.Data.Name} - {result.Data.Number}", font, XBrushes.Black, new XRect(0, yPosition, pdfPage.Width, 50), 
+            gfx.DrawString($"{result.Data.Name} - {result.Data.Number}", font, XBrushes.Black, new XRect(0, yPosition, pdfPage.Width, 50),
                 XStringFormats.Center);
             yPosition += 60; // Ajustar la posición Y para el siguiente elemento
 
@@ -262,19 +245,19 @@ namespace Frontend.Resources.PDF_Pages
             var infoFont = new XFont("Verdana", 12);
             if (temp.Quantity2min.HasValue)
             {
-                gfx.DrawString($"2 minutos: {temp.Quantity2min.Value}", infoFont, XBrushes.Black, 
+                gfx.DrawString($"2 minutos: {temp.Quantity2min.Value}", infoFont, XBrushes.Black,
                     new XRect(50, yPosition, pdfPage.Width, 20), XStringFormats.TopLeft);
                 yPosition += 20;
             }
             if (temp.Red.HasValue)
             {
-                gfx.DrawString($"Rojas: {temp.Red.Value}", infoFont, XBrushes.Black, 
+                gfx.DrawString($"Rojas: {temp.Red.Value}", infoFont, XBrushes.Black,
                     new XRect(50, yPosition, pdfPage.Width, 20), XStringFormats.TopLeft);
                 yPosition += 20;
             }
             if (temp.Blue.HasValue)
             {
-                gfx.DrawString($"Azules: {temp.Blue.Value}", infoFont, XBrushes.Black, 
+                gfx.DrawString($"Azules: {temp.Blue.Value}", infoFont, XBrushes.Black,
                     new XRect(50, yPosition, pdfPage.Width, 20), XStringFormats.TopLeft);
                 yPosition += 20;
             }
@@ -360,15 +343,15 @@ namespace Frontend.Resources.PDF_Pages
 
             // Generar imágenes con marcas
             //string absolutePathCancha = "C:\\Users\\Pc\\Desktop\\App\\StatBoard\\StatBoard\\Frontend\\Frontend\\Resources\\Images\\cancha.png";
-            string absolutePathCancha = GetImagePath("cancha.png");
-            string canchaWithMarksPath = GenerateMarkedImage(absolutePathCancha, marcasCampo, new SKColor(255, 0, 0, 180)); // Rojo fuerte
+            //string absolutePathCancha = GetImagePath("cancha.png");
+            string canchaWithMarksPath = GenerateMarkedImage("cancha.png", marcasCampo, new SKColor(255, 0, 0, 180)); // Rojo fuerte
 
             //string absolutePathArco = "C:\\Users\\Pc\\Desktop\\App\\StatBoard\\StatBoard\\Frontend\\Frontend\\Resources\\Images\\arco.png";
-            string absolutePathArco = GetImagePath("arco.png");
+            //string absolutePathArco = GetImagePath("arco.png");
             string arcoWithMarksPath = null;
             if (end == Ending.Goal || end == Ending.Miss || end == Ending.Save)
             {
-                arcoWithMarksPath = GenerateMarkedImage(absolutePathArco, marcasArco, new SKColor(0, 0, 255, 180)); // Azul fuerte
+                arcoWithMarksPath = GenerateMarkedImage("arco.png", marcasArco, new SKColor(0, 0, 255, 180)); // Azul fuerte
             }
 
             try
@@ -387,13 +370,13 @@ namespace Frontend.Resources.PDF_Pages
                     var markedArcoImage = XImage.FromFile(arcoWithMarksPath);
                     gfx.DrawImage(markedArcoImage, 10 + 200, yPosition, 150, 100);
                     Console.WriteLine($"Imagen de arco añadida al documento: {arcoWithMarksPath}");
-                    
+
                     yPosition -= 20;
                 }
                 else
                 {
                     var infoFont = new XFont("Verdana", 12);
-                    gfx.DrawString($"{end}: {temp.QuantityEnding}", infoFont, XBrushes.Black, new XRect(370, yPosition, pdfPage.Width, 20), 
+                    gfx.DrawString($"{end}: {temp.QuantityEnding}", infoFont, XBrushes.Black, new XRect(370, yPosition, pdfPage.Width, 20),
                         XStringFormats.TopLeft);
                     yPosition += 20;
 
@@ -436,8 +419,8 @@ namespace Frontend.Resources.PDF_Pages
 
             // Generar imágenes con marcas
             //string absolutePathCancha = "C:\\Users\\Pc\\Desktop\\App\\StatBoard\\StatBoard\\Frontend\\Frontend\\Resources\\Images\\cancha.png";
-            string absolutePathCancha = GetImagePath("cancha.png");
-            string canchaWithMarksPath = GenerateMarkedImage(absolutePathCancha, marcasCampo, new SKColor(255, 0, 0, 180)); // Rojo fuerte
+            //string absolutePathCancha = GetImagePath("cancha.png");
+            string canchaWithMarksPath = GenerateMarkedImage("cancha.png", marcasCampo, new SKColor(255, 0, 0, 180)); // Rojo fuerte
 
             try
             {
@@ -445,7 +428,7 @@ namespace Frontend.Resources.PDF_Pages
                 if (end == Ending.Goal || end == Ending.Miss || end == Ending.Save)
                 {
                     var infoFont = new XFont("Verdana", 12);
-                    gfx.DrawString($"{end}: {cantidadEndingsTeam}", infoFont, XBrushes.Black, new XRect(50, yPosition, pdfPage.Width, 20), 
+                    gfx.DrawString($"{end}: {cantidadEndingsTeam}", infoFont, XBrushes.Black, new XRect(50, yPosition, pdfPage.Width, 20),
                         XStringFormats.TopLeft);
                     yPosition += 20;
 
@@ -454,8 +437,8 @@ namespace Frontend.Resources.PDF_Pages
                     Console.WriteLine($"Imagen de cancha añadida al documento: {canchaWithMarksPath}");
 
                     //string absolutePathArco = "C:\\Users\\Pc\\Desktop\\App\\StatBoard\\StatBoard\\Frontend\\Frontend\\Resources\\Images\\arco.png";
-                    string absolutePathArco = GetImagePath("arco.png");
-                    string arcoWithMarksPath = GenerateMarkedImage(absolutePathArco, marcasArco, new SKColor(0, 0, 255, 180)); // Azul fuerte
+                    //string absolutePathArco = GetImagePath("arco.png");
+                    string arcoWithMarksPath = GenerateMarkedImage("arco.png", marcasArco, new SKColor(0, 0, 255, 180)); // Azul fuerte
                     var markedArcoImage = XImage.FromFile(arcoWithMarksPath);
                     gfx.DrawImage(markedArcoImage, 10 + 200, yPosition, 150, 100);
                     Console.WriteLine($"Imagen de arco añadida al documento: {arcoWithMarksPath}");
@@ -465,7 +448,7 @@ namespace Frontend.Resources.PDF_Pages
                 else
                 {
                     var infoFont = new XFont("Verdana", 12);
-                    gfx.DrawString($"{end}: {cantidadEndingsTeam}", infoFont, XBrushes.Black, new XRect(370, yPosition, pdfPage.Width, 20), 
+                    gfx.DrawString($"{end}: {cantidadEndingsTeam}", infoFont, XBrushes.Black, new XRect(370, yPosition, pdfPage.Width, 20),
                         XStringFormats.TopLeft);
                     yPosition += 20;
 
@@ -486,29 +469,40 @@ namespace Frontend.Resources.PDF_Pages
 
         private string GenerateMarkedImage(string imageName, List<Coordenates> marks, SKColor color)
         {
+            var path = GetImagePath(imageName);
+
             string outputPath;
             if (DeviceInfo.Platform == DevicePlatform.WinUI)
             {
                 outputPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
-                    "App", "StatBoard", "StatBoard", "Frontend", "Frontend", "Resources", "Images", Path.GetFileNameWithoutExtension(imageName) + "_marked.png");
+                    "App", "StatBoard", "StatBoard", "Frontend", "Frontend", "Resources", "Images", Path.GetFileNameWithoutExtension(path) + "_marked.png");
             }
             else if (DeviceInfo.Platform == DevicePlatform.Android || DeviceInfo.Platform == DevicePlatform.iOS)
             {
-                outputPath = Path.Combine(FileSystem.AppDataDirectory, "Images", Path.GetFileNameWithoutExtension(imageName) + "_marked.png");
+                outputPath = Path.Combine(FileSystem.AppDataDirectory, "Images", Path.GetFileNameWithoutExtension(path) + "_marked.png");
             }
             else
             {
-                outputPath = Path.Combine(FileSystem.CacheDirectory, "Images", Path.GetFileNameWithoutExtension(imageName) + "_marked.png"); // Fallback
+                outputPath = Path.Combine(FileSystem.CacheDirectory, "Images", Path.GetFileNameWithoutExtension(path) + "_marked.png"); // Fallback
             }
 
-            using var imageStream = File.OpenRead(imageName);
+            using var imageStream = File.OpenRead(path);
             using var bitmap = SKBitmap.Decode(imageStream);
             using var canvas = new SKCanvas(bitmap);
 
             foreach (var mark in marks)
             {
                 int pointSize = 20;
-                canvas.DrawCircle(mark.X, mark.Y, pointSize / 2, new SKPaint { Color = color, IsAntialias = true, Style = SKPaintStyle.Fill });
+
+                if (imageName == "cancha.png")
+                {
+                    canvas.DrawCircle(mark.X - 20, mark.Y + 10, pointSize / 2, new SKPaint { Color = color, IsAntialias = true, Style = SKPaintStyle.Fill });
+                }
+                else if (imageName == "arco.png")
+                {
+                    canvas.DrawCircle(mark.X + 20, mark.Y, pointSize / 2, new SKPaint { Color = color, IsAntialias = true, Style = SKPaintStyle.Fill });
+                }
+
             }
 
             using var image = SKImage.FromBitmap(bitmap);
@@ -562,7 +556,7 @@ namespace Frontend.Resources.PDF_Pages
             string imagePath;
             if (DeviceInfo.Platform == DevicePlatform.WinUI)
             {
-                imagePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), 
+                imagePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
                     "App", "StatBoard", "StatBoard", "Frontend", "Frontend", "Resources", "Images", imageName);
             }
             else if (DeviceInfo.Platform == DevicePlatform.Android || DeviceInfo.Platform == DevicePlatform.iOS)
