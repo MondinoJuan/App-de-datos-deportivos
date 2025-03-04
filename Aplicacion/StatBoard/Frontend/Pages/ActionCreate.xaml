@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Frontend.Pages.ActionCreate"
+             Title="Registrar Acción"
+             Style="{StaticResource PageBackground}"
+             xmlns:converters="clr-namespace:Frontend.Resources.Converters"
+             xmlns:vm="clr-namespace:Frontend.Pages"
+             x:DataType="vm:ActionCreate_ViewModel">
+
+    <ContentPage.Resources>
+        <converters:GreaterThanConverter x:Key="GreaterThanConverter"/>
+    </ContentPage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout 
+            Spacing="20" 
+            Padding="20" 
+            VerticalOptions="Fill">
+
+            <!-- Título principal -->
+            <Label 
+                Text="Ingrese los datos de la acción"
+                Style="{StaticResource TitleLabel}" />
+
+            <!-- Selector de acción -->
+            <Picker 
+                x:Name="actionPicker"
+                Title="Seleccione una acción" 
+                Style="{StaticResource PickerStyle}"
+                SelectedIndexChanged="OnPickerActionSelectedIndexChanged">
+                <Picker.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>Goal</x:String>
+                        <x:String>Save</x:String>
+                        <x:String>Miss</x:String>
+                        <x:String>Blocked</x:String>
+                        <x:String>Steal_W</x:String>
+                        <x:String>Steal_L</x:String>
+                        <x:String>Foul</x:String>
+                    </x:Array>
+                </Picker.ItemsSource>
+            </Picker>
+
+            <!--Selecciono sancion-->
+            <Picker 
+                x:Name="sanctionPicker"
+                Title="Seleccione una sanción" 
+                Style="{StaticResource PickerStyle}"
+                SelectedIndexChanged="OnPickerSanctionSelectedIndexChanged">
+                <Picker.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>Two_Minutes</x:String>
+                        <x:String>Red</x:String>
+                        <x:String>Blue</x:String>
+                    </x:Array>
+                </Picker.ItemsSource>
+                <Picker.Triggers>
+                    <DataTrigger TargetType="Picker" Binding="{Binding ActionNeedsSanction}" Value="False">
+                        <Setter Property="IsEnabled" Value="False" />
+                        <Setter Property="IsVisible" Value="False" />
+                    </DataTrigger>
+                    <DataTrigger TargetType="Picker" Binding="{Binding ActionNeedsSanction}" Value="True">
+                        <Setter Property="IsEnabled" Value="True" />
+                        <Setter Property="IsVisible" Value="True" />
+                    </DataTrigger>
+                </Picker.Triggers>
+            </Picker>
+
+            <!-- Selector de mitad -->
+            <StackLayout 
+                Orientation="Horizontal" 
+                Spacing="5" 
+                VerticalOptions="Center" 
+                HorizontalOptions="Center">
+
+                <Label 
+                    Text="Primera mitad" 
+                    Style="{StaticResource TextLabel}" />
+
+                <Grid 
+                    WidthRequest="40" 
+                    HeightRequest="30"
+                    Padding="0, -5, 0, 0">
+                    <Switch 
+                        x:Name="whichHalf"
+                        IsToggled="false"
+                        Toggled="OnSwitchToggled"
+                        OnColor="#FFA726"
+                        ThumbColor="#003364"
+                        BackgroundColor="Transparent"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"/>
+                </Grid>
+
+                <Label 
+                    Text="Segunda mitad" 
+                    Style="{StaticResource TextLabel}" />
+
+            </StackLayout>
+
+            <StackLayout 
+                Orientation="Vertical"
+                Spacing="20">
+                <StackLayout.Style>
+                    <Style TargetType="StackLayout">
+                        <Style.Triggers>
+                            <DataTrigger 
+                                TargetType="StackLayout" 
+                                Binding="{Binding Width, Source={RelativeSource AncestorType={x:Type Window}}, 
+                                            Converter={StaticResource GreaterThanConverter}, ConverterParameter=700}" 
+                                Value="True">
+                                <Setter Property="Orientation" Value="Horizontal" />
+                                <Setter Property="HorizontalOptions" Value="Center"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </StackLayout.Style>
+                
+                <VerticalStackLayout
+                    Spacing="10">
+                    <Label 
+                        Text="Seleccione la posición en el campo"
+                        Style="{StaticResource TextLabel}" />
+                    <!-- Matriz de campo -->
+                    <AbsoluteLayout 
+                        HeightRequest="250"
+                        WidthRequest="300">
+                        <!-- Imagen de fondo -->
+                        <Image 
+                            Source="cancha.png"
+                            Style="{StaticResource ImageStyle}"
+                            BackgroundColor="Transparent"
+                            AbsoluteLayout.LayoutBounds="0,0,1,1"
+                            AbsoluteLayout.LayoutFlags="All"
+                            ZIndex="10">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnImageTapped_Field" />
+                            </Image.GestureRecognizers>
+                        </Image>
+
+                        <!-- Contenedor dinámico para marcas -->
+                        <AbsoluteLayout 
+                            x:Name="MarkContainerField"
+                            AbsoluteLayout.LayoutBounds="0,0,1,1"
+                            AbsoluteLayout.LayoutFlags="All"
+                            ZIndex="10"
+                            InputTransparent="True">
+                            <!-- Las marcas se añadirán dinámicamente aquí -->
+                        </AbsoluteLayout>
+                    </AbsoluteLayout>
+                </VerticalStackLayout>
+                
+                <VerticalStackLayout>
+                    <VerticalStackLayout.Triggers>
+                        <DataTrigger TargetType="VerticalStackLayout" Binding="{Binding ActionNeedsGoal}" Value="False">
+                            <Setter Property="IsVisible" Value="False" />
+                        </DataTrigger>
+                        <DataTrigger TargetType="VerticalStackLayout" Binding="{Binding ActionNeedsGoal}" Value="True">
+                            <Setter Property="IsVisible" Value="True" />
+                        </DataTrigger>
+                    </VerticalStackLayout.Triggers>
+                    <Label 
+                        Text="Seleccione la posición en el arco"
+                        Style="{StaticResource TextLabel}" >
+                    </Label>
+                    <!-- Matriz de arco -->
+                    <AbsoluteLayout
+                        HeightRequest="250"
+                        WidthRequest="300">
+                        <!-- Imagen de fondo -->
+                        <Image 
+                            Source="arco.png" 
+                            Style="{StaticResource ImageStyle}"
+                            BackgroundColor="Transparent"
+                            AbsoluteLayout.LayoutBounds="0,0,1,1"
+                            AbsoluteLayout.LayoutFlags="All"
+                            ZIndex="10">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnImageTapped_Goal" />
+                            </Image.GestureRecognizers>
+                        </Image>
+
+                        <!-- Contenedor dinámico para marcas -->
+                        <AbsoluteLayout 
+                            x:Name="MarkContainerGoal"
+                            AbsoluteLayout.LayoutBounds="0,0,1,1"
+                            AbsoluteLayout.LayoutFlags="All"
+                            ZIndex="10"
+                            InputTransparent="True">
+                            <!-- Las marcas se añadirán dinámicamente aquí -->
+                        </AbsoluteLayout>
+                    </AbsoluteLayout>
+                </VerticalStackLayout>
+                
+            </StackLayout>
+
+            <!-- Descripción -->
+            <Entry 
+               x:Name="txtDescription"
+               Placeholder="Ingrese una descripción (opcional)"
+               Style="{StaticResource EntryStyle}"
+               TextChanged="OnDescriptionTextChanged" />
+
+            <HorizontalStackLayout
+                HorizontalOptions="Center">
+                <!--Botón: Guardar-->
+                <Button 
+                    x:Name="btnSubmit"
+                    Text="Guardar"
+                    Command="{Binding SubmitCommand}">
+                    <Button.Triggers>
+                        <DataTrigger TargetType="Button" Binding="{Binding DidBtnSubmit}" Value="False">
+                            <Setter Property="Style" Value="{StaticResource DisabledButton}" />
+                        </DataTrigger>
+                        <DataTrigger TargetType="Button" Binding="{Binding DidBtnSubmit}" Value="True">
+                            <Setter Property="Style" Value="{StaticResource SaveButton}" />
+                        </DataTrigger>
+                    </Button.Triggers>
+                </Button>
+
+                <!-- Botón: Cancelar -->
+                <Button 
+                    x:Name="btnCancel"
+                    Text="Cancelar"
+                    Style="{StaticResource CancelButton}"
+                    Command="{Binding CancelCommand}"/>
+            </HorizontalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

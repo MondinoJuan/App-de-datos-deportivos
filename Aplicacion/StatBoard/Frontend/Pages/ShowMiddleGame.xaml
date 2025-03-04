@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Frontend.Pages.ShowMiddleGame"
+             xmlns:components="clr-namespace:Frontend.Resources.Components"
+             xmlns:local="clr-namespace:Frontend.Pages"
+             xmlns:converters="clr-namespace:Frontend.Resources.Converters"
+             Title="ShowMiddleGame"
+             Style="{StaticResource PageBackground}">
+
+    <AbsoluteLayout>
+        <ScrollView
+            AbsoluteLayout.LayoutBounds="0,0,1,1"
+            AbsoluteLayout.LayoutFlags="All"
+            Padding="10, 0, 0, 0">
+            <VerticalStackLayout>
+                <Label
+                    Text="Acciones actuales"
+                    Style="{StaticResource TitleLabel}"
+                    HorizontalOptions="Center"/>
+
+                <HorizontalStackLayout
+                    Padding="10"
+                    HorizontalOptions="Center">
+                    <Label
+                        Text="Fecha: "
+                        Style="{StaticResource TextLabel}"/>
+                    <Label
+                        x:Name="lblMatchWeek"
+                        Text="{Binding Match.MatchWeek}"
+                        Style="{StaticResource TextLabel}"
+                        Padding="10,0,100,0"/>
+
+                    <Label
+                        Text="Cancha: "
+                        Style="{StaticResource TextLabel}"/>
+                    <Label
+                        x:Name="lblPlace"
+                        Text="{Binding Match.Place}"
+                        Style="{StaticResource TextLabel}"
+                        Padding="10,0,100,0"/>
+
+                    <Label
+                        Text="Día: "
+                        Style="{StaticResource TextLabel}"/>
+                    <Label
+                        x:Name="lblDay"
+                        Text="{Binding Match.Date, StringFormat='{0:dddd, dd MMMM yyyy}'}"
+                        Style="{StaticResource TextLabel}"
+                        Padding="10,0,100,0"/>
+
+                </HorizontalStackLayout>
+
+                <StackLayout
+                    x:Name="stks"
+                    BindableLayout.ItemsSource="{Binding Teams}"
+                    HorizontalOptions="Center">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <!-- Página del jugador -->
+                            <components:PageOfActions
+                                Team="{Binding .}"
+                                Padding="0,30,0,0"/>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </StackLayout>
+
+                <Label 
+                    Text="Acciones de los jugadores locales"
+                    Style="{StaticResource SubtitleLabel}">
+                    <Label.Triggers>
+                        <DataTrigger TargetType="Label" Binding="{Binding TeamLocal.IdPlayers.Count}" Value="0">
+                            <Setter Property="IsVisible" Value="False" />
+                        </DataTrigger>
+                    </Label.Triggers>
+                </Label>
+
+                <StackLayout
+                    x:Name="stkLocalPlayers"
+                    BindableLayout.ItemsSource="{Binding TeamLocal.IdPlayers}">
+                    <StackLayout.Triggers>
+                        <DataTrigger TargetType="StackLayout" Binding="{Binding TeamLocal.IdPlayers.Count}" Value="0">
+                            <Setter Property="IsVisible" Value="False" />
+                        </DataTrigger>
+                    </StackLayout.Triggers>
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <!-- Página del jugador -->
+                            <components:PageOfActions 
+                                IdPlayer="{Binding .}"
+                                Padding="0,30,0,0"/>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </StackLayout>
+
+                <Label 
+                    Text="Acciones de los jugadores visitantes"
+                    Style="{StaticResource SubtitleLabel}">
+                    <Label.Triggers>
+                        <DataTrigger TargetType="Label" Binding="{Binding TeamAway.IdPlayers.Count}" Value="0">
+                            <Setter Property="IsVisible" Value="False" />
+                        </DataTrigger>
+                    </Label.Triggers>
+                </Label>
+
+                <StackLayout
+                    x:Name="stkAwayPlayers"
+                    BindableLayout.ItemsSource="{Binding TeamAway.IdPlayers}">
+                    <StackLayout.Triggers>
+                        <DataTrigger TargetType="StackLayout" Binding="{Binding TeamAway.IdPlayers.Count}" Value="0">
+                            <Setter Property="IsVisible" Value="False" />
+                        </DataTrigger>
+                    </StackLayout.Triggers>
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <!-- Página del jugador -->
+                            <components:PageOfActions 
+                                IdPlayer="{Binding .}"
+                                Padding="0,30,0,0"/>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </StackLayout>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <Button
+            AbsoluteLayout.LayoutBounds="1,0,AutoSize,AutoSize"
+            AbsoluteLayout.LayoutFlags="PositionProportional"
+            x:Name="btnGoBack"
+            Text="Volver"
+            Style="{StaticResource NavigationButton}"
+            Clicked="OnGoBack"
+            VerticalOptions="Start"
+            HorizontalOptions="End"/>
+    </AbsoluteLayout>
+
+
+</ContentPage>

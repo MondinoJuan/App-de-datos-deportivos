@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Frontend.Resources.Styles.Styles">
+    
+    <!-- ///////////////////////////////////////// FONDO ///////////////////////////////////////// -->
+    <!--Estilo sobrio para el fondo de las paginas de la aplicacion-->
+    <Style x:Key="PageBackground" TargetType="ContentPage">
+        <Setter Property="BackgroundColor" Value="#212121"/>
+    </Style>
+
+    <!-- ///////////////////////////////////////// BOTONES ///////////////////////////////////////// -->
+    <!--Estilo para botones "cancelar"-->
+    <Style x:Key="CancelButton" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="Red"/>
+        <Setter Property="TextColor" Value="White"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="WidthRequest" Value="150"/>
+        <Setter Property="HeightRequest" Value="50"/>
+        <Setter Property="CornerRadius" Value="10"/>
+    </Style>
+
+    <!--Estilo para botones "guardar"-->
+    <Style x:Key="SaveButton" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="Green"/>
+        <Setter Property="TextColor" Value="White"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="WidthRequest" Value="150"/>
+        <Setter Property="HeightRequest" Value="50"/>
+        <Setter Property="CornerRadius" Value="10"/>
+        <Setter Property="IsEnabled" Value="True"/>
+    </Style>
+
+    <!--Estilo para los botones de navegacion-->
+    <Style x:Key="NavigationButton" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="CadetBlue"/>
+        <Setter Property="TextColor" Value="Black"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="WidthRequest" Value="150"/>
+        <Setter Property="HeightRequest" Value="50"/>
+        <Setter Property="CornerRadius" Value="10"/>
+        <Setter Property="IsEnabled" Value="True"/>
+    </Style>
+
+    <!--Estilo para los botones de agregado-->
+    <Style x:Key="AddButton" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="#8308FF"/>
+        <Setter Property="TextColor" Value="White"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="WidthRequest" Value="150"/>
+        <Setter Property="HeightRequest" Value="50"/>
+        <Setter Property="CornerRadius" Value="10"/>
+        <Setter Property="IsEnabled" Value="True"/>
+    </Style>
+
+    <!--Estilo para los botones inhabilitados-->
+    <Style x:Key="DisabledButton" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="Gray"/>
+        <Setter Property="TextColor" Value="White"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="WidthRequest" Value="150"/>
+        <Setter Property="HeightRequest" Value="50"/>
+        <Setter Property="CornerRadius" Value="10"/>
+        <Setter Property="IsEnabled" Value="False"/>
+    </Style>
+
+    <!-- ///////////////////////////////////////// ENTRY ///////////////////////////////////////// -->
+    <!--Estilo para campos de texto-->
+    <Style x:Key="EntryStyle" TargetType="Entry">
+        <Setter Property="BackgroundColor" Value="Black"/>
+        <Setter Property="TextColor" Value="White"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="HeightRequest" Value="40"/>
+    </Style>
+
+    <!-- ///////////////////////////////////////// LABELS ///////////////////////////////////////// -->
+    <!--Estilo para etiquetas de titulo-->
+    <Style x:Key="TitleLabel" TargetType="Label">
+        <Setter Property="FontSize" Value="24"/>
+        <Setter Property="FontAttributes" Value="Bold"/>
+        <Setter Property="HorizontalOptions" Value="Center"/>
+        <Setter Property="HorizontalTextAlignment" Value="Center"/>
+    </Style>
+
+    <!--Estilo para etiquetas de subtitulo-->
+    <Style x:Key="SubtitleLabel" TargetType="Label">
+        <Setter Property="FontSize" Value="30"/>
+        <Setter Property="FontAttributes" Value="Bold"/>
+        <Setter Property="HorizontalOptions" Value="Center"/>
+        <Setter Property="HorizontalTextAlignment" Value="Center"/>
+    </Style>
+
+    <!--Estilo para etiquetas de error-->
+    <Style x:Key="ErrorLabel" TargetType="Label">
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="FontAttributes" Value="Bold"/>
+        <Setter Property="TextColor" Value="Red"/>
+        <Setter Property="HorizontalOptions" Value="Center"/>
+        <Setter Property="HorizontalTextAlignment" Value="Center"/>
+    </Style>
+
+    <!--Estilo para etiquetas de texto-->
+    <Style x:Key="TextLabel" TargetType="Label">
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="FontAttributes" Value="Bold"/>
+        <Setter Property="TextColor" Value="White"/>
+        <Setter Property="HorizontalOptions" Value="Center"/>
+        <Setter Property="HorizontalTextAlignment" Value="Center"/>
+        <Setter Property="VerticalOptions" Value="Center"/>
+    </Style>
+
+    <!-- ///////////////////////////////////////// PICKERS ///////////////////////////////////////// -->
+    <!--Estilo para los pickers-->
+    <Style x:Key="PickerStyle" TargetType="Picker">
+        <Setter Property="BackgroundColor" Value="Black"/>
+        <Setter Property="TextColor" Value="White"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="HeightRequest" Value="70"/>
+    </Style>
+
+    <!-- ///////////////////////////////////////// IMAGES ///////////////////////////////////////// -->
+    <!--Estilo para las imagenes-->
+    <Style x:Key="ImageStyle" TargetType="Image">
+        <Setter Property="WidthRequest" Value="300"/>
+        <Setter Property="HeightRequest" Value="250"/>
+        <Setter Property="Aspect" Value="AspectFit"/>
+        <Setter Property="HorizontalOptions" Value="Center"/>
+        <Setter Property="VerticalOptions" Value="Center"/>
+        <Setter Property="BackgroundColor" Value="Transparent"/>
+    </Style>
+
+</ResourceDictionary>

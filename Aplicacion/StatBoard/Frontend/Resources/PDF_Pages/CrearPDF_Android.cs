@@ -67,10 +67,11 @@ namespace Frontend.Resources.PDF_Pages
         var values = new ContentValues();
         values.Put(MediaStore.IMediaColumns.DisplayName, fileName);
         values.Put(MediaStore.IMediaColumns.MimeType, "application/pdf");
-        values.Put(MediaStore.IMediaColumns.RelativePath, Android.OS.Environment.DirectoryDocuments);
+        values.Put(MediaStore.IMediaColumns.RelativePath, Android.OS.Environment.DirectoryDownloads);
 
         var contentResolver = context.ContentResolver;
         var uri = contentResolver.Insert(MediaStore.Downloads.ExternalContentUri, values);
+
 
         if (uri != null)
         {
