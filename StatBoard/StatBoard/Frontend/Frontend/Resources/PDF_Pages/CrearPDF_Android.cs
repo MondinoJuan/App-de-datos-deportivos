@@ -1,6 +1,5 @@
 ﻿using SkiaSharp;
 using Frontend.Resources.Entities;
-using PdfSharp.Pdf;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Maui.Controls.PlatformConfiguration;
@@ -14,12 +13,12 @@ namespace Frontend.Resources.PDF_Pages
         private Club_Dto? TeamAway { get; set; }
 
 
-        public async Task<PdfDocument> CrearPDF_A(Guid idMatch)
+        public async Task<bool> CrearPDF_A(Guid idMatch)
         {
             if (!LoadData(idMatch))
             {
                 Console.WriteLine("Error al cargar los datos");
-                return null;
+                return false;
             }
 
             // Solicitar permisos de escritura en tiempo de ejecución
@@ -27,121 +26,105 @@ namespace Frontend.Resources.PDF_Pages
             if (status != PermissionStatus.Granted)
             {
                 Console.WriteLine("Permiso de escritura en almacenamiento no concedido.");
-                return null;
+                return false;
             }
 
-            // Crear un documento PDF
-            var pdfDocument = new PdfDocument();
-
-            // Construir el contenido del documento
-            BuildDocument(pdfDocument);
-
             string fileName = "StatBoard_Android.pdf";
-            //var customFilePath = FileSystem.Current.AppDataDirectory;
-            //string customFilePath = Path.Combine(FileSystem.CacheDirectory, "Documents");
-            //string filePath = Path.Combine(FileSystem.AppDataDirectory, fileName);
-
-            // Verificar y crear la carpeta si no existe
-            //if (!Directory.Exists(customFilePath))
-            //{
-            //    Directory.CreateDirectory(customFilePath);
-            //}
-
-            //string filePath = Path.Combine(customFilePath, fileName);
 
             try
             {
-                //Console.WriteLine($"Guardando PDF en: {filePath}");
-                //using (var stream = new FileStream(filePath, FileMode.Create))
-                //{
-                //    pdfDocument.Save(stream);
-                //}
-
-                //pdfDocument.Save(filePath);
-
-
-                //------------------------------------------------- PRUEBA -------------------------------------------------
-
 #if ANDROID
-                //var mauiContext = new MauiContext(Microsoft.Maui.Controls.Application.Current.Handler.MauiContext.Services);
-                
-                var externalStorage = Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryDownloads)!.AbsolutePath;
-
-                //var androidContext = mauiContext.Services.GetRequiredService<Android.App.Application>();
-                
+                var externalStorage = Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryDocuments)!.AbsolutePath;
                 var path4 = Path.Combine(externalStorage, fileName);
-                //var path3 = Path.Combine(androidContext.GetExternalFilesDir(null)!.AbsolutePath, fileName);
-                
-                //Console.WriteLine($"PDF guardado en path3: {path3}");
-                Console.WriteLine($"PDF guardado en path4: {path4}");               //Funciona
+                Console.WriteLine($"PDF guardado en path4: {path4}");
 
-                pdfDocument.Save(path4);
+                // Crear un documento PDF con SkiaSharp
+                using (var stream = new SKFileWStream(path4))
+                using (var document = SKDocument.CreatePdf(stream))
+                {
+                    // Construir el contenido del documento
+                    BuildDocument(document);
 
+                    // Finalizar el documento
+                    document.Close();
+                }
 #endif
-
-                //------------------------------------------------- PRUEBA -------------------------------------------------
-                //Console.WriteLine($"PDF guardado en: {filePath}");
-                
-
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error al guardar el PDF: {ex.Message}");
+                return false;
             }
 
-            return pdfDocument;
+            return true;
         }
 
-        private void BuildDocument(PdfDocument pdfDocument)
+        private void BuildDocument(SKDocument pdfDocument)
         {
-            // Primera página
-            var pdfPage = pdfDocument.AddPage();
-            using (var canvas = GetCanvas(pdfPage))
+            int totalPages = CalculateTotalPages();
+            int currentPage = 0;
+
+            // Primera página (Resumen del partido)
+            currentPage++;
+            using (var canvas = pdfDocument.BeginPage(595, 842)) // A4
             {
-                SummaryMatch(canvas, pdfPage);
-                Footer(canvas, pdfPage, pdfDocument);
+                SummaryMatch(canvas);
+                Footer(canvas, pdfDocument, currentPage, totalPages); // Pasa currentPage y totalPages
+                pdfDocument.EndPage();
             }
 
-            // Segunda página - Equipo Local
-            pdfPage = pdfDocument.AddPage();
-            using (var canvas = GetCanvas(pdfPage))
+            // Segunda página (Equipo Local)
+            currentPage++;
+            using (var canvas = pdfDocument.BeginPage(595, 842))
             {
-                SummaryTeam(canvas, pdfPage, TeamLocal);
-                Footer(canvas, pdfPage, pdfDocument);
+                SummaryTeam(canvas, TeamLocal);
+                Footer(canvas, pdfDocument, currentPage, totalPages);
+                pdfDocument.EndPage();
             }
 
-            // Tercera página - Equipo Visitante
-            pdfPage = pdfDocument.AddPage();
-            using (var canvas = GetCanvas(pdfPage))
+            // Tercera página (Equipo Visitante)
+            currentPage++;
+            using (var canvas = pdfDocument.BeginPage(595, 842))
             {
-                SummaryTeam(canvas, pdfPage, TeamAway);
-                Footer(canvas, pdfPage, pdfDocument);
+                SummaryTeam(canvas, TeamAway);
+                Footer(canvas, pdfDocument, currentPage, totalPages);
+                pdfDocument.EndPage();
             }
 
-            // Páginas para jugadores del equipo local
+            // Páginas de jugadores locales
             foreach (var idPlayer in TeamLocal.IdPlayers)
             {
-                pdfPage = pdfDocument.AddPage();
-                using (var canvas = GetCanvas(pdfPage))
+                currentPage++;
+                using (var canvas = pdfDocument.BeginPage(595, 842))
                 {
-                    SummaryPlayer(canvas, pdfPage, idPlayer);
-                    Footer(canvas, pdfPage, pdfDocument);
+                    SummaryPlayer(canvas, idPlayer);
+                    Footer(canvas, pdfDocument, currentPage, totalPages);
+                    pdfDocument.EndPage();
                 }
             }
 
-            // Páginas para jugadores del equipo visitante
+            // Páginas de jugadores visitantes
             foreach (var idPlayer in TeamAway.IdPlayers)
             {
-                pdfPage = pdfDocument.AddPage();
-                using (var canvas = GetCanvas(pdfPage))
+                currentPage++;
+                using (var canvas = pdfDocument.BeginPage(595, 842))
                 {
-                    SummaryPlayer(canvas, pdfPage, idPlayer);
-                    Footer(canvas, pdfPage, pdfDocument);
+                    SummaryPlayer(canvas, idPlayer);
+                    Footer(canvas, pdfDocument, currentPage, totalPages);
+                    pdfDocument.EndPage();
                 }
             }
         }
 
-        private void SummaryMatch(SKCanvas canvas, PdfPage pdfPage)
+        private int CalculateTotalPages()
+        {
+            int total = 3; // Páginas fijas: Resumen, Equipo Local, Equipo Visitante
+            total += TeamLocal.IdPlayers.Count;
+            total += TeamAway.IdPlayers.Count;
+            return total;
+        }
+
+        private void SummaryMatch(SKCanvas canvas)
         {
             float yPos = 40;
             using (var textPaint = new SKPaint { Color = SKColors.Black })
@@ -201,30 +184,21 @@ namespace Frontend.Resources.PDF_Pages
             }
         }
 
-        private SKCanvas GetCanvas(PdfPage pdfPage)
+        private void Footer(SKCanvas canvas, SKDocument pdfDocument, int current, int total)
         {
-            var skBitmap = new SKBitmap((int)pdfPage.Width.Point, (int)pdfPage.Height.Point);
-            return new SKCanvas(skBitmap);
-        }
-
-        private void Footer(SKCanvas canvas, PdfPage pdfPage, PdfDocument pdfDocument)
-        {
-            int pageIndex = pdfDocument.Pages.Cast<PdfPage>().ToList().IndexOf(pdfPage) + 1;
-            int totalPages = pdfDocument.PageCount;
-
             using (var textPaint = new SKPaint { Color = SKColors.Gray, IsAntialias = true })
             {
                 using (var textFont = new SKFont(SKTypeface.Default, 20))
                 {
-                    float xPos = (float)pdfPage.Width.Point / 2;
-                    float yPos = (float)pdfPage.Height.Point - 30;
+                    float xPos = 595 / 2; // Centrar en el ancho de la página (A4)
+                    float yPos = 842 - 30; // Posicionar en la parte inferior de la página (A4)
 
-                    canvas.DrawText($"Página {pageIndex} de {totalPages}", xPos, yPos, SKTextAlign.Center, textFont, textPaint);
+                    canvas.DrawText($"Página {current} de {total}", xPos, yPos, SKTextAlign.Center, textFont, textPaint);
                 }
             }
         }
 
-        private void SummaryPlayer(SKCanvas canvas, PdfPage pdfPage, Guid idPlayer)
+        private void SummaryPlayer(SKCanvas canvas, Guid idPlayer)
         {
             var result = Simulo_BdD.GetOnePlayer(idPlayer);
             if (!result.Success)
@@ -240,25 +214,20 @@ namespace Frontend.Resources.PDF_Pages
                 {
                     using (var textFont = new SKFont(typefaceBold, 35))
                     {
-                        // Crear SKTextBlob para el texto
-                        using var textBlob = SKTextBlob.Create($"{result.Data.Name} - {result.Data.Number}", textFont);
-
-                        // Convertir XUnit a float
-                        float xPos = (float)pdfPage.Width.Point / 2;
-                        float yPos = yPosition;
-
-                        // Dibujar el texto
-                        canvas.DrawText($"{result.Data.Name} - {result.Data.Number}", xPos, yPos, SKTextAlign.Left, textFont, textPaint);
+                        // Dibujar el nombre y número del jugador
+                        string playerInfo = $"{result.Data.Name} - {result.Data.Number}";
+                        float xPos = 595 / 2; // Centro de la página (A4: 595x842 puntos)
+                        canvas.DrawText(playerInfo, xPos, yPosition, SKTextAlign.Center, textFont, textPaint);
                         yPosition += 60;
 
                         // Secciones de estadísticas
-                        yPosition = EndingSection(canvas, pdfPage, result.Data.Id, Ending.Goal, yPosition);
-                        yPosition = EndingSection(canvas, pdfPage, result.Data.Id, Ending.Blocked, yPosition);
-                        yPosition = EndingSection(canvas, pdfPage, result.Data.Id, Ending.Save, yPosition);
-                        yPosition = EndingSection(canvas, pdfPage, result.Data.Id, Ending.Foul, yPosition);
-                        yPosition = EndingSection(canvas, pdfPage, result.Data.Id, Ending.Miss, yPosition);
-                        yPosition = EndingSection(canvas, pdfPage, result.Data.Id, Ending.Steal_W, yPosition);
-                        yPosition = EndingSection(canvas, pdfPage, result.Data.Id, Ending.Steal_L, yPosition);
+                        yPosition = EndingSection(canvas, result.Data.Id, Ending.Goal, yPosition);
+                        yPosition = EndingSection(canvas, result.Data.Id, Ending.Blocked, yPosition);
+                        yPosition = EndingSection(canvas, result.Data.Id, Ending.Save, yPosition);
+                        yPosition = EndingSection(canvas, result.Data.Id, Ending.Foul, yPosition);
+                        yPosition = EndingSection(canvas, result.Data.Id, Ending.Miss, yPosition);
+                        yPosition = EndingSection(canvas, result.Data.Id, Ending.Steal_W, yPosition);
+                        yPosition = EndingSection(canvas, result.Data.Id, Ending.Steal_L, yPosition);
 
                         // Contar 2 minutos, rojas y azules
                         var stats = Functions.GetActionCountForPlayer(idPlayer, Ending.Foul);
@@ -288,7 +257,7 @@ namespace Frontend.Resources.PDF_Pages
             }
         }
 
-        private float EndingSection(SKCanvas canvas, PdfPage pdfPage, Guid idPlayer, Ending end, float yPosition)
+        private float EndingSection(SKCanvas canvas, Guid idPlayer, Ending end, float yPosition)
         {
             var temp = Functions.GetActionCountForPlayer(idPlayer, end);
 
@@ -302,13 +271,13 @@ namespace Frontend.Resources.PDF_Pages
 
             yPosition += 40;
 
-            // Obtener imágenes con marcas
-            string canchaWithMarksPath = GenerateMarkedImage(GetImagePath("cancha.png"), temp.CooField, new SKColor(255, 0, 0, 180)); // Cambiado aquí
+            // Obtener imágenes con marcas (si es necesario)
+            string canchaWithMarksPath = GenerateMarkedImage(GetImagePath("cancha.png"), temp.CooField, new SKColor(255, 0, 0, 180));
             string arcoWithMarksPath = null;
 
             if (end == Ending.Goal || end == Ending.Miss || end == Ending.Save)
             {
-                arcoWithMarksPath = GenerateMarkedImage(GetImagePath("arco.png"), temp.CooGoal, new SKColor(0, 0, 255, 180)); // Cambiado aquí
+                arcoWithMarksPath = GenerateMarkedImage(GetImagePath("arco.png"), temp.CooGoal, new SKColor(0, 0, 255, 180));
             }
 
             try
@@ -335,7 +304,7 @@ namespace Frontend.Resources.PDF_Pages
         }
 
 
-        private float EndingSection(SKCanvas canvas, PdfPage pdfPage, Club_Dto team, Ending end, float yPosition)
+        private float EndingSection(SKCanvas canvas, Club_Dto team, Ending end, float yPosition)
         {
             int totalEndings = 0;
             List<Coordenates> marcasCampo = new List<Coordenates>();
@@ -362,8 +331,9 @@ namespace Frontend.Resources.PDF_Pages
             }
             yPosition += 40;
 
-            string canchaWithMarksPath = GenerateMarkedImage(GetImagePath("cancha.png"), marcasCampo, new SKColor(255, 0, 0, 180)); // Cambiado aquí
-            string arcoWithMarksPath = GenerateMarkedImage(GetImagePath("arco.png"), marcasArco, new SKColor(0, 0, 255, 180)); // Cambiado aquí
+            // Generar imágenes con marcas
+            string canchaWithMarksPath = GenerateMarkedImage(GetImagePath("cancha.png"), marcasCampo, new SKColor(255, 0, 0, 180));
+            string arcoWithMarksPath = GenerateMarkedImage(GetImagePath("arco.png"), marcasArco, new SKColor(0, 0, 255, 180));
 
             try
             {
@@ -388,7 +358,7 @@ namespace Frontend.Resources.PDF_Pages
             return yPosition + 20;
         }
 
-        private void SummaryTeam(SKCanvas canvas, PdfPage pdfPage, Club_Dto team)
+        private void SummaryTeam(SKCanvas canvas, Club_Dto team)
         {
             float yPosition = 40;
 
@@ -401,22 +371,24 @@ namespace Frontend.Resources.PDF_Pages
                 IsAntialias = true
             };
 
-            using var textBlob = SKTextBlob.Create("STAT-BOARD", font);
-            canvas.DrawText(textBlob, 200, yPosition, titlePaint);
+            // Dibujar el título "STAT-BOARD"
+            //canvas.DrawText("STAT-BOARD", 200, yPosition, SKTextAlign.Left, font, titlePaint);
 
-            using var teamNameBlob = SKTextBlob.Create(team.Name, font);
-            float xPos = (float)pdfPage.Width.Point / 2;
-            canvas.DrawText(teamNameBlob, xPos, yPosition, titlePaint);
+            // Dibujar el nombre del equipo
+            float xPos = 595 / 2; // Centro de la página (A4: 595x842 puntos)
+            canvas.DrawText(team.Name, xPos, yPosition, SKTextAlign.Center, font, titlePaint);
             yPosition += 60;
 
-            yPosition = EndingSection(canvas, pdfPage, team, Ending.Goal, yPosition);
-            yPosition = EndingSection(canvas, pdfPage, team, Ending.Blocked, yPosition);
-            yPosition = EndingSection(canvas, pdfPage, team, Ending.Save, yPosition);
-            yPosition = EndingSection(canvas, pdfPage, team, Ending.Foul, yPosition);
-            yPosition = EndingSection(canvas, pdfPage, team, Ending.Miss, yPosition);
-            yPosition = EndingSection(canvas, pdfPage, team, Ending.Steal_W, yPosition);
-            yPosition = EndingSection(canvas, pdfPage, team, Ending.Steal_L, yPosition);
+            // Dibujar las secciones de estadísticas
+            yPosition = EndingSection(canvas, team, Ending.Goal, yPosition);
+            yPosition = EndingSection(canvas, team, Ending.Blocked, yPosition);
+            yPosition = EndingSection(canvas, team, Ending.Save, yPosition);
+            yPosition = EndingSection(canvas, team, Ending.Foul, yPosition);
+            yPosition = EndingSection(canvas, team, Ending.Miss, yPosition);
+            yPosition = EndingSection(canvas, team, Ending.Steal_W, yPosition);
+            yPosition = EndingSection(canvas, team, Ending.Steal_L, yPosition);
 
+            // Contar 2 minutos, rojas y azules
             int minutes2 = 0, reds = 0, blues = 0;
 
             foreach (var idPlayer in team.IdPlayers)

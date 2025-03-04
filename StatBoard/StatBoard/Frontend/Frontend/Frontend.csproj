@@ -103,11 +103,4 @@
     </MauiXaml>
   </ItemGroup>
 
-	<ItemGroup>
-		<EmbeddedResource Include="Frontend\Resources\Images\arco.png" />
-		<EmbeddedResource Include="Frontend\Resources\Images\arco_marked.png" />
-		<EmbeddedResource Include="Frontend\Resources\Images\cancha.png" />
-		<EmbeddedResource Include="Frontend\Resources\Images\cancha_marked.png" />
-	</ItemGroup>
-
 </Project>
