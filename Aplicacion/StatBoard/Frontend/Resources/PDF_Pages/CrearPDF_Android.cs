@@ -3,6 +3,7 @@ using Frontend.Resources.Entities;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Maui.Controls.PlatformConfiguration;
+using System.Reflection;
 
 #if ANDROID
 using Android.Content;
@@ -11,6 +12,7 @@ using Android.OS;
 using System.IO;
 using AndroidX.Core.Content;
 using AndroidX.Core.App;
+
 #endif
 
 namespace Frontend.Resources.PDF_Pages
@@ -296,7 +298,7 @@ namespace Frontend.Resources.PDF_Pages
                         yPosition = await EndingSection(canvas, result.Data.Id, Ending.Foul, yPosition);
                         yPosition = await EndingSection(canvas, result.Data.Id, Ending.Miss, yPosition);
                         yPosition = await EndingSection(canvas, result.Data.Id, Ending.Steal_W, yPosition);
-                        yPosition = await EndingSection(canvas, result.Data.Id, Ending.Steal_L, yPosition);
+                        _ = await EndingSection(canvas, result.Data.Id, Ending.Steal_L, yPosition);
 
                         // Contar 2 minutos, rojas y azules
                         var stats = Functions.GetActionCountForPlayer(idPlayer, Ending.Foul);
@@ -328,25 +330,35 @@ namespace Frontend.Resources.PDF_Pages
 
         private async Task<float> EndingSection(SKCanvas canvas, Guid idPlayer, Ending end, float yPosition)
         {
+            var yPosicionInicial = yPosition;
+            float imageWidth = 140;
+            float imageHeight = 100;
+
             var temp = Functions.GetActionCountForPlayer(idPlayer, end);
 
             using (var textPaint = new SKPaint { Color = SKColors.Black, IsAntialias = true })
             {
                 using (var textFont = new SKFont(SKTypeface.Default, 30))
                 {
-                    canvas.DrawText($"{end}: {temp.QuantityEnding}", 50, yPosition, SKTextAlign.Left, textFont, textPaint);
+                    if (end == Ending.Goal || end == Ending.Miss || end == Ending.Save)
+                    {
+                        canvas.DrawText($"{end}: {temp.QuantityEnding}", 50, yPosition, SKTextAlign.Left, textFont, textPaint);
+                    }
+                    else
+                    {
+                        canvas.DrawText($"{end}: {temp.QuantityEnding}", 50 + (imageWidth * 2) + 20, yPosition - 20, SKTextAlign.Left, textFont, textPaint);
+                    }
                 }
             }
-
-            yPosition += 40;
+            yPosition += 20;
 
             // Obtener imágenes con marcas (si es necesario)
-            string canchaWithMarksPath = await GenerateMarkedImage("cancha.png", temp.CooField, new SKColor(255, 0, 0, 180));
+            string canchaWithMarksPath = await ModifyAndSaveImage("canchaIncrustada.png", temp.CooField, new SKColor(255, 0, 0, 180));
             string arcoWithMarksPath = null;
 
             if (end == Ending.Goal || end == Ending.Miss || end == Ending.Save)
             {
-                arcoWithMarksPath = await GenerateMarkedImage("arco.png", temp.CooGoal, new SKColor(0, 0, 255, 180));
+                arcoWithMarksPath = await ModifyAndSaveImage("arcoIncrustado.png", temp.CooGoal, new SKColor(0, 0, 255, 180));
             }
 
             try
@@ -354,14 +366,27 @@ namespace Frontend.Resources.PDF_Pages
                 if (!string.IsNullOrEmpty(canchaWithMarksPath))
                 {
                     using var canchaImage = LoadSkImage(canchaWithMarksPath);
-                    canvas.DrawBitmap(canchaImage, 50, yPosition);
-                    yPosition += 120;
-                }
 
-                if (!string.IsNullOrEmpty(arcoWithMarksPath))
-                {
-                    using var arcoImage = LoadSkImage(arcoWithMarksPath);
-                    canvas.DrawBitmap(arcoImage, 220, yPosition - 120);
+                    if (end == Ending.Goal || end == Ending.Miss || end == Ending.Save)
+                    {
+                        SKRect destRect = new SKRect(50, yPosition, 50 + imageWidth, yPosition + imageHeight);
+                        canvas.DrawBitmap(canchaImage, destRect);
+                    }
+                    else
+                    {
+                        SKRect destRect = new SKRect(50 + (imageWidth * 2) + 20, yPosition - 20, 50 + imageWidth + (imageWidth * 2) + 20, yPosition - 20 + imageHeight);
+                        canvas.DrawBitmap(canchaImage, destRect);
+                    }
+                    yPosition += imageHeight + 20;
+
+                    if (!string.IsNullOrEmpty(arcoWithMarksPath))
+                    {
+                        using var arcoImage = LoadSkImage(arcoWithMarksPath);
+                        SKRect destRectA = new SKRect(200, yPosition - 120, 200 + imageWidth, yPosition - 120 + imageHeight);
+                        canvas.DrawBitmap(arcoImage, destRectA);
+
+                        yPosition = yPosicionInicial;
+                    }
                 }
             }
             catch (Exception ex)
@@ -377,6 +402,9 @@ namespace Frontend.Resources.PDF_Pages
             int totalEndings = 0;
             List<Coordenates> marcasCampo = new List<Coordenates>();
             List<Coordenates> marcasArco = new List<Coordenates>();
+            var yPosicionInicial = yPosition;
+            float imageWidth = 140; // Ancho deseado
+            float imageHeight = 100; // Alto deseado
 
             foreach (var idPlayer in team.IdPlayers)
             {
@@ -394,28 +422,55 @@ namespace Frontend.Resources.PDF_Pages
             {
                 using (var textFont = new SKFont(SKTypeface.Default, 30))
                 {
-                    canvas.DrawText($"{end}: {totalEndings}", 50, yPosition, SKTextAlign.Left, textFont, textPaint);
+                    if (end == Ending.Goal || end == Ending.Miss || end == Ending.Save)
+                    {
+                        canvas.DrawText($"{end}: {totalEndings}", 50, yPosition, SKTextAlign.Left, textFont, textPaint);
+                    }
+                    else
+                    {
+                        canvas.DrawText($"{end}: {totalEndings}", 50 + (imageWidth * 2) + 20, yPosition - 20, SKTextAlign.Left, textFont, textPaint);
+                    }
                 }
             }
-            yPosition += 40;
+            yPosition += 20;
 
             // Generar imágenes con marcas
-            string canchaWithMarksPath = await GenerateMarkedImage("cancha.png", marcasCampo, new SKColor(255, 0, 0, 180));
-            string arcoWithMarksPath = await GenerateMarkedImage("arco.png", marcasArco, new SKColor(0, 0, 255, 180));
+            string canchaWithMarksPath = await ModifyAndSaveImage("canchaIncrustada.png",
+                marcasCampo, new SKColor(255, 0, 0, 180));
+            string arcoWithMarksPath = string.Empty;
+
+            if (end == Ending.Goal || end == Ending.Miss || end == Ending.Save)
+            {
+                arcoWithMarksPath = await ModifyAndSaveImage("arcoIncrustado.png",
+                    marcasArco, new SKColor(0, 0, 255, 180));
+            }
 
             try
             {
                 if (!string.IsNullOrEmpty(canchaWithMarksPath))
-                {
+                {                    
                     using var canchaImage = LoadSkImage(canchaWithMarksPath);
-                    canvas.DrawBitmap(canchaImage, 50, yPosition);
-                    yPosition += 120;
-                }
 
-                if (!string.IsNullOrEmpty(arcoWithMarksPath))
-                {
-                    using var arcoImage = LoadSkImage(arcoWithMarksPath);
-                    canvas.DrawBitmap(arcoImage, 220, yPosition - 120);
+                    if (end == Ending.Goal || end == Ending.Miss || end == Ending.Save)
+                    {
+                        SKRect destRect = new SKRect(50, yPosition, 50 + imageWidth, yPosition + imageHeight);
+                        canvas.DrawBitmap(canchaImage, destRect);
+                    }
+                    else
+                    {
+                        SKRect destRect = new SKRect(50 + (imageWidth * 2) + 20, yPosition - 20, 50 + imageWidth + (imageWidth * 2) + 20, yPosition - 20 + imageHeight);
+                        canvas.DrawBitmap(canchaImage, destRect);
+                    }
+                    yPosition += imageHeight + 20;
+
+                    if (!string.IsNullOrEmpty(arcoWithMarksPath))
+                    {
+                        using var arcoImage = LoadSkImage(arcoWithMarksPath);
+                        SKRect destRectA = new SKRect(200, yPosition - 120, 200 + imageWidth, yPosition - 120 + imageHeight);
+                        canvas.DrawBitmap(arcoImage, destRectA);
+
+                        yPosition = yPosicionInicial;
+                    }
                 }
             }
             catch (Exception ex)
@@ -439,9 +494,6 @@ namespace Frontend.Resources.PDF_Pages
                 IsAntialias = true
             };
 
-            // Dibujar el título "STAT-BOARD"
-            //canvas.DrawText("STAT-BOARD", 200, yPosition, SKTextAlign.Left, font, titlePaint);
-
             // Dibujar el nombre del equipo
             float xPos = 595 / 2; // Centro de la página (A4: 595x842 puntos)
             canvas.DrawText(team.Name, xPos, yPosition, SKTextAlign.Center, font, titlePaint);
@@ -454,7 +506,7 @@ namespace Frontend.Resources.PDF_Pages
             yPosition = await EndingSection(canvas, team, Ending.Foul, yPosition);
             yPosition = await EndingSection(canvas, team, Ending.Miss, yPosition);
             yPosition = await EndingSection(canvas, team, Ending.Steal_W, yPosition);
-            yPosition = await EndingSection(canvas, team, Ending.Steal_L, yPosition);
+            _ = await EndingSection(canvas, team, Ending.Steal_L, yPosition);
 
             // Contar 2 minutos, rojas y azules
             int minutes2 = 0, reds = 0, blues = 0;
@@ -474,17 +526,17 @@ namespace Frontend.Resources.PDF_Pages
                     if (minutes2 > 0)
                     {
                         canvas.DrawText($"2 minutos: {minutes2}", 50, yPosition, SKTextAlign.Left, infoFont, infoPaint);
-                        yPosition += 40;
+                        yPosition += 10;
                     }
                     if (reds > 0)
                     {
                         canvas.DrawText($"Rojas: {reds}", 50, yPosition, SKTextAlign.Left, infoFont, infoPaint);
-                        yPosition += 40;
+                        yPosition += 10;
                     }
                     if (blues > 0)
                     {
                         canvas.DrawText($"Azules: {blues}", 50, yPosition, SKTextAlign.Left, infoFont, infoPaint);
-                        yPosition += 40;
+                        yPosition += 10;
                     }
                 }
             }
@@ -496,59 +548,55 @@ namespace Frontend.Resources.PDF_Pages
             return SKBitmap.Decode(stream);
         }
 
-        private async Task<string> GenerateMarkedImage(string imageName, List<Coordenates> marks, SKColor color)
+        private async Task<string> ModifyAndSaveImage(string imageName, List<Coordenates> marks, SKColor color)
         {
-            string outputPath = Path.Combine(FileSystem.AppDataDirectory, $"{Path.GetFileNameWithoutExtension(imageName)}_marked.png");
-
             try
             {
-                string imagePath = await SaveImageToInternalStorage1(imageName);
+                // Asegúrate de que la ruta sea correcta
+                using Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"Frontend.Resources.Images.{imageName}");
 
-                if (string.IsNullOrEmpty(imagePath) || !File.Exists(imagePath))
+                //using Stream stream = await FileSystem.OpenAppPackageFileAsync(imageName);            // Probar luego
+
+                if (stream == null)
                 {
-                    Console.WriteLine($"Imagen no encontrada o ruta inválida: {imagePath}");
+                    Console.WriteLine($"No se pudo abrir la imagen: {imageName}");
                     return null;
                 }
 
-                using var imageStream = File.OpenRead(imagePath);
-
-                // Verificar que el stream tiene datos antes de decodificar
-                if (imageStream.Length == 0)
-                {
-                    Console.WriteLine("El archivo de imagen está vacío.");
-                    return null;
-                }
-
-                using var bitmap = SKBitmap.Decode(imageStream);
+                using var bitmap = SKBitmap.Decode(stream);
                 if (bitmap == null)
                 {
-                    Console.WriteLine("Error al decodificar la imagen. Formato incompatible o archivo corrupto.");
+                    Console.WriteLine("Error al decodificar la imagen.");
                     return null;
                 }
 
+                // Crear un canvas para dibujar en la imagen
                 using var canvas = new SKCanvas(bitmap);
 
+                // Dibujar las marcas en la imagen
                 using (var paint = new SKPaint { Color = color, IsAntialias = true, Style = SKPaintStyle.Fill })
                 {
                     foreach (var mark in marks)
                     {
                         canvas.DrawCircle(mark.X, mark.Y, 10, paint); // Dibuja el punto en la imagen
                     }
-
-                    using var image = SKImage.FromBitmap(bitmap);
-                    using var data = image.Encode(SKEncodedImageFormat.Png, 100);
-                    using var fileStream = new FileStream(outputPath, FileMode.Create, FileAccess.Write);
-
-                    data.SaveTo(fileStream);
                 }
+
+                // Guardar la imagen modificada en una nueva ruta
+                string newFilePath = Path.Combine(FileSystem.CacheDirectory, $"{Path.GetFileNameWithoutExtension(imageName)}_marked.png");
+                using var image = SKImage.FromBitmap(bitmap);
+                using var data = image.Encode(SKEncodedImageFormat.Png, 100);
+                using var fileStream = File.OpenWrite(newFilePath);
+                data.SaveTo(fileStream);
+
+                Console.WriteLine("Imagen modificada y guardada exitosamente.");
+                return newFilePath;
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error al generar imagen con marcas: {ex.Message}");
+                Console.WriteLine($"Error al modificar y guardar la imagen: {ex.Message}");
                 return null;
             }
-
-            return outputPath;
         }
 
         private bool LoadData(Guid idMatch)
@@ -587,103 +635,6 @@ namespace Frontend.Resources.PDF_Pages
             }
 
             return true;
-        }
-
-        private string GetImagePath(string imageName)
-        {
-            string imagePath;
-
-            // Acceder a los recursos incrustados en la aplicación
-            //var assembly = typeof(CrearPDF_Android).Assembly;
-            //var resourcePath = $"StatBoard.Frontend.Resources.Images.{imageName}";
-            //using var stream = assembly.GetManifestResourceStream(resourcePath);
-
-            // Depuración: Listar todos los recursos incrustados
-            //var resourceNames = assembly.GetManifestResourceNames();
-            //foreach (var name in resourceNames)
-            //{
-            //    Console.WriteLine($"Recurso encontrado: {name}");
-            //}
-
-            //if (stream == null)
-            //{
-            //    Console.WriteLine($"Imagen no encontrada: {resourcePath}");
-            //    return null;
-            //}
-
-            // Guardar el recurso en un archivo temporal
-            //var tempPath = Path.Combine(FileSystem.CacheDirectory, imageName);
-            //using var fileStream = new FileStream(tempPath, FileMode.Create, FileAccess.Write);
-            //stream.CopyTo(fileStream);
-            //imagePath = tempPath;
-
-            //------------------------------------------------- PRUEBA -------------------------------------------------
-            // Prueba 1
-            //var prueba = Path.Combine(FileSystem.AppDataDirectory, imageName);
-            //return prueba;
-
-            // PRUEBA 2
-            var prueba2 = FileSystem.OpenAppPackageFileAsync(imageName).ToString();
-            return prueba2;
-            //------------------------------------------------- PRUEBA -------------------------------------------------
-
-
-            //return imagePath;
-        }
-
-        private async Task<string> SaveImageToInternalStorage(string imageName)
-        {
-            try
-            {
-                var resourcePath = $"Resources/Images/{imageName}";
-
-                using Stream stream = await FileSystem.OpenAppPackageFileAsync(resourcePath);
-                var destinationPath = Path.Combine(FileSystem.CacheDirectory, imageName);
-
-                using var fileStream = File.Create(destinationPath);
-                await stream.CopyToAsync(fileStream);
-                return destinationPath;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error guardando la imagen: {ex.Message}");
-                return null;
-            }
-        }
-
-        private async Task<string> SaveImageToInternalStorage1(string imageName)
-        {
-            try
-            {
-                // Asegúrate de que la ruta sea correcta
-                var resourcePath = $"Resources/Images/{imageName}";
-
-                using Stream stream = await FileSystem.OpenAppPackageFileAsync(resourcePath);
-                if (stream == null)
-                {
-                    Console.WriteLine($"No se pudo abrir la imagen: {imageName}");
-                    return null;
-                }
-
-                var destinationPath = Path.Combine(FileSystem.CacheDirectory, imageName);
-
-                // Eliminar el archivo si ya existe para evitar bloqueos
-                if (File.Exists(destinationPath))
-                {
-                    File.Delete(destinationPath);
-                }
-
-                using var fileStream = File.Create(destinationPath);
-                await stream.CopyToAsync(fileStream);
-
-                Console.WriteLine($"Imagen guardada en: {destinationPath}");
-                return destinationPath;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error guardando la imagen: {ex.Message}");
-                return null;
-            }
         }
     }
 }
