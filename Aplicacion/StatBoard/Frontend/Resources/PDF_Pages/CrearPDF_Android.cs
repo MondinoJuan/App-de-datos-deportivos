@@ -5,6 +5,7 @@ using Frontend.Resources;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Maui.Controls.PlatformConfiguration;
 using System.Reflection;
+using System.Net.WebSockets;
 
 #if ANDROID
 using Android.Content;
@@ -215,7 +216,7 @@ namespace Frontend.Resources.PDF_Pages
                         yPos += 40;
                         canvas.DrawText($"Lugar: {Match.Place}", 50, yPos, SKTextAlign.Left, skFontSmall, textPaint);
                         canvas.DrawText($"Fecha: {Match.MatchWeek}", 300, yPos, SKTextAlign.Left, skFontSmall, textPaint);
-                        yPos += 60;
+                        yPos += 30;
                     }
 
                     // Tabla de resultados
@@ -241,15 +242,58 @@ namespace Frontend.Resources.PDF_Pages
                 {
                     using (var typefaceBold = SKTypeface.FromFamilyName(null, SKFontStyle.Bold))
                     {
-                        using (var textFont = new SKFont(typefaceBold, 30))
+                        using (var textFont = new SKFont(typefaceBold, 20))
                         {
                             canvas.DrawText(TeamLocal.Name.ToUpper(), xStart + 10, yPos + 30, SKTextAlign.Left, textFont, textPaint);
-                            canvas.DrawText(Match.GoalsTeamA.ToString(), xStart + columnWidths[0] + 20, yPos + 30, SKTextAlign.Left, textFont, textPaint);
-                            canvas.DrawText(Match.GoalsTeamB.ToString(), xStart + columnWidths[0] + columnWidths[1] + 20, yPos + 30, SKTextAlign.Left, textFont, textPaint);
+                            canvas.DrawText(Match.GoalsTeamA.ToString(), xStart + columnWidths[0] + 20, yPos + 30, SKTextAlign.Center, textFont, textPaint);
+                            canvas.DrawText(Match.GoalsTeamB.ToString(), xStart + columnWidths[0] + columnWidths[1] + 20, yPos + 30, SKTextAlign.Center, textFont, textPaint);
                             canvas.DrawText(TeamAway.Name.ToUpper(), xStart + columnWidths[0] + columnWidths[1] + columnWidths[2] + 20, yPos + 30, SKTextAlign.Left, textFont, textPaint);
 
                             yPos += rowHeight;
                             canvas.DrawLine(xStart, yPos, xStart + tableWidth, yPos, linePaint); // Línea bajo encabezado
+
+                            int maxPlayers = Math.Max(TeamLocal.IdPlayers.Count, TeamAway.IdPlayers.Count);
+
+                            var textPaintFill = new SKPaint { Color = SKColors.DarkGray, IsAntialias = true };
+                            var textFontFill = new SKFont(typefaceBold, 15);
+                            float rowHeightFill = 30;
+                            var linePaintFill = new SKPaint { Color = SKColors.DarkGray, StrokeWidth = 1 };
+
+                            for (int i = 0; i < maxPlayers; i++)
+                            {
+                                if (i < TeamLocal.IdPlayers.Count)
+                                {
+                                    var resultL = Simulo_BdD.GetOnePlayer(TeamLocal.IdPlayers[i]);
+
+                                    if (!resultL.Success)
+                                    {
+                                        Console.WriteLine(resultL.Message);
+                                        return;
+                                    }
+
+                                    canvas.DrawText(resultL.Data.Number.ToString(), xStart + 10, yPos + 30, SKTextAlign.Left, textFontFill, textPaintFill);
+                                    canvas.DrawText(resultL.Data.Name, xStart + 20, yPos + 30, SKTextAlign.Left, textFontFill, textPaintFill);
+                                    canvas.DrawText(Functions.GetActionCountForPlayer(resultL.Data.Id, Ending.Goal).QuantityEnding.ToString(), xStart + columnWidths[0] + 20, yPos + 30, SKTextAlign.Center, textFontFill, textPaintFill);
+                                }
+
+                                if (i < TeamAway.IdPlayers.Count)
+                                {
+                                    var resultA = Simulo_BdD.GetOnePlayer(TeamAway.IdPlayers[i]);
+
+                                    if (!resultA.Success)
+                                    {
+                                        Console.WriteLine(resultA.Message);
+                                        return;
+                                    }
+
+                                    canvas.DrawText(Functions.GetActionCountForPlayer(resultA.Data.Id, Ending.Goal).QuantityEnding.ToString(), xStart + columnWidths[0] + columnWidths[1] + 20, yPos + 30, SKTextAlign.Center, textFontFill, textPaintFill);
+                                    canvas.DrawText(resultA.Data.Number.ToString(), xStart + columnWidths[0] + columnWidths[1] + columnWidths[2] + 10, yPos + 30, SKTextAlign.Left, textFontFill, textPaintFill);
+                                    canvas.DrawText(resultA.Data.Name, xStart + columnWidths[0] + columnWidths[1] + columnWidths[2] + 20, yPos + 30, SKTextAlign.Left, textFontFill, textPaintFill);
+                                }
+
+                                yPos += rowHeightFill;
+                                canvas.DrawLine(xStart, yPos, xStart + tableWidth, yPos, linePaintFill);
+                            }
                         }
                     }
                 }
