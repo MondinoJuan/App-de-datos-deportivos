@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:components="clr-namespace:Frontend.Resources.Components"
+             xmlns:converters="clr-namespace:Frontend.Resources.Converters"
+             xmlns:local="clr-namespace:Frontend.Pages"
+             x:DataType="{x:Type local:MatchView}"
+             x:Class="Frontend.Pages.MatchView"
+             x:Name="matchViewInstance"
+             Title="Vista de Partido"
+             Style="{StaticResource PageBackground}">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:ActionCountConverter x:Key="ActionCountConverter" />
+            <converters:ActionCountMultiConverter x:Key="ActionCountMultiConverter" />
+        </ResourceDictionary>
+        <converters:GreaterThanConverter x:Key="GreaterThanConverter"/>
+    </ContentPage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="20">
+
+            <!-- Título del partido -->
+            <Label x:Name="lblMatchViewTitle" 
+                Style="{StaticResource TitleLabel}" />
+
+            <Label x:Name="lblTournament" 
+                Style="{StaticResource SubtitleLabel}" />
+
+            <!-- Encabezado de equipos -->
+            <Grid 
+                ColumnSpacing="10" 
+                Padding="10, 0, 0, -10"
+                >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.1*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width=".2*" />
+                    <ColumnDefinition Width=".2*" />
+                    <ColumnDefinition Width="0.1*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Label Grid.Column="0" 
+                       Grid.Row="0"
+                       Grid.ColumnSpan="2"
+                       x:Name="lblTeamLocal" 
+                       Style="{StaticResource SubtitleLabel}" />
+
+                <Label Grid.Column="2" 
+                       Grid.Row="0" 
+                       x:Name="lblScoreL"
+                       Style="{StaticResource SubtitleLabel}" />
+
+                <Label Grid.Column="3" 
+                       Grid.Row="0"
+                       x:Name="lblScoreA"
+                       Style="{StaticResource SubtitleLabel}" />
+
+                <Label Grid.Column="4"
+                       Grid.Row="0"
+                       Grid.ColumnSpan="2"
+                       x:Name="lblTeamAway" 
+                       Style="{StaticResource SubtitleLabel}" />
+
+                <!-- Subtítulos de la tabla -->
+
+                <Label 
+                    Grid.Column="0" 
+                    Grid.Row="1"
+                    Grid.ColumnSpan="1"
+                    Text="N°"
+                    Style="{StaticResource TextLabel}" />
+
+                <Label 
+                    Grid.Column="1" 
+                    Grid.Row="1"
+                    Text="Nombre Jugador Local" 
+                    Style="{StaticResource TextLabel}" />
+
+                <Picker 
+                    x:Name="pckLocalActions"
+                    Grid.Column="2" 
+                    Grid.Row="1"
+                    Title="Acción" 
+                    Style="{StaticResource PickerStyle}" 
+                    SelectedIndexChanged="OnLocalPickerSelectedIndexChanged">
+                    <Picker.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>Gol</x:String>
+                            <x:String>Atajada</x:String>
+                            <x:String>Errada</x:String>
+                            <x:String>Bloqueo</x:String>
+                            <x:String>Robo</x:String>
+                            <x:String>Perdida</x:String>
+                            <x:String>Foul</x:String>
+                        </x:Array>
+                    </Picker.ItemsSource>
+                </Picker>
+                <Picker 
+                    x:Name="pckAwayActions"
+                    Grid.Row="1"
+                    Grid.Column="3" 
+                    Title="Acción" 
+                    Style="{StaticResource PickerStyle}"
+                    SelectedIndexChanged="OnAwayPickerSelectedIndexChanged">
+                    <Picker.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>Gol</x:String>
+                            <x:String>Atajada</x:String>
+                            <x:String>Errada</x:String>
+                            <x:String>Bloqueo</x:String>
+                            <x:String>Robo</x:String>
+                            <x:String>Perdida</x:String>
+                            <x:String>Foul</x:String>
+                        </x:Array>
+                    </Picker.ItemsSource>
+                </Picker>
+
+                <Label 
+                    Grid.Row="1"
+                    Grid.Column="4" 
+                    Text="N°" 
+                    FontAttributes="Bold" 
+                    Style="{StaticResource TextLabel}" />
+
+                <Label 
+                    Grid.Row="1"
+                    Grid.Column="5" 
+                    Text="Nombre Jugador Visitante" 
+                    FontAttributes="Bold" 
+                    Style="{StaticResource TextLabel}" />
+
+                <!-- Filas dinámicas de jugadores -->
+
+                <!-- Jugadores locales -->
+                <StackLayout 
+                    x:Name="PlayerListLocal" 
+                    BindableLayout.ItemsSource="{Binding TeamLocalPlayers}"
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    HorizontalOptions="Fill" 
+                    VerticalOptions="Fill">
+                    <StackLayout.Triggers>
+                        <DataTrigger TargetType="StackLayout" Binding="{Binding TeamLocalPlayers.Count}" Value="0">
+                            <Setter Property="IsVisible" Value="False" />
+                        </DataTrigger>
+                    </StackLayout.Triggers>
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <components:PlayerItemView 
+                                MatchView="{Binding Source={x:Reference matchViewInstance}}" 
+                                Player="{Binding .}" />
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </StackLayout>
+                <!--Contador de endings de jugadores locales-->
+                <StackLayout 
+                    Spacing="17"
+                    x:Name="stklListLocalEndings" 
+                    BindableLayout.ItemsSource="{Binding TeamLocalPlayers}"
+                    Grid.Row="2"
+                    Grid.Column="2"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Start"
+                    Padding="0,10,0,0">
+                    <StackLayout.Triggers>
+                        <DataTrigger TargetType="StackLayout" Binding="{Binding TeamLocalPlayers.Count}" Value="0">
+                            <Setter Property="IsVisible" Value="False" />
+                        </DataTrigger>
+                    </StackLayout.Triggers>
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <Label
+                                Style="{StaticResource TextLabel}">
+                                <Label.Text>
+                                    <MultiBinding Converter="{StaticResource ActionCountMultiConverter}">
+                                        <Binding Path="Id" />
+                                        <Binding Path="LocalActionSelected" Source="{x:Reference matchViewInstance}" />
+                                    </MultiBinding>
+                                </Label.Text>
+                            </Label>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </StackLayout>
+
+                <!-- Mensaje de jugadores locales vacíos -->
+                <StackLayout 
+                    IsVisible="False"
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center">
+                    <StackLayout.Triggers>
+                        <DataTrigger TargetType="StackLayout" Binding="{Binding TeamLocalPlayers.Count}" Value="0">
+                            <Setter Property="IsVisible" Value="True" />
+                        </DataTrigger>
+                    </StackLayout.Triggers>
+                    <Label x:Name="lblMessageLocalEmptyPlayers"
+                           Text="No hay jugadores del equipo local cargados aún."
+                           Style="{StaticResource ErrorLabel}"/>
+                </StackLayout>
+
+                <!--Contador de endings de jugadores visitantes-->
+                <StackLayout 
+                    x:Name="stklListAwayEndings" 
+                    BindableLayout.ItemsSource="{Binding TeamAwayPlayers}"
+                    Spacing="20"
+                    Grid.Row="2"
+                    Grid.Column="3"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Start"
+                    Padding="0,10,0,0">
+                    <StackLayout.Triggers>
+                        <DataTrigger TargetType="StackLayout" Binding="{Binding TeamAwayPlayers.Count}" Value="0">
+                            <Setter Property="IsVisible" Value="False" />
+                        </DataTrigger>
+                    </StackLayout.Triggers>
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <Label
+                                Style="{StaticResource TextLabel}">
+                                <Label.Text>
+                                    <MultiBinding Converter="{StaticResource ActionCountMultiConverter}">
+                                        <Binding Path="Id" />
+                                        <Binding Path="AwayActionSelected" Source="{x:Reference matchViewInstance}" />
+                                    </MultiBinding>
+                                </Label.Text>
+                            </Label>
+                        
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </StackLayout>
+                <!-- Jugadores visitantes -->
+                <StackLayout 
+                    x:Name="PlayerListAway" 
+                    BindableLayout.ItemsSource="{Binding TeamAwayPlayers}"
+                    Grid.Row="2"
+                    Grid.Column="4"
+                    Grid.ColumnSpan="2"
+                    HorizontalOptions="Fill" 
+                    VerticalOptions="Fill">
+                    <StackLayout.Triggers>
+                        <DataTrigger TargetType="StackLayout" Binding="{Binding TeamAwayPlayers.Count}" Value="0">
+                            <Setter Property="IsVisible" Value="False" />
+                        </DataTrigger>
+                    </StackLayout.Triggers>
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <components:PlayerItemView 
+                                MatchView="{Binding Source={x:Reference matchViewInstance}}" 
+                                Player="{Binding .}" />
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </StackLayout>
+
+                <!-- Mensaje de jugadores visitantes vacíos -->
+                <StackLayout
+                    IsVisible="False"
+                    Grid.Row="2"
+                    Grid.Column="4"
+                    Grid.ColumnSpan="2"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center">
+                    <StackLayout.Triggers>
+                        <DataTrigger TargetType="StackLayout" Binding="{Binding TeamAwayPlayers.Count}" Value="0">
+                            <Setter Property="IsVisible" Value="True" />
+                        </DataTrigger>
+                    </StackLayout.Triggers>
+                    <Label 
+                       x:Name="lblMessageEmptyAwayPlayers"
+                       Text="No hay jugadores del equipo visitante cargados aún."
+                       Style="{StaticResource ErrorLabel}" />
+                </StackLayout>
+            </Grid>
+
+            <!-- Botones de acción -->
+            <StackLayout 
+                Padding="10"
+                Orientation="Vertical">
+                <StackLayout.Style>
+                    <Style TargetType="StackLayout">
+                        <Style.Triggers>
+                            <DataTrigger 
+                                TargetType="StackLayout" 
+                                Binding="{Binding Width, Source={RelativeSource AncestorType={x:Type Window}}, 
+                                            Converter={StaticResource GreaterThanConverter}, ConverterParameter=700}" 
+                                Value="True">
+                                <Setter Property="Orientation" Value="Horizontal" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </StackLayout.Style>
+                
+                <Button 
+                    x:Name="btnAddPlayer"
+                    Text="Agregar jugador"
+                    Style="{StaticResource AddButton}"
+                    Margin="10"
+                    Clicked="OnAddPlayer" />
+
+                <Button
+                    Text="Resumen"
+                    Style="{StaticResource NavigationButton}"
+                    Margin="10"
+                    Clicked="GoSummary"/>
+
+                <Button 
+                    x:Name="btnFinish"
+                    Text="Finalizar"
+                    Style="{StaticResource SaveButton}"
+                    Margin="10"
+                    Clicked="OnFinish" />
+
+                <Button 
+                    x:Name="btnCancel"
+                    Text="Cancelar"
+                    Style="{StaticResource CancelButton}"
+                    Margin="10"
+                    Clicked="OnCancel" />
+            </StackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

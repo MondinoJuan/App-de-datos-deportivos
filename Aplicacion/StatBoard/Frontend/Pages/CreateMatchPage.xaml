@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Frontend.Pages.CreateMatchPage"
+             xmlns:local="clr-namespace:Frontend.Pages"
+             x:DataType="{x:Type local:CreateMatchPage}"
+             Title="Crear Partido"
+             Style="{StaticResource PageBackground}">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15">
+
+            <!-- Título -->
+            <Label 
+                Text="Complete los datos del partido"
+                Style="{StaticResource TitleLabel}" />
+
+            <!-- Campo: Torneo -->
+            <Entry
+                x:Name="txtTournament"
+                Placeholder="Torneo"
+                Style="{StaticResource EntryStyle}"
+                TextChanged="OnTextChanged"/>
+
+            <!-- Campo: Equipo local -->
+            <Entry 
+                x:Name="txtLocalTeam"
+                Placeholder="Equipo local"
+                Style="{StaticResource EntryStyle}"
+                TextChanged="OnTextChanged"/>
+
+            <!-- Campo: Equipo visitante -->
+            <Entry 
+                x:Name="txtAwayTeam"
+                Placeholder="Equipo visitante"
+                Style="{StaticResource EntryStyle}"
+                TextChanged="OnTextChanged"/>
+
+            <!-- Campo: Jornada -->
+            <Entry
+                x:Name="txtMatchWeek"
+                Placeholder="Jornada"
+                Style="{StaticResource EntryStyle}"
+                TextChanged="OnTextChanged"/>
+
+            <!-- Campo: Lugar -->
+            <Entry
+                x:Name="txtPlace"
+                Placeholder="Lugar"
+                Style="{StaticResource EntryStyle}"
+                TextChanged="OnTextChanged"/>
+
+            <!-- Botón: Crear partido -->
+            <Button
+                x:Name="btnCreateMatch"
+                Text="Crear partido"
+                Clicked="OnCreateMatch">
+                <Button.Triggers>
+                    <DataTrigger TargetType="Button" Binding="{Binding EnableCreateBtn}" Value="False">
+                        <Setter Property="Style" Value="{StaticResource DisabledButton}" />
+                    </DataTrigger>
+                    <DataTrigger TargetType="Button" Binding="{Binding EnableCreateBtn}" Value="True">
+                        <Setter Property="Style" Value="{StaticResource NavigationButton}" />
+                    </DataTrigger>
+                </Button.Triggers>
+            </Button>
+
+            <Button
+                x:Name="btnCancelMatch"
+                Text="Cancelar"
+                Style="{StaticResource CancelButton}"
+                Clicked="OnCancel" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

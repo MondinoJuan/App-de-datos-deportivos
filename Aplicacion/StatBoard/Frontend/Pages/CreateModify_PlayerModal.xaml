@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Frontend.Pages.CreateModify_PlayerModal"
+             xmlns:local="clr-namespace:Frontend.Pages"
+             x:DataType="{x:Type local:CreateModify_PlayerModal}"
+             Title="Crear/Modificar Jugador"
+             Style="{StaticResource PageBackground}">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15">
+
+            <!-- Título -->
+            <Label 
+                Text="Complete los datos del nuevo jugador"
+                Style="{StaticResource TitleLabel}" />
+
+            <!-- Campo: Nombre del jugador -->
+            <Label 
+                Text="Nombre del jugador"
+                Style="{StaticResource TextLabel}" />
+            <Entry
+                x:Name="txtPlayerName"
+                Placeholder="Nombre del jugador"
+                Style="{StaticResource EntryStyle}" 
+                TextChanged="OnTextChanged" />
+            <Label
+                Text="El nombre del jugador debe ser completado con caracteres correspondientes al alfabeto."
+                Style="{StaticResource ErrorLabel}" 
+                IsVisible="{Binding EnableNameErrorLabel}"/>
+
+            <!-- Campo: Número del jugador -->
+            <Label 
+                Text="Número del jugador"
+                Style="{StaticResource TextLabel}" />
+            <Entry
+                x:Name="txtPlayerNumber"
+                Placeholder="Número"
+                Style="{StaticResource EntryStyle}" 
+                TextChanged="OnTextChanged"/>
+            <Label
+                Text="El número del jugador debe ser mayor a 0 y menor a 100."
+                Style="{StaticResource ErrorLabel}" 
+                IsVisible="{Binding EnableNumberErrorLabel}"/>
+
+            <!-- Switch Local/Visitante -->
+            <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
+                <Switch
+                    x:Name="swtLocalAway"
+                    IsToggled="False"
+                    Toggled="OnSwitchToggled"
+                    OnColor="#007ACC"
+                    ThumbColor="#FFA500" 
+                    IsVisible="{Binding InvModifyWarning}" />
+
+                <Label 
+                    x:Name="lblStatus" 
+                    Text="Local" 
+                    FontSize="16"
+                    VerticalOptions="Center" 
+                    IsVisible="{Binding InvModifyWarning}"/>
+
+            </HorizontalStackLayout>
+
+            <!-- Botones -->
+            <HorizontalStackLayout Spacing="10" Padding="10">
+                <Button 
+                    Text="Guardar"
+                    Style="{StaticResource SaveButton}"
+                    Clicked="OnSave">
+                    <Button.Triggers>
+                        <DataTrigger TargetType="Button" Binding="{Binding EnableSaveButton}" Value="false">
+                            <Setter Property="Style" Value="{StaticResource DisabledButton}" />
+                        </DataTrigger>
+                        <DataTrigger TargetType="Button" Binding="{Binding EnableSaveButton}" Value="true">
+                            <Setter Property="Style" Value="{StaticResource SaveButton}" />
+                        </DataTrigger>
+                    </Button.Triggers>
+                </Button>
+                
+                <Button 
+                    Text="Cancelar"
+                    Style="{StaticResource CancelButton}"
+                    Clicked="OnCancel" />
+            </HorizontalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
