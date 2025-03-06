@@ -333,21 +333,23 @@ namespace Frontend.Resources.PDF_Pages
             // Contar cantidad de endings por jugador y generar imágenes con marcas
             var temp = Functions.GetActionCountForPlayer(idPlayer, end);
             if (temp.CooField != null)
-                marcasCampo.AddRange(temp.CooField);
+            {
+                var adjustedCoordField = Functions.TranslateCoordenates(temp.CooField, 40, 0);
+                marcasCampo.AddRange(adjustedCoordField);
+            }
 
             if (end == Ending.Goal || end == Ending.Miss || end == Ending.Save)
             {
                 if (temp.CooGoal != null)
-                    marcasArco.AddRange(temp.CooGoal);
+                {
+                    var adjustedCoordGoal = Functions.TranslateCoordenates(temp.CooGoal, -20, 0);
+                    marcasArco.AddRange(adjustedCoordGoal);
+                }
             }
 
             // Generar imágenes con marcas
-            //string absolutePathCancha = "C:\\Users\\Pc\\Desktop\\App\\StatBoard\\StatBoard\\Frontend\\Frontend\\Resources\\Images\\cancha.png";
-            //string absolutePathCancha = GetImagePath("cancha.png");
             string canchaWithMarksPath = GenerateMarkedImage("cancha.png", marcasCampo, new SKColor(255, 0, 0, 180)); // Rojo fuerte
 
-            //string absolutePathArco = "C:\\Users\\Pc\\Desktop\\App\\StatBoard\\StatBoard\\Frontend\\Frontend\\Resources\\Images\\arco.png";
-            //string absolutePathArco = GetImagePath("arco.png");
             string arcoWithMarksPath = null;
             if (end == Ending.Goal || end == Ending.Miss || end == Ending.Save)
             {
@@ -408,18 +410,22 @@ namespace Frontend.Resources.PDF_Pages
                 cantidadEndingsTeam += temp.QuantityEnding;
 
                 if (temp.CooField != null)
-                    marcasCampo.AddRange(temp.CooField);
+                {
+                    var adjustedCoordField = Functions.TranslateCoordenates(temp.CooField, 40, 0);
+                    marcasCampo.AddRange(adjustedCoordField);
+                }
 
                 if (end == Ending.Goal || end == Ending.Miss || end == Ending.Save)
                 {
                     if (temp.CooGoal != null)
-                        marcasArco.AddRange(temp.CooGoal);
+                    {
+                        var adjustedCoordGoal = Functions.TranslateCoordenates(temp.CooGoal, -20, 10);
+                        marcasArco.AddRange(adjustedCoordGoal);
+                    }
                 }
             }
 
             // Generar imágenes con marcas
-            //string absolutePathCancha = "C:\\Users\\Pc\\Desktop\\App\\StatBoard\\StatBoard\\Frontend\\Frontend\\Resources\\Images\\cancha.png";
-            //string absolutePathCancha = GetImagePath("cancha.png");
             string canchaWithMarksPath = GenerateMarkedImage("cancha.png", marcasCampo, new SKColor(255, 0, 0, 180)); // Rojo fuerte
 
             try
@@ -436,8 +442,6 @@ namespace Frontend.Resources.PDF_Pages
                     gfx.DrawImage(markedCanchaImage, 50, yPosition, 150, 120);
                     Console.WriteLine($"Imagen de cancha añadida al documento: {canchaWithMarksPath}");
 
-                    //string absolutePathArco = "C:\\Users\\Pc\\Desktop\\App\\StatBoard\\StatBoard\\Frontend\\Frontend\\Resources\\Images\\arco.png";
-                    //string absolutePathArco = GetImagePath("arco.png");
                     string arcoWithMarksPath = GenerateMarkedImage("arco.png", marcasArco, new SKColor(0, 0, 255, 180)); // Azul fuerte
                     var markedArcoImage = XImage.FromFile(arcoWithMarksPath);
                     gfx.DrawImage(markedArcoImage, 10 + 200, yPosition, 150, 100);

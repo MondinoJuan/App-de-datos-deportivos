@@ -75,5 +75,20 @@ namespace Frontend.Resources
 
             return eventData;
         }
+
+        public static List<Coordenates> TranslateCoordenates(List<Coordenates> oldCoord, float xModifier, float yModifier)
+        {
+            var newCoord = new List<Coordenates>();
+
+            foreach (var coord in oldCoord)
+            {
+                newCoord.Add(new Coordenates
+                {
+                    X = coord.X + xModifier,
+                    Y = coord.Y + yModifier
+                });
+            }
+            return newCoord;
+        }
     }
 }

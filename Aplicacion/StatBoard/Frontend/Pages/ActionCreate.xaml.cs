@@ -79,8 +79,8 @@ public partial class ActionCreate : ContentPage, INotifyPropertyChanged
         var touchPosition = e.GetPosition((VisualElement)sender);
         if (touchPosition is not null)
         {
-            Action1.ActionPositionX = (float)touchPosition.Value.X + 20;
-            Action1.ActionPositionY = (float)touchPosition.Value.Y - 10;
+            Action1.ActionPositionX = (float)touchPosition.Value.X;
+            Action1.ActionPositionY = (float)touchPosition.Value.Y;
 
             // Crea una nueva marca (círculo)
             var circle = new BoxView
@@ -92,11 +92,16 @@ public partial class ActionCreate : ContentPage, INotifyPropertyChanged
                 Opacity = 1
             };
 
+            var coordenadasReal = new List<Coordenates>
+            {
+                new Coordenates { X = (float)touchPosition.Value.X, Y = (float)touchPosition.Value.Y }
+            };
+
+            var coordenadasActualizadas = Functions.TranslateCoordenates(coordenadasReal, 30, -10);
+
             // Calcula la posición en la pantalla
-            //AbsoluteLayout.SetLayoutBounds(circle, 
-            //    new Rect(Action1.ActionPositionX + 10, Action1.ActionPositionY - 10, 20, 20));
             AbsoluteLayout.SetLayoutBounds(circle,
-                new Rect(Action1.ActionPositionX + 10, Action1.ActionPositionY, 20, 20));
+                new Rect(coordenadasActualizadas[0].X, coordenadasActualizadas[0].Y, 20, 20));
             AbsoluteLayout.SetLayoutFlags(circle, AbsoluteLayoutFlags.None);
 
             // Añade el círculo al contenedor de marcas
@@ -112,7 +117,7 @@ public partial class ActionCreate : ContentPage, INotifyPropertyChanged
         var touchPosition = e.GetPosition((VisualElement)sender);
         if (touchPosition is not null)
         {
-            Action1.DefinitionPlaceX = (float)touchPosition.Value.X - 20;
+            Action1.DefinitionPlaceX = (float)touchPosition.Value.X;
             Action1.DefinitionPlaceY = (float)touchPosition.Value.Y;
 
             // Crea una nueva marca (círculo)
@@ -125,11 +130,16 @@ public partial class ActionCreate : ContentPage, INotifyPropertyChanged
                 Opacity = 1
             };
 
+            var coordenadasReal = new List<Coordenates>
+            {
+                new Coordenates { X = (float)touchPosition.Value.X, Y = (float)touchPosition.Value.Y }
+            };
+
+            var coordenadasActualizadas = Functions.TranslateCoordenates(coordenadasReal, -7, 5);
+
             // Calcula la posición en la pantalla
-            //AbsoluteLayout.SetLayoutBounds(circle, 
-            //    new Rect(Action1.DefinitionPlaceX - 10, Action1.DefinitionPlaceY, 20, 20));
             AbsoluteLayout.SetLayoutBounds(circle,
-                new Rect(Action1.DefinitionPlaceX + 10, Action1.DefinitionPlaceY, 20, 20));
+                new Rect(coordenadasActualizadas[0].X, coordenadasActualizadas[0].Y, 20, 20));
             AbsoluteLayout.SetLayoutFlags(circle, AbsoluteLayoutFlags.None);
 
             // Añade el círculo al contenedor de marcas

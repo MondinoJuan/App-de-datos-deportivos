@@ -1,5 +1,6 @@
 ﻿using SkiaSharp;
 using Frontend.Resources.Entities;
+using Frontend.Resources;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Maui.Controls.PlatformConfiguration;
@@ -46,65 +47,65 @@ namespace Frontend.Resources.PDF_Pages
             {
 #if ANDROID
 
-        string externalStorage = Android.App.Application.Context.GetExternalFilesDir(Android.OS.Environment.DirectoryDocuments)!.AbsolutePath;
-        var path4 = Path.Combine(externalStorage, fileName);
-        Console.WriteLine($"PDF guardado temporalmente en: {path4}");
+                string externalStorage = Android.App.Application.Context.GetExternalFilesDir(Android.OS.Environment.DirectoryDocuments)!.AbsolutePath;
+                var path4 = Path.Combine(externalStorage, fileName);
+                Console.WriteLine($"PDF guardado temporalmente en: {path4}");
 
-        // Asegurar que el directorio exista
-        if (!Directory.Exists(externalStorage))
-        {
-            Directory.CreateDirectory(externalStorage);
-        }
+                // Asegurar que el directorio exista
+                if (!Directory.Exists(externalStorage))
+                {
+                    Directory.CreateDirectory(externalStorage);
+                }
 
-        // Crear el documento PDF con SkiaSharp
-        using (var stream = File.Open(path4, FileMode.Create, FileAccess.Write))
-        using (var document = SKDocument.CreatePdf(stream))
-        {
-            BuildDocument(document);
-            document.Close();
-        }
+                // Crear el documento PDF con SkiaSharp
+                using (var stream = File.Open(path4, FileMode.Create, FileAccess.Write))
+                using (var document = SKDocument.CreatePdf(stream))
+                {
+                    BuildDocument(document);
+                    document.Close();
+                }
 
-        // Mover el archivo a la carpeta pública "Downloads" usando MediaStore
-        var context = Android.App.Application.Context;
-        var values = new ContentValues();
-        values.Put(MediaStore.IMediaColumns.DisplayName, fileName);
-        values.Put(MediaStore.IMediaColumns.MimeType, "application/pdf");
-        values.Put(MediaStore.IMediaColumns.RelativePath, Android.OS.Environment.DirectoryDownloads);
+                // Mover el archivo a la carpeta pública "Downloads" usando MediaStore
+                var context = Android.App.Application.Context;
+                var values = new ContentValues();
+                values.Put(MediaStore.IMediaColumns.DisplayName, fileName);
+                values.Put(MediaStore.IMediaColumns.MimeType, "application/pdf");
+                values.Put(MediaStore.IMediaColumns.RelativePath, Android.OS.Environment.DirectoryDownloads);
 
-        var contentResolver = context.ContentResolver;
-        var uri = contentResolver.Insert(MediaStore.Downloads.ExternalContentUri, values);
+                var contentResolver = context.ContentResolver;
+                var uri = contentResolver.Insert(MediaStore.Downloads.ExternalContentUri, values);
 
 
-        if (uri != null)
-        {
-            using (var outputStream = contentResolver.OpenOutputStream(uri))
-            using (var inputStream = File.OpenRead(path4))
-            {
-                await inputStream.CopyToAsync(outputStream);
-            }
+                if (uri != null)
+                {
+                    using (var outputStream = contentResolver.OpenOutputStream(uri))
+                    using (var inputStream = File.OpenRead(path4))
+                    {
+                        await inputStream.CopyToAsync(outputStream);
+                    }
 
-            Console.WriteLine($"PDF guardado en Downloads: {uri}");
+                    Console.WriteLine($"PDF guardado en Downloads: {uri}");
 
-            // Eliminar el archivo temporal después de moverlo
-            File.Delete(path4);
-            Console.WriteLine("Archivo temporal eliminado.");
+                    // Eliminar el archivo temporal después de moverlo
+                    File.Delete(path4);
+                    Console.WriteLine("Archivo temporal eliminado.");
 
-            // Intent para abrir el PDF después de guardarlo
-            var intent = new Intent(Intent.ActionView);
-            intent.SetDataAndType(uri, "application/pdf");
-            intent.SetFlags(ActivityFlags.GrantReadUriPermission | ActivityFlags.NewTask);
+                    // Intent para abrir el PDF después de guardarlo
+                    var intent = new Intent(Intent.ActionView);
+                    intent.SetDataAndType(uri, "application/pdf");
+                    intent.SetFlags(ActivityFlags.GrantReadUriPermission | ActivityFlags.NewTask);
 
-            var packageManager = context.PackageManager;
-            var activities = packageManager.QueryIntentActivities(intent, 0);
-            if (activities.Count > 0)
-            {
-                context.StartActivity(intent);
-            }
-            else
-            {
-                Console.WriteLine("No hay aplicaciones disponibles para abrir el PDF.");
-            }
-        }
+                    var packageManager = context.PackageManager;
+                    var activities = packageManager.QueryIntentActivities(intent, 0);
+                    if (activities.Count > 0)
+                    {
+                        context.StartActivity(intent);
+                    }
+                    else
+                    {
+                        Console.WriteLine("No hay aplicaciones disponibles para abrir el PDF.");
+                    }
+                }
 #endif
             }
             catch (Exception ex)
@@ -353,12 +354,24 @@ namespace Frontend.Resources.PDF_Pages
             yPosition += 20;
 
             // Obtener imágenes con marcas (si es necesario)
-            string canchaWithMarksPath = await ModifyAndSaveImage("canchaIncrustada.png", temp.CooField, new SKColor(255, 0, 0, 180));
             string arcoWithMarksPath = null;
+
+            // Ajusto las marcas al escalado de una imagen
+            var coordAdjustedField = Functions.TranslateCoordenates(temp.CooField, 0, 0);
+            string canchaWithMarksPath = await ModifyAndSaveImage("canchaIncrustada.png", coordAdjustedField, new SKColor(255, 0, 0, 180));
 
             if (end == Ending.Goal || end == Ending.Miss || end == Ending.Save)
             {
-                arcoWithMarksPath = await ModifyAndSaveImage("arcoIncrustado.png", temp.CooGoal, new SKColor(0, 0, 255, 180));
+                if (temp.CooGoal != null)
+                {
+                    // Ajusto las marcas al escalado de una imagen
+                    var coordAdjustedGoal = Functions.TranslateCoordenates(temp.CooGoal, 0, 0);
+                    arcoWithMarksPath = await ModifyAndSaveImage("arcoIncrustado.png", coordAdjustedGoal, new SKColor(0, 0, 255, 180));
+                }
+            }
+
+            if (end == Ending.Goal || end == Ending.Miss || end == Ending.Save)
+            {
             }
 
             try
@@ -412,10 +425,21 @@ namespace Frontend.Resources.PDF_Pages
                 totalEndings += temp.QuantityEnding;
 
                 if (temp.CooField != null)
-                    marcasCampo.AddRange(temp.CooField);
+                {
+                    // Ajusto las marcas al escalado de una imagen
+                    var coordAdjustedField = Functions.TranslateCoordenates(temp.CooField, 30, 0);
+                    marcasCampo.AddRange(coordAdjustedField);
+                }
                 if (end == Ending.Goal || end == Ending.Miss || end == Ending.Save)
+                {
                     if (temp.CooGoal != null)
-                        marcasArco.AddRange(temp.CooGoal);
+                    {
+                        // Ajusto las marcas al escalado de una imagen
+                        var coordAdjustedGoal = Functions.TranslateCoordenates(temp.CooGoal, 0, 0);
+                        marcasArco.AddRange(coordAdjustedGoal);
+                    }
+                }
+
             }
 
             using (var textPaint = new SKPaint { Color = SKColors.Black, IsAntialias = true })
@@ -448,7 +472,7 @@ namespace Frontend.Resources.PDF_Pages
             try
             {
                 if (!string.IsNullOrEmpty(canchaWithMarksPath))
-                {                    
+                {
                     using var canchaImage = LoadSkImage(canchaWithMarksPath);
 
                     if (end == Ending.Goal || end == Ending.Miss || end == Ending.Save)

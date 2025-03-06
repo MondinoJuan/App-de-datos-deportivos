@@ -329,10 +329,14 @@ namespace Frontend.Resources.Components
                     container = markContainerFouls;
                     break;
             }
-            AddMarkToImage(container, result.CooField);
+
+            // Ajusto las coordenadas
+            var coorAdjustField = Functions.TranslateCoordenates(result.CooField, 20, -10);
+            AddMarkToImage(container, coorAdjustField);
             if ((ending == Ending.Goal || ending == Ending.Miss || ending == Ending.Save) && result.CooGoal != null)
             {
-                AddMarkToImage(container2, result.CooGoal);
+                var coorAdjustGoal = Functions.TranslateCoordenates(result.CooGoal, -20, 0);
+                AddMarkToImage(container2, coorAdjustGoal);
             }
             if (ending == Ending.Foul)
             {
