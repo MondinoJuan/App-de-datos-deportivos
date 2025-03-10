@@ -1,4 +1,4 @@
-using Frontend.Resources.Entities;
+using Frontend.Resources.DTOs;
 using System.Collections.ObjectModel;
 using Frontend.Resources;
 using Frontend.Resources.PDF_Pages;

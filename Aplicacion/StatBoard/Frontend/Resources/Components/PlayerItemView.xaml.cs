@@ -1,5 +1,5 @@
 using Microsoft.Maui.Controls;
-using Frontend.Resources.Entities;
+using Frontend.Resources.DTOs;
 using System;
 using Frontend.Pages;
 

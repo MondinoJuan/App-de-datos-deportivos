@@ -1,4 +1,4 @@
-﻿using Frontend.Resources.Entities;
+﻿using Frontend.Resources.DTOs;
 using System.Globalization;
 using Frontend.Pages;
 

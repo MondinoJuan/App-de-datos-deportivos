@@ -1,5 +1,5 @@
 ﻿using SkiaSharp;
-using Frontend.Resources.Entities;
+using Frontend.Resources.DTOs;
 using Frontend.Resources;
 
 using Microsoft.Extensions.DependencyInjection;

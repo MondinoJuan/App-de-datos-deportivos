@@ -1,4 +1,4 @@
-using Frontend.Resources.Entities;
+using Frontend.Resources.DTOs;
 using Frontend.Resources;
 using Microsoft.Maui.Controls;
 using System;

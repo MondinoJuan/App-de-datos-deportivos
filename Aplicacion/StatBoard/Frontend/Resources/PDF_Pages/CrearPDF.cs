@@ -1,7 +1,7 @@
 ﻿using PdfSharp.Drawing;
 using SkiaSharp;
 using PdfSharp.Pdf;
-using Frontend.Resources.Entities;
+using Frontend.Resources.DTOs;
 using Frontend.Resources;
 using System.Text.RegularExpressions;
 

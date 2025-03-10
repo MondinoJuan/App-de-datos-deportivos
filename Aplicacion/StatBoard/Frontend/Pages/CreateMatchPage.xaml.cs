@@ -1,6 +1,6 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using Frontend.Resources.Entities;
+using Frontend.Resources.DTOs;
 
 namespace Frontend.Pages
 {

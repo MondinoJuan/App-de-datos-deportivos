@@ -1,5 +1,5 @@
 using Frontend.Resources.Components;
-using Frontend.Resources.Entities;
+using Frontend.Resources.DTOs;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
