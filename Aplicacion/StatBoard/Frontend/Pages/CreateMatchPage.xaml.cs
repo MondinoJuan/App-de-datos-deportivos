@@ -73,11 +73,11 @@ namespace Frontend.Pages
 
             try
             {
-                var resultA = Simulo_BdD.AddClub(teamLocal);            //hacer async cuando tenga BdD
+                var resultA = API_Calls.AddClub(teamLocal);            //hacer async cuando tenga BdD
                 Console.WriteLine(resultA.Message);
-                var resultB = Simulo_BdD.AddClub(teamAway);
+                var resultB = API_Calls.AddClub(teamAway);
                 Console.WriteLine(resultB.Message);
-                var resultC = Simulo_BdD.AddMatch(match);
+                var resultC = API_Calls.AddMatch(match);
                 Console.WriteLine(resultC.Message);
 
                 await Navigation.PushAsync(new MatchView(match));

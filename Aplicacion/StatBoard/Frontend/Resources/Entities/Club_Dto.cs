@@ -1,36 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Frontend.Resources.Entities
 {
-    public class Club_Dto : INotifyPropertyChanged
+    public partial class Club_Dto : ObservableObject
     {
-        private Guid _id;
-        public Guid Id
-        {
-            get => _id;
-            set
-            {
-                if (_id != value)
-                {
-                    _id = value;
-                    OnPropertyChanged("Id");
-                }
-            }
-        }
-        public string Name { get; set; }
-        public List<System.Guid> IdPlayers { get; set; } = new List<Guid>();
+        [ObservableProperty]
+        public int idClub;
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        [ObservableProperty]
+        public string name;
 
-        public void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        [ObservableProperty]
+        public List<int> idPlayers = new List<int>();
     }
 }

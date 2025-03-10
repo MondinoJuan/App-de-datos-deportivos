@@ -1,28 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Frontend.Resources.Entities
 {
-    public class PlayerAction_Dto
+    public partial class PlayerAction_Dto : ObservableObject
     {
-        public System.Guid Id { get; set; }
+        [ObservableProperty]
+        public int idPlayerAction;
 
-        public bool WhichHalf { get; set; } = false;
+        [ObservableProperty]
+        public bool whichHalf = false;
 
-        public Ending Ending { get; set; }
+        [ObservableProperty]
+        public Ending ending;
 
-        public float ActionPositionX { get; set; }
-        public float ActionPositionY { get; set; }
+        [ObservableProperty]
+        public float actionPositionX;
+        [ObservableProperty]
+        public float actionPositionY;
 
-        public float DefinitionPlaceX { get; set; } = 0;
-        public float DefinitionPlaceY { get; set; } = 0;
+        [ObservableProperty]
+        public float definitionPlaceX = 0;
+        [ObservableProperty]
+        public float definitionPlaceY = 0;
 
-        public Sanction Sanction { get; set; }              // Agregar a createAction
+        [ObservableProperty]
+        public Sanction sanction; 
 
-        public string? Description { get; set; }
+        [ObservableProperty]
+        public string? description;
     }
 }

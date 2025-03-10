@@ -56,7 +56,7 @@ public partial class MatchView : ContentPage, INotifyPropertyChanged
     public MatchView()
     {
         InitializeComponent();
-        var result = Simulo_BdD.GetAllMatches();
+        var result = API_Calls.GetAllMatches();
         Console.WriteLine(result.Message);
 
         Match = result.Data.First();
@@ -84,7 +84,7 @@ public partial class MatchView : ContentPage, INotifyPropertyChanged
         Match.GoalsTeamA = 0;
         Match.GoalsTeamB = 0;
 
-        var result = Simulo_BdD.GetAllPlayerMatches();
+        var result = API_Calls.GetAllPlayerMatches();
         if (!result.Success) return;
 
         var playerMatches = result.Data.Where(pm => pm.IdMatch == Match.Id).ToList();
@@ -97,7 +97,7 @@ public partial class MatchView : ContentPage, INotifyPropertyChanged
 
             foreach (var idAction in playerMatch.IdActions)
             {
-                var action = Simulo_BdD.GetOneAction(idAction);
+                var action = API_Calls.GetOneAction(idAction);
                 if (action.Success && action.Data.Ending == Ending.Goal)
                 {
                     if (LocalTeam.IdPlayers.Contains(playerMatch.IdPlayer))
@@ -119,7 +119,7 @@ public partial class MatchView : ContentPage, INotifyPropertyChanged
 
     private void LoadTeams()
     {
-        var buscoTeamLocal = Simulo_BdD.GetOneClub(Match.IdTeamLocal);
+        var buscoTeamLocal = API_Calls.GetOneClub(Match.IdTeamLocal);
         Console.WriteLine(buscoTeamLocal.Message);
         if (buscoTeamLocal.Success)
         {
@@ -135,7 +135,7 @@ public partial class MatchView : ContentPage, INotifyPropertyChanged
             }
         }
 
-        var buscoTeamAway = Simulo_BdD.GetOneClub(Match.IdTeamAway);
+        var buscoTeamAway = API_Calls.GetOneClub(Match.IdTeamAway);
         Console.WriteLine(buscoTeamAway.Message);
         if (buscoTeamAway.Success)
         {
@@ -155,7 +155,7 @@ public partial class MatchView : ContentPage, INotifyPropertyChanged
 
     private static List<Player_Dto> GetAllPlayersOfATeam(List<Guid> playerIds)
     {
-        return Simulo_BdD.Database.Players.Where(p => playerIds.Contains(p.Id)).ToList();
+        return API_Calls.Database.Players.Where(p => playerIds.Contains(p.Id)).ToList();
     }
 
     private async void OnAddPlayer(object sender, EventArgs e)
@@ -174,7 +174,7 @@ public partial class MatchView : ContentPage, INotifyPropertyChanged
             LocalTeam.IdPlayers.Add(newPlayer.Id);
             TeamLocalPlayers.Add(newPlayer);
             CreatePlayerMatch(newPlayer.Id, Match.Id);
-            Simulo_BdD.ReplaceClub(LocalTeam);
+            API_Calls.ReplaceClub(LocalTeam);
         }
         else if (result == 2)
         {
@@ -185,7 +185,7 @@ public partial class MatchView : ContentPage, INotifyPropertyChanged
             AwayTeam.IdPlayers.Add(newPlayer.Id);
             TeamAwayPlayers.Add(newPlayer);
             CreatePlayerMatch(newPlayer.Id, Match.Id);
-            Simulo_BdD.ReplaceClub(AwayTeam);
+            API_Calls.ReplaceClub(AwayTeam);
         }
         else if (result == 0)
         {
@@ -204,7 +204,7 @@ public partial class MatchView : ContentPage, INotifyPropertyChanged
             IdMatch = idMatch
         };
 
-        var result = Simulo_BdD.AddPlayerMatch(newPlayerMatch);
+        var result = API_Calls.AddPlayerMatch(newPlayerMatch);
         Console.WriteLine(result.Message);
     }
 
@@ -212,22 +212,22 @@ public partial class MatchView : ContentPage, INotifyPropertyChanged
     {
         if (TeamLocalPlayers.Remove(player))
         {
-            var localTeamResult = Simulo_BdD.GetOneClub(LocalTeam.Id);
+            var localTeamResult = API_Calls.GetOneClub(LocalTeam.Id);
             if (localTeamResult.Success && localTeamResult.Data != null)
             {
                 var localTeam = localTeamResult.Data;
                 localTeam.IdPlayers.Remove(player.Id);
-                Simulo_BdD.ReplaceClub(localTeam);
+                API_Calls.ReplaceClub(localTeam);
             }
         }
         else if (TeamAwayPlayers.Remove(player))
         {
-            var awayTeamResult = Simulo_BdD.GetOneClub(AwayTeam.Id);
+            var awayTeamResult = API_Calls.GetOneClub(AwayTeam.Id);
             if (awayTeamResult.Success && awayTeamResult.Data != null)
             {
                 var awayTeam = awayTeamResult.Data;
                 awayTeam.IdPlayers.Remove(player.Id);
-                Simulo_BdD.ReplaceClub(awayTeam);
+                API_Calls.ReplaceClub(awayTeam);
             }
         }
         UpdateScore();
@@ -307,31 +307,31 @@ public partial class MatchView : ContentPage, INotifyPropertyChanged
 
     private void OnCancel(object sender, EventArgs e)
     {
-        Simulo_BdD.CleanClubList();
-        Simulo_BdD.CleanPlayerList();
-        Simulo_BdD.CleanPlayerMatchList();
-        Simulo_BdD.CleanMatchList();
-        Simulo_BdD.CleanPlayerActionList();
-        Simulo_BdD.CleanTournamentList();
+        API_Calls.CleanClubList();
+        API_Calls.CleanPlayerList();
+        API_Calls.CleanPlayerMatchList();
+        API_Calls.CleanMatchList();
+        API_Calls.CleanPlayerActionList();
+        API_Calls.CleanTournamentList();
 
         Application.Current.Quit();
     }
 
     private async void OnFinish(object sender, EventArgs e)
     {
-        var result = Simulo_BdD.ReplaceMatch(Match);
+        var result = API_Calls.ReplaceMatch(Match);
         if (!result.Success)
         {
             Console.WriteLine(result.Message);
             return;
         }
-        var result1 = Simulo_BdD.ReplaceClub(LocalTeam);
+        var result1 = API_Calls.ReplaceClub(LocalTeam);
         if (!result1.Success)
         {
             Console.WriteLine(result1.Message);
             return;
         }
-        var result2 = Simulo_BdD.ReplaceClub(AwayTeam);
+        var result2 = API_Calls.ReplaceClub(AwayTeam);
         if (!result2.Success)
         {
             Console.WriteLine(result2.Message);
@@ -350,12 +350,12 @@ public partial class MatchView : ContentPage, INotifyPropertyChanged
             pdf.CrearPDF_PC(Match.Id);
         }
 
-        Simulo_BdD.CleanClubList();
-        Simulo_BdD.CleanPlayerList();
-        Simulo_BdD.CleanPlayerMatchList();
-        Simulo_BdD.CleanMatchList();
-        Simulo_BdD.CleanPlayerActionList();
-        Simulo_BdD.CleanTournamentList();
+        API_Calls.CleanClubList();
+        API_Calls.CleanPlayerList();
+        API_Calls.CleanPlayerMatchList();
+        API_Calls.CleanMatchList();
+        API_Calls.CleanPlayerActionList();
+        API_Calls.CleanTournamentList();
 
         Application.Current.Quit();
     }

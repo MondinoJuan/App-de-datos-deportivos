@@ -87,19 +87,19 @@ public partial class ShowMiddleGame : ContentPage, INotifyPropertyChanged
 
     private void LoadData(Guid idMatch)
     {
-        var result = Simulo_BdD.GetOneMatch(idMatch);
+        var result = API_Calls.GetOneMatch(idMatch);
         if (result.Success && result.Data != null)
         {
             Match = result.Data;
 
-            var result1 = Simulo_BdD.GetOneClub(Match.IdTeamLocal);
+            var result1 = API_Calls.GetOneClub(Match.IdTeamLocal);
             if (result1.Success && result1.Data != null)
             {
                 TeamLocal = result1.Data;
                 OnPropertyChanged(nameof(TeamLocal));
             }
 
-            var result2 = Simulo_BdD.GetOneClub(Match.IdTeamAway);
+            var result2 = API_Calls.GetOneClub(Match.IdTeamAway);
             if (result2.Success && result2.Data != null)
             {
                 TeamAway = result2.Data;

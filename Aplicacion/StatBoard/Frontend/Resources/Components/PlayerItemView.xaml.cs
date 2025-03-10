@@ -64,7 +64,7 @@ public partial class PlayerItemView : ContentView
         {
             try
             {
-                var result = Simulo_BdD.GetAllPlayerMatches();
+                var result = API_Calls.GetAllPlayerMatches();
                 Console.WriteLine(result.Message);
 
                 if (result.Success)
@@ -74,11 +74,11 @@ public partial class PlayerItemView : ContentView
                     foreach (var pm in playerMatches)
                     {
                         RemovePlayerActions(pm);
-                        Simulo_BdD.RemovePlayerMatch(pm.Id);
+                        API_Calls.RemovePlayerMatch(pm.Id);
                     }
                 }
 
-                Simulo_BdD.RemovePlayer(Player.Id);
+                API_Calls.RemovePlayer(Player.Id);
                 MatchView.RemovePlayer(Player);
                 MatchView.UpdateScore();
             }
@@ -95,7 +95,7 @@ public partial class PlayerItemView : ContentView
         {
             foreach (var actionId in playerMatch.IdActions)
             {
-                Simulo_BdD.RemoveAction(actionId);
+                API_Calls.RemoveAction(actionId);
             }
             playerMatch.IdActions.Clear();
         }

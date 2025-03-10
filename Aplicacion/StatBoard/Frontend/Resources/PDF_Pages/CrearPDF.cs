@@ -169,7 +169,7 @@ namespace Frontend.Resources.PDF_Pages
 
                 if (i < TeamLocal.IdPlayers.Count)
                 {
-                    var resultL = Simulo_BdD.GetOnePlayer(TeamLocal.IdPlayers[i]);
+                    var resultL = API_Calls.GetOnePlayer(TeamLocal.IdPlayers[i]);
                     if (resultL.Success)
                     {
                         var playerL = resultL.Data;
@@ -182,7 +182,7 @@ namespace Frontend.Resources.PDF_Pages
 
                 if (i < TeamAway.IdPlayers.Count)
                 {
-                    var resultA = Simulo_BdD.GetOnePlayer(TeamAway.IdPlayers[i]);
+                    var resultA = API_Calls.GetOnePlayer(TeamAway.IdPlayers[i]);
                     if (resultA.Success)
                     {
                         var playerA = resultA.Data;
@@ -210,7 +210,7 @@ namespace Frontend.Resources.PDF_Pages
 
         private void SummaryPlayer(XGraphics gfx, PdfPage pdfPage, Guid idPlayer)
         {
-            var result = Simulo_BdD.GetOnePlayer(idPlayer);
+            var result = API_Calls.GetOnePlayer(idPlayer);
             if (!result.Success)
             {
                 Console.WriteLine(result.Message);
@@ -519,7 +519,7 @@ namespace Frontend.Resources.PDF_Pages
 
         private bool LoadData(Guid idMatch)
         {
-            var result = Simulo_BdD.GetOneMatch(idMatch);
+            var result = API_Calls.GetOneMatch(idMatch);
             if (result.Success)
             {
                 Match = result.Data;
@@ -530,7 +530,7 @@ namespace Frontend.Resources.PDF_Pages
                 return false;
             }
 
-            var resultA = Simulo_BdD.GetOneClub(Match.IdTeamLocal);
+            var resultA = API_Calls.GetOneClub(Match.IdTeamLocal);
             if (resultA.Success)
             {
                 TeamLocal = resultA.Data;
@@ -541,7 +541,7 @@ namespace Frontend.Resources.PDF_Pages
                 return false;
             }
 
-            var resultB = Simulo_BdD.GetOneClub(Match.IdTeamAway);
+            var resultB = API_Calls.GetOneClub(Match.IdTeamAway);
             if (resultB.Success)
             {
                 TeamAway = resultB.Data;

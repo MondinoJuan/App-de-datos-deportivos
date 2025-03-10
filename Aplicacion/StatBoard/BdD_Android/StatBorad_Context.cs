@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using BdD_Android.Modelos;
 
-namespace BdD_Android
+namespace BdD_Android                                       // No usar por ahora
 {
     public class StatBorad_Context : DbContext
     {

@@ -235,7 +235,7 @@ namespace Frontend.Resources.Components
         public void LoadPlayerData(Guid playerId)
         {
 
-            var result = Simulo_BdD.GetOnePlayer(playerId);
+            var result = API_Calls.GetOnePlayer(playerId);
             if (!result.Success) return;
 
             Title = $"{result.Data.Number} {result.Data.Name}";

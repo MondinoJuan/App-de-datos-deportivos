@@ -25,7 +25,7 @@ public partial class ActionCreate : ContentPage, INotifyPropertyChanged
         _taskCompletionSource = new TaskCompletionSource<bool>();
         IdPlayerPasado = id_Player;
 
-        var result = Simulo_BdD.GetAllMatches();
+        var result = API_Calls.GetAllMatches();
         if (!result.Success) return;
         MatchActual = result.Data.First();
 
@@ -292,12 +292,12 @@ public class ActionCreate_ViewModel : BaseViewModel
     private async Task OnSubmit()
     {
         if (action1 == null) return;
-        var result = Simulo_BdD.AddAction(action1);
+        var result = API_Calls.AddAction(action1);
         Console.WriteLine(result.Message);
 
         if (result.Success)
         {
-            var result1 = Simulo_BdD.GetAllPlayerMatches();
+            var result1 = API_Calls.GetAllPlayerMatches();
             Console.WriteLine(result1.Message);
 
             if (result1.Success)
@@ -307,7 +307,7 @@ public class ActionCreate_ViewModel : BaseViewModel
                 if (playerMatch != null)
                 {
                     playerMatch.IdActions.Add(action1.Id);
-                    Simulo_BdD.ReplacePlayerMatch(playerMatch);
+                    API_Calls.ReplacePlayerMatch(playerMatch);
                 }
             }
 

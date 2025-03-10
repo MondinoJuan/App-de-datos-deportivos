@@ -14,7 +14,7 @@ namespace BdD_Android.Modelos
         public float DefinitionPlaceX { get; set; } = 0;
         public float DefinitionPlaceY { get; set; } = 0;
 
-        public Sanction Sanction { get; set; }              // Agregar a createAction
+        public Sanction Sanction { get; set; }
 
         public string? Description { get; set; }
     }

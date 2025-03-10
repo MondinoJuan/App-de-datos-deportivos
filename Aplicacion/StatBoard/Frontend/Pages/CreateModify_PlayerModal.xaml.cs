@@ -119,12 +119,12 @@ public partial class CreateModify_PlayerModal : ContentPage, INotifyPropertyChan
 
         if (ModifyWarning)
         {
-            var result = Simulo_BdD.ReplacePlayer(Player);
+            var result = API_Calls.ReplacePlayer(Player);
             // Manejo del error por si no se reemplaza.
         }
         else
         {
-            var result = Simulo_BdD.AddPlayer(Player);
+            var result = API_Calls.AddPlayer(Player);
             // Manejo del error por si no se guarda.
         }
 

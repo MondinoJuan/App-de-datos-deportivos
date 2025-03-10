@@ -1,34 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Frontend.Resources.Entities;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Frontend.Resources.Entities
 {
-    public class Match_Dto
+    public partial class Match_Dto : ObservableObject
     {
-        public System.Guid Id { get; set; }
+        [ObservableProperty]
+        public int idMatch;
 
-        public DateTime Date { get; set; } = DateTime.Now;
+        [ObservableProperty]
+        public DateTime date = DateTime.Now;
 
-        public string Place { get; set; }
+        [ObservableProperty]
+        public string place;
 
-        public string State { get; set; }
+        [ObservableProperty]
+        public string state;
 
-        public int MatchWeek { get; set; }
+        [ObservableProperty]
+        public int matchWeek;
 
-        public string Tournament { get; set; }
+        [ObservableProperty]
+        public string tournament;
 
-        public System.Guid IdTeamLocal { get; set; }
+        [ObservableProperty]
+        public int idTeamLocal;
 
-        public int GoalsTeamA { get; set; } = 0;
+        [ObservableProperty]
+        public int goalsTeamA = 0;
 
-        public System.Guid IdTeamAway { get; set; }
+        [ObservableProperty]
+        public int idTeamAway;
 
-        public int GoalsTeamB { get; set; } = 0;
+        [ObservableProperty]
+        public int goalsTeamB = 0;
     }
 }

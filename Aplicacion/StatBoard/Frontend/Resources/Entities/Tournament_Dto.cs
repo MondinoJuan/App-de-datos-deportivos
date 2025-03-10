@@ -1,19 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Frontend.Resources.Entities
 {
-    public class Tournament_Dto
+    public partial class Tournament_Dto : ObservableObject
     {
-        public System.Guid Id { get; set; }
-        public string Name { get; set; }
+        [ObservableProperty]
+        public int idTournament;
 
-        public int Cupo { get; set; }
+        [ObservableProperty]
+        public string name;
 
-        //public List<System.Guid> IdClubs { get; set; } = new List<Guid>();
+        [ObservableProperty]
+        public int cupo;
+
+        //[ObservableProperty]
+        //public List<int> idClubs = new List<int>();
     }
 }

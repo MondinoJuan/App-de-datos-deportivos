@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Frontend.Resources.Entities;
 
 namespace Frontend.Resources
 {
@@ -21,7 +20,7 @@ namespace Frontend.Resources
                 Quantity2min = 0,
                 Success = false
             };
-            var result = Simulo_BdD.GetAllPlayerMatches();
+            var result = API_Calls.GetAllPlayerMatches();
             if (!result.Success) return eventData;
             var playerMatch = result.Data.FirstOrDefault(a => a.IdPlayer == playerId);
             if (playerMatch?.IdActions == null) return eventData;
@@ -29,7 +28,7 @@ namespace Frontend.Resources
 
             foreach (var idAction in playerMatch.IdActions)
             {
-                var actionResult = Simulo_BdD.GetOneAction(idAction);
+                var actionResult = API_Calls.GetOneAction(idAction);
                 if (!actionResult.Success) continue;
 
                 var action = actionResult.Data;
