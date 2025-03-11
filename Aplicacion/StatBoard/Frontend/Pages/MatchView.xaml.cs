@@ -160,7 +160,7 @@ public partial class MatchView : ContentPage, INotifyPropertyChanged
 
     private async void OnAddPlayer(object sender, EventArgs e)
     {
-        var modalPage = new CreateModify_PlayerModal();
+        var modalPage = new CreateModify_Player();
         await Navigation.PushModalAsync(modalPage);
         var result = await modalPage.GetResultAsync();
         var newPlayer = await modalPage.GetPlayerAsync();

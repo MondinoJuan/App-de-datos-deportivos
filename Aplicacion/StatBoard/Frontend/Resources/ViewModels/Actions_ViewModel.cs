@@ -33,7 +33,7 @@ namespace Frontend.Resources.ViewModels
         }
 
 
-        public async Task ApplyQueryAttributes(IDictionary<string, object> query)
+        public async void ApplyQueryAttributes(IDictionary<string, object> query)
         {
             var id = int.Parse(query["id"].ToString());
 

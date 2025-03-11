@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
 
 using Frontend.Resources.DataAccess;
+using Frontend.Resources.ViewModels;
+using Frontend.Pages;
 
 namespace Frontend;
 
@@ -18,6 +20,23 @@ public static class MauiProgram
 			});
 
         CreateAllTables();
+
+        builder.Services.AddDbContext<Club_DbContext>();
+        builder.Services.AddDbContext<Player_DbContext>();
+        builder.Services.AddDbContext<Match_DbContext>();
+        builder.Services.AddDbContext<PlayerMatch_DbContext>();
+        builder.Services.AddDbContext<PlayerAction_DbContext>();
+        builder.Services.AddDbContext<Tournament_DbContext>();
+
+        builder.Services.AddTransient<PlayerPage>();
+        builder.Services.AddTransient<ActionsPage>();
+
+        builder.Services.AddTransient<Players_ViewModel>();
+        builder.Services.AddTransient<Actions_ViewModel>();
+        builder.Services.AddTransient<MainViewModel>();
+
+        Routing.RegisterRoute(nameof(PlayerPage), typeof(PlayerPage));
+        Routing.RegisterRoute(nameof(ActionsPage), typeof(ActionsPage));
 
 #if DEBUG
         builder.Logging.AddDebug();

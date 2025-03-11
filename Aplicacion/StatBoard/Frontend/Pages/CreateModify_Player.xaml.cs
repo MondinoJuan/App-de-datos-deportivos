@@ -1,13 +1,12 @@
-using Microsoft.Maui.Controls;
 using Frontend.Resources.DTOs;
-using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Frontend.Resources;
+using Frontend.Resources.ViewModels;
 
 namespace Frontend.Pages;
 
-public partial class CreateModify_PlayerModal : ContentPage, INotifyPropertyChanged
+public partial class CreateModify_Player : ContentPage, INotifyPropertyChanged
 {
     private TaskCompletionSource<int> _taskCompletionSource;
     private TaskCompletionSource<Player_Dto> _playerAGuardar;
@@ -56,20 +55,20 @@ public partial class CreateModify_PlayerModal : ContentPage, INotifyPropertyChan
         }
     }
 
-    public CreateModify_PlayerModal()
+    public CreateModify_Player()
     {
         InitializeComponent();
         ModifyWarning = false;
         EnableSaveButton = false;
         InvModifyWarning = !ModifyWarning;
         Player = new Player_Dto();
-        Player.Id = Guid.NewGuid();
+        Player.IdPlayer = new int();
         _taskCompletionSource = new TaskCompletionSource<int>();
         _playerAGuardar = new TaskCompletionSource<Player_Dto>();
         BindingContext = this;
     }
 
-    public CreateModify_PlayerModal(Player_Dto player)
+    public CreateModify_Player(Player_Dto player)
     {
         InitializeComponent();
         ModifyWarning = true;

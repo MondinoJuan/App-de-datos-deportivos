@@ -54,7 +54,7 @@ public partial class PlayerItemView : ContentView
     {
         if (Player != null)
         {
-            await Navigation.PushAsync(new CreateModify_PlayerModal(Player));
+            await Navigation.PushAsync(new CreateModify_Player(Player));
         }
     }
 
