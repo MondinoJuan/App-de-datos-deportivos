@@ -1,6 +1,8 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Frontend.Resources.DTOs;
+using Frontend.Resources;
+using Frontend.Resources.Modelos;
 
 namespace Frontend.Pages
 {
@@ -50,35 +52,32 @@ namespace Frontend.Pages
 
             Club_Dto teamLocal = new Club_Dto()
             {
-                Id = Guid.NewGuid(),
                 Name = txtLocalTeam.Text
             };
             Club_Dto teamAway = new Club_Dto()
             {
-                Id = Guid.NewGuid(),
                 Name = txtAwayTeam.Text
             };
-
-            Match_Dto match = new Match_Dto
-            {
-                Id = Guid.NewGuid(),
-                Date = DateTime.Now,
-                Place = txtPlace.Text,
-                State = "En juego",
-                MatchWeek = matchWeek,
-                Tournament = txtTournament.Text,
-                IdTeamLocal = teamLocal.Id,
-                IdTeamAway = teamAway.Id
-            };
-
+                        
             try
             {
-                var resultA = API_Calls.AddClub(teamLocal);            //hacer async cuando tenga BdD
-                Console.WriteLine(resultA.Message);
-                var resultB = API_Calls.AddClub(teamAway);
-                Console.WriteLine(resultB.Message);
-                var resultC = API_Calls.AddMatch(match);
-                Console.WriteLine(resultC.Message);
+                var resultA = Services.AddClub(teamLocal);
+                var idTeamLocal = SpecialServices.GetLastTeam();
+                var resultB = Services.AddClub(teamAway);
+                var idTeamAway = SpecialServices.GetLastTeam();
+
+                Match_Dto match = new Match_Dto
+                {
+                    Date = DateTime.Now,
+                    Place = txtPlace.Text,
+                    State = "En juego",
+                    MatchWeek = matchWeek,
+                    Tournament = txtTournament.Text,
+                    IdTeamLocal = idTeamLocal,
+                    IdTeamAway = idTeamAway
+                };
+
+                var resultC = Services.AddMatch(match);
 
                 await Navigation.PushAsync(new MatchView(match));
             }

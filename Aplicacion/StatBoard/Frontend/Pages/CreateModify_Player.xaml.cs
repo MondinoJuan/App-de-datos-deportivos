@@ -2,6 +2,7 @@ using Frontend.Resources.DTOs;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Frontend.Resources;
+using Frontend.Resources.Modelos;
 using Frontend.Resources.ViewModels;
 
 namespace Frontend.Pages;
@@ -10,7 +11,8 @@ public partial class CreateModify_Player : ContentPage, INotifyPropertyChanged
 {
     private TaskCompletionSource<int> _taskCompletionSource;
     private TaskCompletionSource<Player_Dto> _playerAGuardar;
-    public Player_Dto Player { get; private set; }
+    public Player PlayerModificar { get; private set; }
+    public Player_Dto PlayerCrear { get; private set; }
     public bool ModifyWarning { get; private set; }
     public bool InvModifyWarning { get; private set; }
 
@@ -61,23 +63,20 @@ public partial class CreateModify_Player : ContentPage, INotifyPropertyChanged
         ModifyWarning = false;
         EnableSaveButton = false;
         InvModifyWarning = !ModifyWarning;
-        Player = new Player_Dto();
-        Player.IdPlayer = new int();
+        PlayerCrear = new Player_Dto();
         _taskCompletionSource = new TaskCompletionSource<int>();
-        _playerAGuardar = new TaskCompletionSource<Player_Dto>();
         BindingContext = this;
     }
 
-    public CreateModify_Player(Player_Dto player)
+    public CreateModify_Player(Player player)
     {
         InitializeComponent();
         ModifyWarning = true;
         EnableSaveButton = false;
         InvModifyWarning = !ModifyWarning;
-        Player = player;
+        PlayerModificar = player;
         CompleteFields();
         _taskCompletionSource = new TaskCompletionSource<int>();
-        _playerAGuardar = new TaskCompletionSource<Player_Dto>();
         BindingContext = this;
     }
 
@@ -102,8 +101,8 @@ public partial class CreateModify_Player : ContentPage, INotifyPropertyChanged
 
     private void CompleteFields()
     {
-        txtPlayerName.Text = Player.Name;
-        txtPlayerNumber.Text = Player.Number.ToString();
+        txtPlayerName.Text = PlayerModificar.Name;
+        txtPlayerNumber.Text = PlayerModificar.Number.ToString();
     }
 
     private void OnSwitchToggled(object sender, ToggledEventArgs e)
@@ -112,18 +111,21 @@ public partial class CreateModify_Player : ContentPage, INotifyPropertyChanged
     }
 
     private async void OnSave(object sender, EventArgs e)
-    {
-        Player.Name = txtPlayerName.Text;
-        Player.Number = int.Parse(txtPlayerNumber.Text);
-
+    {   
         if (ModifyWarning)
         {
-            var result = API_Calls.ReplacePlayer(Player);
+            PlayerModificar.Name = txtPlayerName.Text;
+            PlayerModificar.Number = int.Parse(txtPlayerNumber.Text);
+
+            Services.UpdatePlayer(PlayerModificar);
             // Manejo del error por si no se reemplaza.
         }
         else
         {
-            var result = API_Calls.AddPlayer(Player);
+            PlayerCrear.Name = txtPlayerName.Text;
+            PlayerCrear.Number = int.Parse(txtPlayerNumber.Text);
+
+            Services.AddPlayer(PlayerCrear);
             // Manejo del error por si no se guarda.
         }
 
@@ -137,11 +139,6 @@ public partial class CreateModify_Player : ContentPage, INotifyPropertyChanged
             {
                 _taskCompletionSource.SetResult(1); // Local
             }
-        }
-
-        if (!_playerAGuardar.Task.IsCompleted)
-        {
-            _playerAGuardar.SetResult(Player);
         }
 
         if (Navigation.ModalStack.Count > 0)
@@ -159,16 +156,6 @@ public partial class CreateModify_Player : ContentPage, INotifyPropertyChanged
         }
         await Navigation.PopModalAsync();
         await Navigation.PushAsync(new MatchView());
-    }
-
-    public Task<int> GetResultAsync()
-    {
-        return _taskCompletionSource.Task;
-    }
-
-    public Task<Player_Dto> GetPlayerAsync()
-    {
-        return _playerAGuardar.Task;
     }
 
     public new event PropertyChangedEventHandler? PropertyChanged;

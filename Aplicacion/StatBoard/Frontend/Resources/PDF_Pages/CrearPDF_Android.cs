@@ -1,16 +1,12 @@
 ﻿using SkiaSharp;
 using Frontend.Resources.DTOs;
+using Frontend.Resources.Modelos;
 using Frontend.Resources;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Maui.Controls.PlatformConfiguration;
 using System.Reflection;
 using System.Net.WebSockets;
-
-<<<<<<< TODO: cambio sin combinar del proyecto "Frontend (net9.0-android)", Antes:
-=======
-using Frontend.Resources.API_Clients;
->>>>>>> Después
 
 #if ANDROID
 using Android.Content;
@@ -26,12 +22,12 @@ namespace Frontend.Resources.PDF_Pages
 {
     public class CrearPDF_Android
     {
-        private Match_Dto? Match { get; set; }
-        private Club_Dto? TeamLocal { get; set; }
-        private Club_Dto? TeamAway { get; set; }
+        private Match? Match { get; set; }
+        private Club? TeamLocal { get; set; }
+        private Club? TeamAway { get; set; }
 
 
-        public async Task<bool> CrearPDF_A(Guid idMatch)
+        public async Task<bool> CrearPDF_A(int idMatch)
         {
             if (!LoadData(idMatch))
             {
@@ -268,32 +264,30 @@ namespace Frontend.Resources.PDF_Pages
                             {
                                 if (i < TeamLocal.IdPlayers.Count)
                                 {
-                                    var resultL = API_Calls.GetOnePlayer(TeamLocal.IdPlayers[i]);
+                                    var resultL = Services.GetPlayer(TeamLocal.IdPlayers[i]);
 
-                                    if (!resultL.Success)
+                                    if (resultL == null)
                                     {
-                                        Console.WriteLine(resultL.Message);
                                         return;
                                     }
 
-                                    canvas.DrawText(resultL.Data.Number.ToString(), xStart + 10, yPos + 30, SKTextAlign.Left, textFontFill, textPaintFill);
-                                    canvas.DrawText(resultL.Data.Name, xStart + 20, yPos + 30, SKTextAlign.Left, textFontFill, textPaintFill);
-                                    canvas.DrawText(Functions.GetActionCountForPlayer(resultL.Data.Id, Ending.Goal).QuantityEnding.ToString(), xStart + columnWidths[0] + 20, yPos + 30, SKTextAlign.Center, textFontFill, textPaintFill);
+                                    canvas.DrawText(resultL.Number.ToString(), xStart + 10, yPos + 30, SKTextAlign.Left, textFontFill, textPaintFill);
+                                    canvas.DrawText(resultL.Name, xStart + 20, yPos + 30, SKTextAlign.Left, textFontFill, textPaintFill);
+                                    canvas.DrawText(Functions.GetActionCountForPlayer(resultL.Id, Ending.Goal).QuantityEnding.ToString(), xStart + columnWidths[0] + 20, yPos + 30, SKTextAlign.Center, textFontFill, textPaintFill);
                                 }
 
                                 if (i < TeamAway.IdPlayers.Count)
                                 {
-                                    var resultA = API_Calls.GetOnePlayer(TeamAway.IdPlayers[i]);
+                                    var resultA = Services.GetPlayer(TeamAway.IdPlayers[i]);
 
-                                    if (!resultA.Success)
+                                    if (resultA == null)
                                     {
-                                        Console.WriteLine(resultA.Message);
                                         return;
                                     }
 
-                                    canvas.DrawText(Functions.GetActionCountForPlayer(resultA.Data.Id, Ending.Goal).QuantityEnding.ToString(), xStart + columnWidths[0] + columnWidths[1] + 20, yPos + 30, SKTextAlign.Center, textFontFill, textPaintFill);
-                                    canvas.DrawText(resultA.Data.Number.ToString(), xStart + columnWidths[0] + columnWidths[1] + columnWidths[2] + 10, yPos + 30, SKTextAlign.Left, textFontFill, textPaintFill);
-                                    canvas.DrawText(resultA.Data.Name, xStart + columnWidths[0] + columnWidths[1] + columnWidths[2] + 20, yPos + 30, SKTextAlign.Left, textFontFill, textPaintFill);
+                                    canvas.DrawText(Functions.GetActionCountForPlayer(resultA.Id, Ending.Goal).QuantityEnding.ToString(), xStart + columnWidths[0] + columnWidths[1] + 20, yPos + 30, SKTextAlign.Center, textFontFill, textPaintFill);
+                                    canvas.DrawText(resultA.Number.ToString(), xStart + columnWidths[0] + columnWidths[1] + columnWidths[2] + 10, yPos + 30, SKTextAlign.Left, textFontFill, textPaintFill);
+                                    canvas.DrawText(resultA.Name, xStart + columnWidths[0] + columnWidths[1] + columnWidths[2] + 20, yPos + 30, SKTextAlign.Left, textFontFill, textPaintFill);
                                 }
 
                                 yPos += rowHeightFill;
@@ -319,12 +313,11 @@ namespace Frontend.Resources.PDF_Pages
             }
         }
 
-        private async void SummaryPlayer(SKCanvas canvas, Guid idPlayer)
+        private async void SummaryPlayer(SKCanvas canvas, int idPlayer)
         {
-            var result = API_Calls.GetOnePlayer(idPlayer);
-            if (!result.Success)
+            var result = Services.GetPlayer(idPlayer);
+            if (result == null)
             {
-                Console.WriteLine(result.Message);
                 return;
             }
 
@@ -336,19 +329,19 @@ namespace Frontend.Resources.PDF_Pages
                     using (var textFont = new SKFont(typefaceBold, 35))
                     {
                         // Dibujar el nombre y número del jugador
-                        string playerInfo = $"{result.Data.Name} - {result.Data.Number}";
+                        string playerInfo = $"{result.Name} - {result.Number}";
                         float xPos = 595 / 2; // Centro de la página (A4: 595x842 puntos)
                         canvas.DrawText(playerInfo, xPos, yPosition, SKTextAlign.Center, textFont, textPaint);
                         yPosition += 60;
 
                         // Secciones de estadísticas
-                        yPosition = await EndingSection(canvas, result.Data.Id, Ending.Goal, yPosition);
-                        yPosition = await EndingSection(canvas, result.Data.Id, Ending.Blocked, yPosition);
-                        yPosition = await EndingSection(canvas, result.Data.Id, Ending.Save, yPosition);
-                        yPosition = await EndingSection(canvas, result.Data.Id, Ending.Foul, yPosition);
-                        yPosition = await EndingSection(canvas, result.Data.Id, Ending.Miss, yPosition);
-                        yPosition = await EndingSection(canvas, result.Data.Id, Ending.Steal_W, yPosition);
-                        _ = await EndingSection(canvas, result.Data.Id, Ending.Steal_L, yPosition);
+                        yPosition = await EndingSection(canvas, result.Id, Ending.Goal, yPosition);
+                        yPosition = await EndingSection(canvas, result.Id, Ending.Blocked, yPosition);
+                        yPosition = await EndingSection(canvas, result.Id, Ending.Save, yPosition);
+                        yPosition = await EndingSection(canvas, result.Id, Ending.Foul, yPosition);
+                        yPosition = await EndingSection(canvas, result.Id, Ending.Miss, yPosition);
+                        yPosition = await EndingSection(canvas, result.Id, Ending.Steal_W, yPosition);
+                        _ = await EndingSection(canvas, result.Id, Ending.Steal_L, yPosition);
 
                         // Contar 2 minutos, rojas y azules
                         var stats = Functions.GetActionCountForPlayer(idPlayer, Ending.Foul);
@@ -378,7 +371,7 @@ namespace Frontend.Resources.PDF_Pages
             }
         }
 
-        private async Task<float> EndingSection(SKCanvas canvas, Guid idPlayer, Ending end, float yPosition)
+        private async Task<float> EndingSection(SKCanvas canvas, int idPlayer, Ending end, float yPosition)
         {
             var yPosicionInicial = yPosition;
             float imageWidth = 140;
@@ -459,7 +452,7 @@ namespace Frontend.Resources.PDF_Pages
             return yPosition + 20;
         }
 
-        private async Task<float> EndingSection(SKCanvas canvas, Club_Dto team, Ending end, float yPosition)
+        private async Task<float> EndingSection(SKCanvas canvas, Club team, Ending end, float yPosition)
         {
             int totalEndings = 0;
             List<Coordenates> marcasCampo = new List<Coordenates>();
@@ -554,7 +547,7 @@ namespace Frontend.Resources.PDF_Pages
             return yPosition + 20;
         }
 
-        private async void SummaryTeam(SKCanvas canvas, Club_Dto team)
+        private async void SummaryTeam(SKCanvas canvas, Club team)
         {
             float yPosition = 40;
 
@@ -672,12 +665,12 @@ namespace Frontend.Resources.PDF_Pages
             }
         }
 
-        private bool LoadData(Guid idMatch)
+        private bool LoadData(int idMatch)
         {
-            var result = API_Calls.GetOneMatch(idMatch);
-            if (result.Success)
+            var result = Services.GetMatch(idMatch);
+            if (result != null)
             {
-                Match = result.Data;
+                Match = result;
             }
             else
             {
@@ -685,10 +678,10 @@ namespace Frontend.Resources.PDF_Pages
                 return false;
             }
 
-            var resultLocal = API_Calls.GetOneClub(Match.IdTeamLocal);
-            if (resultLocal.Success)
+            var resultLocal = Services.GetClub(Match.IdTeamLocal);
+            if (resultLocal != null)
             {
-                TeamLocal = resultLocal.Data;
+                TeamLocal = resultLocal;
             }
             else
             {
@@ -696,10 +689,10 @@ namespace Frontend.Resources.PDF_Pages
                 return false;
             }
 
-            var resultAway = API_Calls.GetOneClub(Match.IdTeamAway);
-            if (resultAway.Success)
+            var resultAway = Services.GetClub(Match.IdTeamAway);
+            if (resultAway != null)
             {
-                TeamAway = resultAway.Data;
+                TeamAway = resultAway;
             }
             else
             {

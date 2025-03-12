@@ -1,4 +1,5 @@
 using Frontend.Resources.DTOs;
+using Frontend.Resources.Modelos;
 using Frontend.Resources;
 using Microsoft.Maui.Controls;
 using System;
@@ -17,27 +18,27 @@ namespace Frontend.Resources.Components
         public static readonly BindableProperty IdPlayerProperty =
             BindableProperty.Create(
                 nameof(IdPlayer),
-                typeof(Guid),
+                typeof(int),
                 typeof(PageOfActions),
-                defaultValue: Guid.Empty,
+                defaultValue: new int(),
                 propertyChanged: OnIdPlayerChanged);
 
-        public Guid IdPlayer
+        public int IdPlayer
         {
-            get => (Guid)GetValue(IdPlayerProperty);
+            get => (int)GetValue(IdPlayerProperty);
             set => SetValue(IdPlayerProperty, value);
         }
 
         public static readonly BindableProperty TeamProperty =
             BindableProperty.Create(
                 nameof(Team),
-                typeof(Club_Dto),
+                typeof(Club),
                 typeof(PageOfActions),
                 propertyChanged: OnTeamChanged);
 
-        public Club_Dto Team
+        public Club Team
         {
-            get => (Club_Dto)GetValue(TeamProperty);
+            get => (Club)GetValue(TeamProperty);
             set => SetValue(TeamProperty, value);
         }
 
@@ -216,13 +217,13 @@ namespace Frontend.Resources.Components
         private static void OnIdPlayerChanged(BindableObject bindable, object oldValue, object newValue)
         {
             var control = (PageOfActions)bindable;
-            control.LoadPlayerData((Guid)newValue);
+            control.LoadPlayerData((int)newValue);
         }
 
         private static void OnTeamChanged(BindableObject bindable, object oldValue, object newValue)
         {
             var control = (PageOfActions)bindable;
-            control.LoadTeamData((Club_Dto)newValue);
+            control.LoadTeamData((Club)newValue);
         }
 
         public new event PropertyChangedEventHandler? PropertyChanged;
@@ -232,13 +233,13 @@ namespace Frontend.Resources.Components
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public void LoadPlayerData(Guid playerId)
+        public void LoadPlayerData(int playerId)
         {
 
-            var result = API_Calls.GetOnePlayer(playerId);
-            if (!result.Success) return;
+            var result = Services.GetPlayer(playerId);
+            if (result == null) return;
 
-            Title = $"{result.Data.Number} {result.Data.Name}";
+            Title = $"{result.Number} {result.Name}";
 
             Blockeds = GetQuantityAndPlaceOfActionForPlayer(playerId, Ending.Blocked).ToString();
             Goals = GetQuantityAndPlaceOfActionForPlayer(playerId, Ending.Goal).ToString();
@@ -253,7 +254,7 @@ namespace Frontend.Resources.Components
             RedCards = ((fouls % 100) / 10).ToString();
             BlueCards = (fouls % 10).ToString();
         }
-        public void LoadTeamData(Club_Dto team)
+        public void LoadTeamData(Club team)
         {
 
             Title = team.Name;
@@ -296,7 +297,7 @@ namespace Frontend.Resources.Components
             BlueCards = cantidadAzules.ToString();
         }
 
-        private int GetQuantityAndPlaceOfActionForPlayer(Guid idPlayer, Ending ending)
+        private int GetQuantityAndPlaceOfActionForPlayer(int idPlayer, Ending ending)
         {
             var result = Functions.GetActionCountForPlayer(idPlayer, ending);
             if (!result.Success) return 0;

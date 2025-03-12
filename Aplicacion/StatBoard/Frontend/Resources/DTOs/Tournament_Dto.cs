@@ -4,8 +4,8 @@ namespace Frontend.Resources.DTOs
 {
     public partial class Tournament_Dto : ObservableObject
     {
-        [ObservableProperty]
-        public int idTournament;
+        //[ObservableProperty]
+        //public int idTournament;
 
         [ObservableProperty]
         public string name;

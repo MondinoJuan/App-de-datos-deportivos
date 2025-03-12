@@ -4,8 +4,8 @@ namespace Frontend.Resources.DTOs
 {
     public partial class Match_Dto : ObservableObject
     {
-        [ObservableProperty]
-        public int idMatch;
+        //[ObservableProperty]
+        //public int idMatch;
 
         [ObservableProperty]
         public DateTime date = DateTime.Now;

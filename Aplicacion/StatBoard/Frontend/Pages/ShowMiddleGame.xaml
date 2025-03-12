@@ -51,13 +51,17 @@
 
                 </HorizontalStackLayout>
 
+                <components:MatchSummary
+                    Match="{Binding match}"
+                    Padding="0,30,0,0"/>
+
                 <StackLayout
                     x:Name="stks"
                     BindableLayout.ItemsSource="{Binding Teams}"
                     HorizontalOptions="Center">
                     <BindableLayout.ItemTemplate>
                         <DataTemplate>
-                            <!-- Página del jugador -->
+                            <!-- Páginas de los equipos -->
                             <components:PageOfActions
                                 Team="{Binding .}"
                                 Padding="0,30,0,0"/>

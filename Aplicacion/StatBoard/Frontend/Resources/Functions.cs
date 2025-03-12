@@ -8,7 +8,7 @@ namespace Frontend.Resources
 {
     class Functions
     {
-        public static EventsData GetActionCountForPlayer(Guid playerId, Ending actionType)
+        public static EventsData GetActionCountForPlayer(int playerId, Ending actionType)
         {
             var eventData = new EventsData()
             {
@@ -20,18 +20,18 @@ namespace Frontend.Resources
                 Quantity2min = 0,
                 Success = false
             };
-            var result = API_Calls.GetAllPlayerMatches();
-            if (!result.Success) return eventData;
-            var playerMatch = result.Data.FirstOrDefault(a => a.IdPlayer == playerId);
+            var result = Services.GetPlayerMatches();
+            if (result == null) return eventData;
+            var playerMatch = result.FirstOrDefault(a => a.IdPlayer == playerId);
             if (playerMatch?.IdActions == null) return eventData;
 
 
             foreach (var idAction in playerMatch.IdActions)
             {
-                var actionResult = API_Calls.GetOneAction(idAction);
-                if (!actionResult.Success) continue;
+                var actionResult = Services.GetPlayerAction(idAction);
+                if (actionResult == null) continue;
 
-                var action = actionResult.Data;
+                var action = actionResult;
 
                 // Contar las acciones del tipo específico
                 if (action.Ending == actionType)

@@ -4,8 +4,8 @@ namespace Frontend.Resources.DTOs
 {
     public partial class PlayerMatch_Dto : ObservableObject
     {
-        [ObservableProperty]
-        public int idPlayerMatch;
+        //[ObservableProperty]
+        //public int idPlayerMatch;
 
         [ObservableProperty]
         public int idPlayer;

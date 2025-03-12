@@ -2,18 +2,18 @@
 using SkiaSharp;
 using PdfSharp.Pdf;
 using Frontend.Resources.DTOs;
+using Frontend.Resources.Modelos;
 using Frontend.Resources;
-using System.Text.RegularExpressions;
 
 namespace Frontend.Resources.PDF_Pages
 {
     public class CrearPDF
     {
-        private Match_Dto? Match { get; set; }
-        private Club_Dto? TeamLocal { get; set; }
-        private Club_Dto? TeamAway { get; set; }
+        private Match? Match { get; set; }
+        private Club? TeamLocal { get; set; }
+        private Club? TeamAway { get; set; }
 
-        public PdfDocument CrearPDF_PC(Guid idMatch)
+        public PdfDocument CrearPDF_PC(int idMatch)
         {
             if (!LoadData(idMatch))
             {
@@ -169,10 +169,10 @@ namespace Frontend.Resources.PDF_Pages
 
                 if (i < TeamLocal.IdPlayers.Count)
                 {
-                    var resultL = API_Calls.GetOnePlayer(TeamLocal.IdPlayers[i]);
-                    if (resultL.Success)
+                    var resultL = Services.GetPlayer(TeamLocal.IdPlayers[i]);
+                    if (resultL != null)
                     {
-                        var playerL = resultL.Data;
+                        var playerL = resultL;
                         gfx.DrawString(playerL.Number.ToString(), normalFont, XBrushes.DarkGray, new XPoint(xStart + 10, currentY + 15));
                         gfx.DrawString(playerL.Name, normalFont, XBrushes.DarkGray, new XPoint(xStart + 30, currentY + 15));
                         gfx.DrawString(Functions.GetActionCountForPlayer(playerL.Id, Ending.Goal).QuantityEnding.ToString(), normalFont,
@@ -182,10 +182,10 @@ namespace Frontend.Resources.PDF_Pages
 
                 if (i < TeamAway.IdPlayers.Count)
                 {
-                    var resultA = API_Calls.GetOnePlayer(TeamAway.IdPlayers[i]);
-                    if (resultA.Success)
+                    var resultA = Services.GetPlayer(TeamAway.IdPlayers[i]);
+                    if (resultA != null)
                     {
-                        var playerA = resultA.Data;
+                        var playerA = resultA;
                         gfx.DrawString(Functions.GetActionCountForPlayer(playerA.Id, Ending.Goal).QuantityEnding.ToString(), normalFont, XBrushes.DarkGray,
                             new XPoint(xStart + columnWidths[0] + columnWidths[1] + 10, currentY + 15));
                         gfx.DrawString(playerA.Number.ToString(), normalFont, XBrushes.DarkGray,
@@ -208,36 +208,35 @@ namespace Frontend.Resources.PDF_Pages
                 new XRect(0, pdfPage.Height - 30, pdfPage.Width, 20), XStringFormats.Center);
         }
 
-        private void SummaryPlayer(XGraphics gfx, PdfPage pdfPage, Guid idPlayer)
+        private void SummaryPlayer(XGraphics gfx, PdfPage pdfPage, int idPlayer)
         {
-            var result = API_Calls.GetOnePlayer(idPlayer);
-            if (!result.Success)
+            var result = Services.GetPlayer(idPlayer);
+            if (result == null)
             {
-                Console.WriteLine(result.Message);
                 return;
             }
 
             // Título
             var font = new XFont("Verdana", 16);
             double yPosition = 0;
-            gfx.DrawString($"{result.Data.Name} - {result.Data.Number}", font, XBrushes.Black, new XRect(0, yPosition, pdfPage.Width, 50),
+            gfx.DrawString($"{result.Name} - {result.Number}", font, XBrushes.Black, new XRect(0, yPosition, pdfPage.Width, 50),
                 XStringFormats.Center);
             yPosition += 60; // Ajustar la posición Y para el siguiente elemento
 
             // Goles
-            yPosition = EndingSection(gfx, pdfPage, result.Data.Id, Ending.Goal, yPosition);
+            yPosition = EndingSection(gfx, pdfPage, result.Id, Ending.Goal, yPosition);
             // Bloqueos
-            yPosition = EndingSection(gfx, pdfPage, result.Data.Id, Ending.Blocked, yPosition);
+            yPosition = EndingSection(gfx, pdfPage, result.Id, Ending.Blocked, yPosition);
             // Saves
-            yPosition = EndingSection(gfx, pdfPage, result.Data.Id, Ending.Save, yPosition);
+            yPosition = EndingSection(gfx, pdfPage, result.Id, Ending.Save, yPosition);
             // Foul
-            yPosition = EndingSection(gfx, pdfPage, result.Data.Id, Ending.Foul, yPosition);
+            yPosition = EndingSection(gfx, pdfPage, result.Id, Ending.Foul, yPosition);
             // Miss
-            yPosition = EndingSection(gfx, pdfPage, result.Data.Id, Ending.Miss, yPosition);
+            yPosition = EndingSection(gfx, pdfPage, result.Id, Ending.Miss, yPosition);
             // Robo
-            yPosition = EndingSection(gfx, pdfPage, result.Data.Id, Ending.Steal_W, yPosition);
+            yPosition = EndingSection(gfx, pdfPage, result.Id, Ending.Steal_W, yPosition);
             // Perdidas
-            yPosition = EndingSection(gfx, pdfPage, result.Data.Id, Ending.Steal_L, yPosition);
+            yPosition = EndingSection(gfx, pdfPage, result.Id, Ending.Steal_L, yPosition);
 
             // Contar cantidad de 2mins, rojas y azules por equipo
             var temp = Functions.GetActionCountForPlayer(idPlayer, Ending.Foul);
@@ -263,7 +262,7 @@ namespace Frontend.Resources.PDF_Pages
             }
         }
 
-        public void SummaryTeam(XGraphics gfx, PdfPage pdfPage, Club_Dto team)
+        public void SummaryTeam(XGraphics gfx, PdfPage pdfPage, Club team)
         {
             var minutes2 = 0;
             var reds = 0;
@@ -326,7 +325,7 @@ namespace Frontend.Resources.PDF_Pages
             }
         }
 
-        private double EndingSection(XGraphics gfx, PdfPage pdfPage, Guid idPlayer, Ending end, double yPosition)
+        private double EndingSection(XGraphics gfx, PdfPage pdfPage, int idPlayer, Ending end, double yPosition)
         {
             var marcasCampo = new List<Coordenates>();
             var marcasArco = new List<Coordenates>();
@@ -397,7 +396,7 @@ namespace Frontend.Resources.PDF_Pages
             return yPosition;
         }
 
-        private double EndingSection(XGraphics gfx, PdfPage pdfPage, Club_Dto team, Ending end, double yPosition)
+        private double EndingSection(XGraphics gfx, PdfPage pdfPage, Club team, Ending end, double yPosition)
         {
             var cantidadEndingsTeam = 0;
             var marcasCampo = new List<Coordenates>();
@@ -517,12 +516,12 @@ namespace Frontend.Resources.PDF_Pages
             return outputPath;
         }
 
-        private bool LoadData(Guid idMatch)
+        private bool LoadData(int idMatch)
         {
-            var result = API_Calls.GetOneMatch(idMatch);
-            if (result.Success)
+            var result = Services.GetMatch(idMatch);
+            if (result != null)
             {
-                Match = result.Data;
+                Match = result;
             }
             else
             {
@@ -530,10 +529,10 @@ namespace Frontend.Resources.PDF_Pages
                 return false;
             }
 
-            var resultA = API_Calls.GetOneClub(Match.IdTeamLocal);
-            if (resultA.Success)
+            var resultA = Services.GetClub(Match.IdTeamLocal);
+            if (resultA != null)
             {
-                TeamLocal = resultA.Data;
+                TeamLocal = resultA;
             }
             else
             {
@@ -541,10 +540,10 @@ namespace Frontend.Resources.PDF_Pages
                 return false;
             }
 
-            var resultB = API_Calls.GetOneClub(Match.IdTeamAway);
-            if (resultB.Success)
+            var resultB = Services.GetClub(Match.IdTeamAway);
+            if (resultB != null)
             {
-                TeamAway = resultB.Data;
+                TeamAway = resultB;
             }
             else
             {

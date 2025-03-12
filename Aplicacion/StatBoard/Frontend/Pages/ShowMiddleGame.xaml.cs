@@ -1,5 +1,7 @@
 using Frontend.Resources.Components;
 using Frontend.Resources.DTOs;
+using Frontend.Resources;
+using Frontend.Resources.Modelos;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
@@ -7,13 +9,13 @@ namespace Frontend.Pages;
 
 public partial class ShowMiddleGame : ContentPage, INotifyPropertyChanged
 {
-    private Match_Dto match = new();
-    private Club_Dto teamLocal = new();
-    private Club_Dto teamAway = new();
-    private List<Guid> teamsIds = new();
-    private List<Club_Dto> teams = new();
+    private Match match = new();
+    private Club teamLocal = new();
+    private Club teamAway = new();
+    private List<int> teamsIds = new();
+    private List<Club> teams = new();
 
-    public List<Club_Dto> Teams
+    public List<Club> Teams
     {
         get => teams;
         set
@@ -26,7 +28,7 @@ public partial class ShowMiddleGame : ContentPage, INotifyPropertyChanged
         }
     }
 
-    public List<Guid> TeamsIds
+    public List<int> TeamsIds
     {
         get => teamsIds;
         set
@@ -39,7 +41,7 @@ public partial class ShowMiddleGame : ContentPage, INotifyPropertyChanged
         }
     }
 
-    public Match_Dto Match
+    public Match Match
     {
         get => match;
         set
@@ -52,7 +54,7 @@ public partial class ShowMiddleGame : ContentPage, INotifyPropertyChanged
         }
     }
 
-    public Club_Dto TeamLocal
+    public Club TeamLocal
     {
         get => teamLocal;
         set
@@ -65,7 +67,7 @@ public partial class ShowMiddleGame : ContentPage, INotifyPropertyChanged
         }
     }
 
-    public Club_Dto TeamAway
+    public Club TeamAway
     {
         get => teamAway;
         set
@@ -78,36 +80,36 @@ public partial class ShowMiddleGame : ContentPage, INotifyPropertyChanged
         }
     }
 
-    public ShowMiddleGame(Guid idMatch)
+    public ShowMiddleGame(int idMatch)
     {
         InitializeComponent();
         BindingContext = this;
         LoadData(idMatch);
     }
 
-    private void LoadData(Guid idMatch)
+    private void LoadData(int idMatch)
     {
-        var result = API_Calls.GetOneMatch(idMatch);
-        if (result.Success && result.Data != null)
+        var result = Services.GetMatch(idMatch);
+        if (result != null)
         {
-            Match = result.Data;
+            Match = result;
 
-            var result1 = API_Calls.GetOneClub(Match.IdTeamLocal);
-            if (result1.Success && result1.Data != null)
+            var result1 = Services.GetClub(Match.IdTeamLocal);
+            if (result1 != null)
             {
-                TeamLocal = result1.Data;
+                TeamLocal = result1;
                 OnPropertyChanged(nameof(TeamLocal));
             }
 
-            var result2 = API_Calls.GetOneClub(Match.IdTeamAway);
-            if (result2.Success && result2.Data != null)
+            var result2 = Services.GetClub(Match.IdTeamAway);
+            if (result2 != null)
             {
-                TeamAway = result2.Data;
+                TeamAway = result2;
                 OnPropertyChanged(nameof(TeamAway));
             }
 
-            Teams = new List<Club_Dto> { TeamLocal, TeamAway };
-            TeamsIds = new List<Guid> { TeamLocal.Id, TeamAway.Id };
+            Teams = new List<Club> { TeamLocal, TeamAway };
+            TeamsIds = new List<int> { TeamLocal.Id, TeamAway.Id };
 
             OnPropertyChanged(nameof(Teams));
             OnPropertyChanged(nameof(TeamsIds));

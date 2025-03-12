@@ -1,38 +1,38 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:components="clr-namespace:Frontend.Resources.Components"
-             xmlns:converters="clr-namespace:Frontend.Resources.Converters"
-             xmlns:local="clr-namespace:Frontend.Pages"
-             x:DataType="{x:Type local:MatchView}"
-             x:Class="Frontend.Pages.MatchView"
-             x:Name="matchViewInstance"
-             Title="Vista de Partido"
-             Style="{StaticResource PageBackground}">
+<ContentView 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="Frontend.Resources.Components.MatchSummary"
+    xmlns:components="clr-namespace:Frontend.Resources.Components"
+    xmlns:converters="clr-namespace:Frontend.Resources.Converters"
+    xmlns:local="clr-namespace:Frontend.Pages"
+    x:Name="matchSummaryInstance"
+    Style="{StaticResource PageBackground}">
 
-    <ContentPage.Resources>
+    <ContentView.Resources>
         <ResourceDictionary>
             <converters:ActionCountConverter x:Key="ActionCountConverter" />
             <converters:ActionCountMultiConverter x:Key="ActionCountMultiConverter" />
         </ResourceDictionary>
         <converters:GreaterThanConverter x:Key="GreaterThanConverter"/>
-    </ContentPage.Resources>
+    </ContentView.Resources>
 
     <ScrollView>
         <VerticalStackLayout Padding="20" Spacing="20">
 
             <!-- Título del partido -->
-            <Label x:Name="lblMatchViewTitle" 
+            <Label 
+                x:Name="lblMatchSummaryTitle" 
                 Style="{StaticResource TitleLabel}" />
 
-            <Label x:Name="lblTournament" 
+            <Label 
+                x:Name="lblTournament" 
                 Style="{StaticResource SubtitleLabel}" />
 
             <!-- Encabezado de equipos -->
             <Grid 
                 ColumnSpacing="10" 
-                Padding="10, 0, 0, -10"
-                >
+                Padding="10, 0, 0, -10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="0.1*" />
                     <ColumnDefinition Width="1*" />
@@ -49,26 +49,26 @@
                 </Grid.RowDefinitions>
 
                 <Label Grid.Column="0" 
-                       Grid.Row="0"
-                       Grid.ColumnSpan="2"
-                       x:Name="lblTeamLocal" 
-                       Style="{StaticResource SubtitleLabel}" />
+                   Grid.Row="0"
+                   Grid.ColumnSpan="2"
+                   x:Name="lblTeamLocal" 
+                   Style="{StaticResource SubtitleLabel}" />
 
                 <Label Grid.Column="2" 
-                       Grid.Row="0" 
-                       x:Name="lblScoreL"
-                       Style="{StaticResource SubtitleLabel}" />
+                   Grid.Row="0" 
+                   x:Name="lblScoreL"
+                   Style="{StaticResource SubtitleLabel}" />
 
                 <Label Grid.Column="3" 
-                       Grid.Row="0"
-                       x:Name="lblScoreA"
-                       Style="{StaticResource SubtitleLabel}" />
+                   Grid.Row="0"
+                   x:Name="lblScoreA"
+                   Style="{StaticResource SubtitleLabel}" />
 
                 <Label Grid.Column="4"
-                       Grid.Row="0"
-                       Grid.ColumnSpan="2"
-                       x:Name="lblTeamAway" 
-                       Style="{StaticResource SubtitleLabel}" />
+                   Grid.Row="0"
+                   Grid.ColumnSpan="2"
+                   x:Name="lblTeamAway" 
+                   Style="{StaticResource SubtitleLabel}" />
 
                 <!-- Subtítulos de la tabla -->
 
@@ -157,7 +157,7 @@
                     <BindableLayout.ItemTemplate>
                         <DataTemplate>
                             <components:PlayerItemView 
-                                MatchView="{Binding Source={x:Reference matchViewInstance}}" 
+                                MatchSummary="{Binding Source={x:Reference matchSummaryInstance}}" 
                                 Player="{Binding .}" />
                         </DataTemplate>
                     </BindableLayout.ItemTemplate>
@@ -184,7 +184,7 @@
                                 <Label.Text>
                                     <MultiBinding Converter="{StaticResource ActionCountMultiConverter}">
                                         <Binding Path="Id" />
-                                        <Binding Path="LocalActionSelected" Source="{x:Reference matchViewInstance}" />
+                                        <Binding Path="LocalActionSelected" Source="{x:Reference matchSummaryInstance}" />
                                     </MultiBinding>
                                 </Label.Text>
                             </Label>
@@ -205,9 +205,10 @@
                             <Setter Property="IsVisible" Value="True" />
                         </DataTrigger>
                     </StackLayout.Triggers>
-                    <Label x:Name="lblMessageLocalEmptyPlayers"
-                           Text="No hay jugadores del equipo local cargados aún."
-                           Style="{StaticResource ErrorLabel}"/>
+                    <Label 
+                        x:Name="lblMessageLocalEmptyPlayers"
+                        Text="No hay jugadores del equipo local cargados aún."
+                        Style="{StaticResource ErrorLabel}"/>
                 </StackLayout>
 
                 <!--Contador de endings de jugadores visitantes-->
@@ -232,11 +233,11 @@
                                 <Label.Text>
                                     <MultiBinding Converter="{StaticResource ActionCountMultiConverter}">
                                         <Binding Path="Id" />
-                                        <Binding Path="AwayActionSelected" Source="{x:Reference matchViewInstance}" />
+                                        <Binding Path="AwayActionSelected" Source="{x:Reference matchSummaryInstance}" />
                                     </MultiBinding>
                                 </Label.Text>
                             </Label>
-                        
+
                         </DataTemplate>
                     </BindableLayout.ItemTemplate>
                 </StackLayout>
@@ -257,7 +258,7 @@
                     <BindableLayout.ItemTemplate>
                         <DataTemplate>
                             <components:PlayerItemView 
-                                MatchView="{Binding Source={x:Reference matchViewInstance}}" 
+                                MatchSummary="{Binding Source={x:Reference matchSummaryInstance}}" 
                                 Player="{Binding .}" />
                         </DataTemplate>
                     </BindableLayout.ItemTemplate>
@@ -300,7 +301,7 @@
                         </Style.Triggers>
                     </Style>
                 </StackLayout.Style>
-                
+
                 <Button 
                     x:Name="btnAddPlayer"
                     Text="Agregar jugador"
@@ -331,5 +332,4 @@
 
         </VerticalStackLayout>
     </ScrollView>
-
-</ContentPage>
+</ContentView>

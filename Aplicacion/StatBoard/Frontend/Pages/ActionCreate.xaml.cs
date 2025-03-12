@@ -1,5 +1,6 @@
 using Frontend.Resources;
 using Frontend.Resources.DTOs;
+using Frontend.Resources.Modelos;
 using Microsoft.Maui.Layouts;
 using System.Threading.Tasks;
 using Microsoft.Maui.Controls;
@@ -10,26 +11,26 @@ namespace Frontend.Pages;
 
 public partial class ActionCreate : ContentPage, INotifyPropertyChanged
 {
-    private PlayerAction_Dto Action1 { get; set; }
-    private Guid IdPlayerPasado { get; set; }
-    private Match_Dto MatchActual { get; set; } = new();
+    private PlayerAction_Dto ActionCrear { get; set; }
+    private int? IdPlayerPasado { get; set; }
+    private Match MatchActual { get; set; } = new();
     private TaskCompletionSource<bool> _taskCompletionSource;
 
     public ActionCreate_ViewModel ViewModel { get; set; }
 
 
-    public ActionCreate(Guid id_Player)
+    public ActionCreate(int id_Player)
     {
         InitializeComponent();
-        Action1 = new PlayerAction_Dto { Id = Guid.NewGuid() };
+        ActionCrear = new PlayerAction_Dto();
         _taskCompletionSource = new TaskCompletionSource<bool>();
         IdPlayerPasado = id_Player;
 
-        var result = API_Calls.GetAllMatches();
-        if (!result.Success) return;
-        MatchActual = result.Data.First();
+        var result = Services.GetMatches();
+        if (result != null) return;
+        MatchActual = result.First();
 
-        ViewModel = new ActionCreate_ViewModel(Action1, IdPlayerPasado, MatchActual, _taskCompletionSource);
+        ViewModel = new ActionCreate_ViewModel(ActionCrear, IdPlayerPasado, MatchActual, _taskCompletionSource);
         BindingContext = ViewModel;
     }
 
@@ -39,11 +40,11 @@ public partial class ActionCreate : ContentPage, INotifyPropertyChanged
         int selectedIndex = picker.SelectedIndex;
         if (selectedIndex != -1)
         {
-            Action1.Ending = (Ending)selectedIndex;
+            ActionCrear.Ending = (Ending)selectedIndex;
         }
         ViewModel.DidPckAction = true;
 
-        if (Action1.Ending == Ending.Foul)
+        if (ActionCrear.Ending == Ending.Foul)
         {
             ViewModel.ActionNeedsSanction = true;
         }
@@ -52,7 +53,7 @@ public partial class ActionCreate : ContentPage, INotifyPropertyChanged
             ViewModel.ActionNeedsSanction = false;
         }
 
-        if (Action1.Ending == Ending.Goal || Action1.Ending == Ending.Miss || Action1.Ending == Ending.Save)
+        if (ActionCrear.Ending == Ending.Goal || ActionCrear.Ending == Ending.Miss || ActionCrear.Ending == Ending.Save)
         {
             ViewModel.ActionNeedsGoal = true;
         }
@@ -68,7 +69,7 @@ public partial class ActionCreate : ContentPage, INotifyPropertyChanged
         int selectedIndex = picker.SelectedIndex;
         if (selectedIndex != -1)
         {
-            Action1.Sanction = ((Sanction)selectedIndex);
+            ActionCrear.Sanction = ((Sanction)selectedIndex);
         }
         ViewModel.DidPckSanction = true;
     }
@@ -79,8 +80,8 @@ public partial class ActionCreate : ContentPage, INotifyPropertyChanged
         var touchPosition = e.GetPosition((VisualElement)sender);
         if (touchPosition is not null)
         {
-            Action1.ActionPositionX = (float)touchPosition.Value.X;
-            Action1.ActionPositionY = (float)touchPosition.Value.Y;
+            ActionCrear.ActionPositionX = (float)touchPosition.Value.X;
+            ActionCrear.ActionPositionY = (float)touchPosition.Value.Y;
 
             // Crea una nueva marca (círculo)
             var circle = new BoxView
@@ -117,8 +118,8 @@ public partial class ActionCreate : ContentPage, INotifyPropertyChanged
         var touchPosition = e.GetPosition((VisualElement)sender);
         if (touchPosition is not null)
         {
-            Action1.DefinitionPlaceX = (float)touchPosition.Value.X;
-            Action1.DefinitionPlaceY = (float)touchPosition.Value.Y;
+            ActionCrear.DefinitionPlaceX = (float)touchPosition.Value.X;
+            ActionCrear.DefinitionPlaceY = (float)touchPosition.Value.Y;
 
             // Crea una nueva marca (círculo)
             var circle = new BoxView
@@ -151,14 +152,14 @@ public partial class ActionCreate : ContentPage, INotifyPropertyChanged
 
     private void OnSwitchToggled(object sender, ToggledEventArgs e)
     {
-        Action1.WhichHalf = e.Value;
+        ActionCrear.WhichHalf = e.Value;
 
         ViewModel.DidSwtHalf = true;
     }
 
     private void OnDescriptionTextChanged(object sender, TextChangedEventArgs e)
     {
-        Action1.Description = e.NewTextValue;
+        ActionCrear.Description = e.NewTextValue;
     }
 
     public Task<bool> GetResultAsync()
@@ -169,14 +170,14 @@ public partial class ActionCreate : ContentPage, INotifyPropertyChanged
 
 public class ActionCreate_ViewModel : BaseViewModel
 {
-    private PlayerAction_Dto? action1;
-    private Guid IdPlayerPasado;
-    private Match_Dto? MatchActual;
+    private PlayerAction_Dto? actionCrear;
+    private int? IdPlayerPasado;
+    private Match? MatchActual;
     private TaskCompletionSource<bool> _taskCompletionSource;
 
-    public ActionCreate_ViewModel(PlayerAction_Dto action1, Guid idPlayerPasado, Match_Dto matchActual, TaskCompletionSource<bool> taskCompletionSource)
+    public ActionCreate_ViewModel(PlayerAction_Dto actionAcrear, int? idPlayerPasado, Match matchActual, TaskCompletionSource<bool> taskCompletionSource)
     {
-        this.action1 = action1;
+        this.actionCrear = actionAcrear;
         this.IdPlayerPasado = idPlayerPasado;
         this.MatchActual = matchActual;
         this._taskCompletionSource = taskCompletionSource;
@@ -291,23 +292,21 @@ public class ActionCreate_ViewModel : BaseViewModel
 
     private async Task OnSubmit()
     {
-        if (action1 == null) return;
-        var result = API_Calls.AddAction(action1);
-        Console.WriteLine(result.Message);
+        if (actionCrear == null) return;
+        var guardado = Services.AddPlayerAction(actionCrear);
 
-        if (result.Success)
+        if (guardado)
         {
-            var result1 = API_Calls.GetAllPlayerMatches();
-            Console.WriteLine(result1.Message);
+            var result = Services.GetPlayerMatches();
 
-            if (result1.Success)
+            if (result != null)
             {
-                var playerMatch = result1.Data.FirstOrDefault(pm => pm.IdPlayer == IdPlayerPasado && pm.IdMatch == MatchActual.Id);
+                var playerMatch = result.FirstOrDefault(pm => pm.IdPlayer == IdPlayerPasado && pm.IdMatch == MatchActual.Id);
 
                 if (playerMatch != null)
                 {
-                    playerMatch.IdActions.Add(action1.Id);
-                    API_Calls.ReplacePlayerMatch(playerMatch);
+                    playerMatch.IdActions.Add(SpecialServices.GetLastAction());
+                    Services.UpdatePlayerMatch(playerMatch);
                 }
             }
 
@@ -326,8 +325,8 @@ public class ActionCreate_ViewModel : BaseViewModel
 
     private async Task OnCancel()
     {
-        action1 = null;
-        IdPlayerPasado = Guid.Empty;
+        actionCrear = null;
+        IdPlayerPasado = null;
         MatchActual = null;
 
         _taskCompletionSource.SetResult(false);

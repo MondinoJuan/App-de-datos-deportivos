@@ -1,5 +1,6 @@
 using Microsoft.Maui.Controls;
 using Frontend.Resources.DTOs;
+using Frontend.Resources.Modelos;
 using System;
 using Frontend.Pages;
 
@@ -8,20 +9,20 @@ namespace Frontend.Resources.Components;
 public partial class PlayerItemView : ContentView
 {
     public static readonly BindableProperty MatchViewProperty =
-        BindableProperty.Create(nameof(MatchView), typeof(MatchView), typeof(PlayerItemView));
+        BindableProperty.Create(nameof(MatchSummary), typeof(MatchSummary), typeof(PlayerItemView));
 
-    public MatchView MatchView
+    public MatchSummary MatchSummary
     {
-        get => (MatchView)GetValue(MatchViewProperty);
+        get => (MatchSummary)GetValue(MatchViewProperty);
         set => SetValue(MatchViewProperty, value);
     }
 
     public static readonly BindableProperty PlayerProperty =
-        BindableProperty.Create(nameof(Player), typeof(Player_Dto), typeof(PlayerItemView));
+        BindableProperty.Create(nameof(Player), typeof(Player), typeof(PlayerItemView));
 
-    public Player_Dto Player
+    public Player Player
     {
-        get => (Player_Dto)GetValue(PlayerProperty);
+        get => (Player)GetValue(PlayerProperty);
         set => SetValue(PlayerProperty, value);
     }
 
@@ -64,23 +65,22 @@ public partial class PlayerItemView : ContentView
         {
             try
             {
-                var result = API_Calls.GetAllPlayerMatches();
-                Console.WriteLine(result.Message);
+                var result = Services.GetPlayerMatches();
 
-                if (result.Success)
+                if (result != null)
                 {
-                    var playerMatches = result.Data.Where(pm => pm.IdPlayer == Player.Id).ToList();
+                    var playerMatches = result.Where(pm => pm.IdPlayer == Player.Id).ToList();
 
                     foreach (var pm in playerMatches)
                     {
                         RemovePlayerActions(pm);
-                        API_Calls.RemovePlayerMatch(pm.Id);
+                        Services.DeletePlayerMatch(pm.Id);
                     }
                 }
 
-                API_Calls.RemovePlayer(Player.Id);
-                MatchView.RemovePlayer(Player);
-                MatchView.UpdateScore();
+                Services.DeletePlayer(Player.Id);
+                MatchSummary.RemovePlayer(Player);
+                MatchSummary.UpdateScore();
             }
             catch (Exception ex)
             {
@@ -89,13 +89,13 @@ public partial class PlayerItemView : ContentView
         }
     }
 
-    private static void RemovePlayerActions(PlayerMatch_Dto playerMatch)
+    private static void RemovePlayerActions(PlayerMatch playerMatch)
     {
         if (playerMatch.IdActions != null && playerMatch.IdActions.Count != 0)
         {
             foreach (var actionId in playerMatch.IdActions)
             {
-                API_Calls.RemoveAction(actionId);
+                Services.DeletePlayerAction(actionId);
             }
             playerMatch.IdActions.Clear();
         }

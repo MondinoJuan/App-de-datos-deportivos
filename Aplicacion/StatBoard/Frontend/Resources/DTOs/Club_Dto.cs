@@ -7,8 +7,8 @@ namespace Frontend.Resources.DTOs
 {
     public partial class Club_Dto : ObservableObject
     {
-        [ObservableProperty]
-        public int idClub;
+        //[ObservableProperty]
+        //public int idClub;
 
         [ObservableProperty]
         public string name;

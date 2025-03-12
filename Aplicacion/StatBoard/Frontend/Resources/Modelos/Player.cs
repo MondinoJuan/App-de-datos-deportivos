@@ -12,5 +12,10 @@ namespace Frontend.Resources.Modelos
     {
         public string Name { get; set; }
         public int Number { get; set; }
+
+        internal void OnPropertyChanged(string v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

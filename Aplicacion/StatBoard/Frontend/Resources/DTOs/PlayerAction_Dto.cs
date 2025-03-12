@@ -4,8 +4,8 @@ namespace Frontend.Resources.DTOs
 {
     public partial class PlayerAction_Dto : ObservableObject
     {
-        [ObservableProperty]
-        public int idPlayerAction;
+        //[ObservableProperty]
+        //public int idPlayerAction;
 
         [ObservableProperty]
         public bool whichHalf = false;

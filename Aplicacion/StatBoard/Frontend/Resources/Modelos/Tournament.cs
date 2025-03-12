@@ -13,6 +13,6 @@ namespace Frontend.Resources.Modelos
 
         public int Cupo { get; set; }
 
-        //public List<System.Guid> IdClubs { get; set; } = new List<Guid>();
+        //public List<int> IdClubs { get; set; } = new List<int>();
     }
 }
