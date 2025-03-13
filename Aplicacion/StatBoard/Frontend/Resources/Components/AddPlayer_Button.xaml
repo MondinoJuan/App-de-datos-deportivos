@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Frontend.Resources.Components.PlayerCircle"
-             x:Name="Root">
-
+             x:Class="Frontend.Resources.Components.AddPlayer_Button">
     <Grid 
         HorizontalOptions="Fill"
         VerticalOptions="Fill">
@@ -24,19 +22,13 @@
             VerticalOptions="Center"
             HorizontalOptions="Center"
             Spacing="2">
-            
+
             <Label 
-                Text="{Binding Number}"
+                Text="+"
                 FontSize="{Binding NumberFontSize, Source={x:Reference Root}}"
                 FontAttributes="Bold"
                 HorizontalOptions="Center"
                 TextColor="DarkBlue"/>
-
-            <Label 
-                Text="{Binding Name}"
-                FontSize="{Binding NameFontSize, Source={x:Reference Root}}"
-                HorizontalOptions="Center"
-                TextColor="DarkGray"/>
         </VerticalStackLayout>
 
         <Grid.GestureRecognizers>

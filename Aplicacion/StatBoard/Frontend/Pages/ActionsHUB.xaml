@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Frontend.Pages.ActionsHUB"
+             Title="ActionsHUB"
+             xmlns:components="clr-namespace:Frontend.Resources.Components">
+
+    <!--<ContentView.Resources>
+        <ResourceDictionary>
+            <components:PlayerCircle x:Key="PlayerCircle" />
+        </ResourceDictionary>
+        --><!--<components:PlayerCircle x:Key="PlayerCircle"/>--><!--
+    </ContentView.Resources>-->
+
+    <Grid 
+        RowSpacing="10" 
+        ColumnSpacing="10"
+        ColumnDefinitions="Auto, Auto, Auto, Auto"
+        RowDefinitions="Auto">
+
+        <VerticalStackLayout
+            Grid.Column="0">
+            
+            <Label
+                Text="{Binding LocalTeam.Name}" 
+                Style="{DynamicResource SubtitleLabel}"/>
+
+            <StackLayout 
+                x:Name="PlayerListLocal" 
+                BindableLayout.ItemsSource="{Binding TeamLocalPlayers}"
+                Grid.Row="2"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                HorizontalOptions="Fill" 
+                VerticalOptions="Fill">
+                <StackLayout.Triggers>
+                    <DataTrigger TargetType="StackLayout" Binding="{Binding TeamLocalPlayers.Count}" Value="0">
+                        <Setter Property="IsVisible" Value="False" />
+                    </DataTrigger>
+                </StackLayout.Triggers>
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate>
+                        <components:PlayerCircle
+                            Player="{Binding .}"
+                            ColorFondo="LightBlue"
+                            ColorTexto="DarkBlue">
+                            <components:PlayerCircle.GestureRecognizers>
+                                <TapGestureRecognizer 
+                                    Tapped="OnPlayerLocalTapped"
+                                    CommandParameter="{Binding}"/>
+                            </components:PlayerCircle.GestureRecognizers>
+                        </components:PlayerCircle>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </StackLayout>
+
+            <!--Tendría que indicar que es para los visitantes-->
+            <components:AddPlayer_Button
+                IsVisible="{Binding TeamLocalPlayers.Count, Converter={StaticResource IsVisibleConverter}, ConverterParameter=16}"
+                EsLocal="True"/>
+
+        </VerticalStackLayout>
+
+        <VerticalStackLayout
+            Grid.Column="1">
+            <!--Agregar a cada imagen las secciones seleccionables-->     
+            
+            <Image
+                Source="cancha.png"
+                Style="{DynamicResource ImageStyle}"/>
+
+            <Image
+                Source="arco.png"
+                Style="{DynamicResource ImageStyle}"/>
+
+        </VerticalStackLayout>
+
+        <VerticalStackLayout
+            Grid.Column="2">
+
+            <Label
+                Text="{Binding AwayTeam.Name}" 
+                Style="{DynamicResource SubtitleLabel}"/>
+
+            <StackLayout 
+                x:Name="PlayerListAway" 
+                BindableLayout.ItemsSource="{Binding TeamAwayPlayers}"
+                Grid.Row="2"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                HorizontalOptions="Fill" 
+                VerticalOptions="Fill">
+                <StackLayout.Triggers>
+                    <DataTrigger TargetType="StackLayout" Binding="{Binding TeamAwayPlayers.Count}" Value="0">
+                        <Setter Property="IsVisible" Value="False" />
+                    </DataTrigger>
+                </StackLayout.Triggers>
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate>
+                        <components:PlayerCircle
+                            Player="{Binding .}"
+                            ColorFondo="RosyBrown"
+                            ColorTexto="Orange">
+                            <components:PlayerCircle.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnPlayerAwayTapped"/>
+                            </components:PlayerCircle.GestureRecognizers>
+                        </components:PlayerCircle>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </StackLayout>
+
+            <!--Tendría que indicar que es para los visitantes-->
+            <components:AddPlayer_Button
+                IsVisible="{Binding TeamLocalPlayers.Count, Converter={StaticResource IsVisibleConverter}, ConverterParameter=16}" 
+                EsLocal="False"/>
+
+        </VerticalStackLayout>
+
+        <VerticalStackLayout
+            Grid.Column="3">
+
+            <HorizontalStackLayout>
+
+                <Label
+                    Text="1er Tiempo"
+                    Style="{DynamicResource TextLabel}"/>
+
+                <components:SwitchHalf 
+                    x:Name="swtHalfIndicator"
+                    Style="{DynamicResource TextLabel}"/>
+
+                <Label
+                    Text="2do Tiempo"/>
+
+            </HorizontalStackLayout>
+
+            <VerticalStackLayout>
+
+                <Label
+                    Text="Acción"
+                    Style="{DynamicResource SubtitleLabel}"/>
+
+                <!-- Selector de acción -->
+                <!--Traducir el ending para que no aparezca asi en la UI-->
+                <Picker 
+                    x:Name="actionPicker"
+                    Title="Seleccione una acción" 
+                    Style="{StaticResource PickerStyle}"
+                    SelectedIndexChanged="OnPickerActionSelectedIndexChanged">
+                    <Picker.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>Goal</x:String>
+                            <x:String>Save</x:String>
+                            <x:String>Miss</x:String>
+                            <x:String>Blocked</x:String>
+                            <x:String>Steal_W</x:String>
+                            <x:String>Steal_L</x:String>
+                            <x:String>Foul</x:String>
+                        </x:Array>
+                    </Picker.ItemsSource>
+                </Picker>
+
+            </VerticalStackLayout>
+            
+            <VerticalStackLayout>
+
+                <Label
+                    Text="Sanción"
+                    Style="{DynamicResource SubtitleLabel}"/>
+
+                <!--Selecciono sancion-->
+                <!--Traducir el ending para que no aparezca asi en la UI-->
+                <Picker 
+                    x:Name="sanctionPicker"
+                    Title="Seleccione una sanción" 
+                    Style="{StaticResource PickerStyle}"
+                    SelectedIndexChanged="OnPickerSanctionSelectedIndexChanged">
+                    <Picker.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>Two_Minutes</x:String>
+                            <x:String>Red</x:String>
+                            <x:String>Blue</x:String>
+                        </x:Array>
+                    </Picker.ItemsSource>
+                    <Picker.Triggers>
+                        <DataTrigger TargetType="Picker" Binding="{Binding ActionNeedsSanction}" Value="False">
+                            <Setter Property="IsEnabled" Value="False" />
+                            <Setter Property="IsVisible" Value="False" />
+                        </DataTrigger>
+                        <DataTrigger TargetType="Picker" Binding="{Binding ActionNeedsSanction}" Value="True">
+                            <Setter Property="IsEnabled" Value="True" />
+                            <Setter Property="IsVisible" Value="True" />
+                        </DataTrigger>
+                    </Picker.Triggers>
+                </Picker>
+
+            </VerticalStackLayout>
+            
+            <!--Historial de acciones-->
+            <VerticalStackLayout
+                Padding="10">
+
+                <Label
+                    Text="Historial de acciones"
+                    Style="{DynamicResource SubtitleLabel}"/>
+
+                <Grid 
+                    BackgroundColor="#f5f5f5" 
+                    Padding="20">
+
+                    <!-- Rectángulo redondeado -->
+                    <Border 
+                        StrokeThickness="0"
+                        BackgroundColor="White"
+                        StrokeShape="RoundRectangle 20"
+                        HorizontalOptions="Fill"
+                        VerticalOptions="Fill"
+                        Padding="10">
+
+                        <!-- ScrollView para las acciones -->
+                        <ScrollView>
+                            <StackLayout 
+                                x:Name="AccionesContainer"
+                                Spacing="10"
+                                HorizontalOptions="Center"
+                                VerticalOptions="Start"/>
+                        </ScrollView>
+
+                    </Border>
+
+                </Grid>
+
+            </VerticalStackLayout>
+
+            <HorizontalStackLayout
+                Spacing="10">
+
+                <Button
+                    Text="Guardar"
+                    Style="{DynamicResource SaveButton}"/>
+
+                <Button
+                    Text="Cancelar"
+                    Style="{DynamicResource CancelButton}"/>
+
+            </HorizontalStackLayout>
+
+        </VerticalStackLayout>
+
+    </Grid>
+</ContentPage>
