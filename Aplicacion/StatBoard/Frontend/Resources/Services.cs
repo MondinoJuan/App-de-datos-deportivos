@@ -255,13 +255,13 @@ public class Services
                 var playerAction = new PlayerAction
                 {
                     WhichHalf = playerActionDTO.WhichHalf,
-                    Ending = playerActionDTO.Ending,
+                    EndingA = playerActionDTO.EndingA,
                     ActionPositionX = playerActionDTO.ActionPositionX,
                     ActionPositionY = playerActionDTO.ActionPositionY,
                     DefinitionPlaceX = playerActionDTO.DefinitionPlaceX,
                     DefinitionPlaceY = playerActionDTO.DefinitionPlaceY,
-                    Sanction = playerActionDTO.Sanction,
-                    Description = playerActionDTO.Description
+                    //Description = playerActionDTO.Description,
+                    SanctionA = playerActionDTO.SanctionA
                 };
 
                 db.PlayerActions.Add(playerAction);

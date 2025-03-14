@@ -87,8 +87,8 @@ namespace Frontend.Resources.ViewModels
                     DefinitionPlaceX = Action_Dto.DefinitionPlaceX,
                     DefinitionPlaceY = Action_Dto.DefinitionPlaceY,
                     Description = Action_Dto.Description,
-                    Sanction = Action_Dto.Sanction,
-                    Ending = Action_Dto.Ending
+                    SanctionA = Action_Dto.Sanction,
+                    EndingA = Action_Dto.Ending
                 };
                 if (playerAction.Id == 0)
                 {

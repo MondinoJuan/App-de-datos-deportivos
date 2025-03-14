@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Frontend.Resources.Components.MenuHamburguesa">
+    <Grid HorizontalOptions="Center" VerticalOptions="Center">
+
+        <!-- Ícono de hamburguesa (3 barras) -->
+        <StackLayout x:Name="HamburgerIcon"
+                     Orientation="Vertical"
+                     Spacing="5"
+                     HorizontalOptions="Start"
+                     Padding="10">
+            <BoxView HeightRequest="4" WidthRequest="30" Color="Black" />
+            <BoxView HeightRequest="4" WidthRequest="30" Color="Black" />
+            <BoxView HeightRequest="4" WidthRequest="30" Color="Black" />
+        </StackLayout>
+
+        <!-- Menú desplegable -->
+        <StackLayout x:Name="MenuOptions"
+                     IsVisible="False"
+                     BackgroundColor="White"
+                     Padding="10"
+                     VerticalOptions="Start"
+                     HorizontalOptions="End"
+                     TranslationY="40"
+                     Margin="0,40,0,0"
+                     Shadow="4">
+            <Button Text="Finalizar partido"
+                    Clicked="OnFinalizarPartido"
+                    BackgroundColor="Transparent"
+                    TextColor="DarkGreen"/>
+            <Button Text="Salir sin guardar"
+                    Clicked="OnSalirSinGuardar"
+                    BackgroundColor="Transparent"
+                    TextColor="DarkRed"/>
+        </StackLayout>
+
+        <!-- Área táctil para abrir/cerrar -->
+        <BoxView BackgroundColor="Transparent"
+                 VerticalOptions="Center"
+                 HorizontalOptions="Start"
+                 WidthRequest="40"
+                 HeightRequest="40"
+                 GestureRecognizers="{Binding Source={x:Reference HamburgerMenu}, Path=TapGesture}"/>
+    </Grid>
+</ContentView>

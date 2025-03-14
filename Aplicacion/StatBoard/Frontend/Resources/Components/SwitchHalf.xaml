@@ -3,9 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Frontend.Resources.Components.SwitchHalf">
     <Grid HorizontalOptions="Center" VerticalOptions="Center">
-        <Grid WidthRequest="60" HeightRequest="30" BackgroundColor="#e8e8e8" 
-              CornerRadius="15" Padding="2"
-              HorizontalOptions="Center" VerticalOptions="Center">
+        <Grid 
+            WidthRequest="60" 
+            HeightRequest="30" 
+            BackgroundColor="#e8e8e8" 
+            Padding="2"
+            HorizontalOptions="Center" 
+            VerticalOptions="Center">
             <!-- Círculos decorativos -->
             <Grid>
                 <Grid.ColumnDefinitions>

@@ -34,7 +34,7 @@ namespace Frontend.Resources
                 var action = actionResult;
 
                 // Contar las acciones del tipo específico
-                if (action.Ending == actionType)
+                if (action.EndingA == actionType)
                 {
                     // Guardar las coordenadas
                     eventData.CooField.Add(new Coordenates
@@ -54,15 +54,15 @@ namespace Frontend.Resources
                     }
 
                     // Contar las sanciones
-                    if (action.Sanction == Sanction.Red)
+                    if (action.SanctionA == Sanction.Red)
                     {
                         eventData.Red++;
                     }
-                    else if (action.Sanction == Sanction.Blue)
+                    else if (action.SanctionA == Sanction.Blue)
                     {
                         eventData.Blue++;
                     }
-                    else if (action.Sanction == Sanction.Two_Minutes)
+                    else if (action.SanctionA == Sanction.Two_Minutes)
                     {
                         eventData.Quantity2min++;
                     }

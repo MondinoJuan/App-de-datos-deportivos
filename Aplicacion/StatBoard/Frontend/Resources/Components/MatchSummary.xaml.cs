@@ -73,14 +73,14 @@ public partial class MatchSummary : ContentView, INotifyPropertyChanged
 
         foreach (var playerMatch in playerMatches)
         {
-            // Buscar todas las acciones del jugador que sean Ending.Goal
+            // Buscar todas las acciones del jugador que sean EndingA.Goal
             if (playerMatch.IdActions == null)
                 return;
 
             foreach (var idAction in playerMatch.IdActions)
             {
                 var action = Services.GetPlayerAction(idAction);
-                if (action != null && action.Ending == Ending.Goal)
+                if (action != null && action.EndingA == Ending.Goal)
                 {
                     if (LocalTeam.IdPlayers.Contains(playerMatch.IdPlayer))
                     {
@@ -138,17 +138,17 @@ public partial class MatchSummary : ContentView, INotifyPropertyChanged
         return playerIds.Select(id => Services.GetPlayer(id)).Where(player => player != null).ToList();
     }
 
-    private void CreatePlayerMatch(int idPlayer, int idMatch)
-    {
-        var newPlayerMatch = new PlayerMatch_Dto
-        {
-            IdPlayer = idPlayer,
-            IdMatch = idMatch,
-            IdActions = new List<int>()
-        };
+    //private void CreatePlayerMatch(int idPlayer, int idMatch)
+    //{
+    //    var newPlayerMatch = new PlayerMatch_Dto
+    //    {
+    //        IdPlayer = idPlayer,
+    //        IdMatch = idMatch,
+    //        IdActions = new List<int>()
+    //    };
 
-        Services.AddPlayerMatch(newPlayerMatch);
-    }
+    //    Services.AddPlayerMatch(newPlayerMatch);
+    //}
 
     public void RemovePlayer(Player player)
     {

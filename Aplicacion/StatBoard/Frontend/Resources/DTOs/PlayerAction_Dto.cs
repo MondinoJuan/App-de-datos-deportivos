@@ -11,7 +11,7 @@ namespace Frontend.Resources.DTOs
         public bool whichHalf = false;
 
         [ObservableProperty]
-        public Ending ending;
+        public Ending endingA;
 
         [ObservableProperty]
         public float actionPositionX;
@@ -19,14 +19,14 @@ namespace Frontend.Resources.DTOs
         public float actionPositionY;
 
         [ObservableProperty]
-        public float definitionPlaceX = 0;
+        public float? definitionPlaceX = 0;
         [ObservableProperty]
-        public float definitionPlaceY = 0;
+        public float? definitionPlaceY = 0;
 
         [ObservableProperty]
-        public Sanction sanction; 
+        public Sanction? sanctionA; 
 
-        [ObservableProperty]
-        public string? description;
+        //[ObservableProperty]
+        //public string? description;
     }
 }

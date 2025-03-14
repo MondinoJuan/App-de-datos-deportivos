@@ -6,16 +6,16 @@ namespace Frontend.Resources.Modelos
     {
         public bool WhichHalf { get; set; } = false;
 
-        public Ending Ending { get; set; }
+        public Ending EndingA { get; set; }
 
         public float ActionPositionX { get; set; }
         public float ActionPositionY { get; set; }
 
-        public float DefinitionPlaceX { get; set; } = 0;
-        public float DefinitionPlaceY { get; set; } = 0;
+        public float? DefinitionPlaceX { get; set; } = 0;
+        public float? DefinitionPlaceY { get; set; } = 0;
 
-        public Sanction Sanction { get; set; }
+        public Sanction? SanctionA { get; set; }
 
-        public string? Description { get; set; }
+        //public string? Description { get; set; }
     }
 }
