@@ -11,13 +11,6 @@ public partial class MainPage : ContentPage
 
     private void OnNewMatch(object sender, EventArgs e)
     {
-        API_Calls.CleanClubList();
-        API_Calls.CleanPlayerList();
-        API_Calls.CleanPlayerMatchList();
-        API_Calls.CleanMatchList();
-        API_Calls.CleanPlayerActionList();
-        API_Calls.CleanTournamentList();
-
         Navigation.PushAsync(new CreateMatchPage());
     }
 }

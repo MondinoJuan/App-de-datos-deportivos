@@ -9,12 +9,10 @@ namespace Frontend.Pages;
 
 public partial class CreateModify_Player : ContentPage, INotifyPropertyChanged
 {
-    private TaskCompletionSource<int> _taskCompletionSource;
-    private TaskCompletionSource<Player_Dto> _playerAGuardar;
-    public Player PlayerModificar { get; private set; }
-    public Player_Dto PlayerCrear { get; private set; }
-    public bool ModifyWarning { get; private set; }
-    public bool InvModifyWarning { get; private set; }
+    private Player PlayerModificar { get; set; }
+    private Player_Dto PlayerCrear { get; set; }
+
+    private bool Modify => PlayerModificar != null;
 
     private bool _enableSaveButton = false;
     public bool EnableSaveButton
@@ -57,26 +55,20 @@ public partial class CreateModify_Player : ContentPage, INotifyPropertyChanged
         }
     }
 
-    public CreateModify_Player()
+    public CreateModify_Player(bool localidad)
     {
         InitializeComponent();
-        ModifyWarning = false;
         EnableSaveButton = false;
-        InvModifyWarning = !ModifyWarning;
         PlayerCrear = new Player_Dto();
-        _taskCompletionSource = new TaskCompletionSource<int>();
         BindingContext = this;
     }
 
-    public CreateModify_Player(Player player)
+    public CreateModify_Player(int idPlayer, bool localidad)
     {
         InitializeComponent();
-        ModifyWarning = true;
         EnableSaveButton = false;
-        InvModifyWarning = !ModifyWarning;
-        PlayerModificar = player;
+        PlayerModificar = Services.GetPlayer(idPlayer);
         CompleteFields();
-        _taskCompletionSource = new TaskCompletionSource<int>();
         BindingContext = this;
     }
 
@@ -105,20 +97,14 @@ public partial class CreateModify_Player : ContentPage, INotifyPropertyChanged
         txtPlayerNumber.Text = PlayerModificar.Number.ToString();
     }
 
-    private void OnSwitchToggled(object sender, ToggledEventArgs e)
-    {
-        lblStatus.Text = $"{(e.Value ? "Visitante" : "Local")}";
-    }
-
     private async void OnSave(object sender, EventArgs e)
     {   
-        if (ModifyWarning)
+        if (Modify)
         {
             PlayerModificar.Name = txtPlayerName.Text;
             PlayerModificar.Number = int.Parse(txtPlayerNumber.Text);
 
             Services.UpdatePlayer(PlayerModificar);
-            // Manejo del error por si no se reemplaza.
         }
         else
         {
@@ -126,36 +112,28 @@ public partial class CreateModify_Player : ContentPage, INotifyPropertyChanged
             PlayerCrear.Number = int.Parse(txtPlayerNumber.Text);
 
             Services.AddPlayer(PlayerCrear);
-            // Manejo del error por si no se guarda.
         }
-
-        if (!_taskCompletionSource.Task.IsCompleted)
-        {
-            if (swtLocalAway.IsToggled)
-            {
-                _taskCompletionSource.SetResult(2); // Visitante
-            }
-            else
-            {
-                _taskCompletionSource.SetResult(1); // Local
-            }
-        }
-
+                
         if (Navigation.ModalStack.Count > 0)
         {
             await Navigation.PopModalAsync();
         }
-        await Navigation.PushAsync(new MatchView());
+        else
+        {
+            await Navigation.PopAsync();
+        }
     }
 
     private async void OnCancel(object sender, EventArgs e)
     {
-        if (!_taskCompletionSource.Task.IsCompleted)
+        if (Navigation.ModalStack.Count > 0)
         {
-            _taskCompletionSource.SetResult(0);
+            await Navigation.PopModalAsync();
         }
-        await Navigation.PopModalAsync();
-        await Navigation.PushAsync(new MatchView());
+        else
+        {
+            await Navigation.PopAsync();
+        }
     }
 
     public new event PropertyChangedEventHandler? PropertyChanged;

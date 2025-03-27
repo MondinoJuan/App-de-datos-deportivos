@@ -7,7 +7,7 @@ namespace Frontend.Resources;
 public class Services
 {
     // Clubes
-    public static bool AddClub(Club_Dto clubDTO)
+    public static int AddClub(Club_Dto clubDTO)
     {
         try
         {
@@ -21,13 +21,13 @@ public class Services
 
                 db.Clubes.Add(club);
                 db.SaveChanges();
+                return club.Id;
             }
-            return true;
         }
         catch
         {
-            return false;
-        }            
+            return -1; // Indica un error
+        }
     }
 
     public static List<Club> GetClubs()
@@ -83,7 +83,7 @@ public class Services
     }
 
     // Matches
-    public static bool AddMatch(Match_Dto matchDTO)
+    public static int AddMatch(Match_Dto matchDTO)
     {
         try
         {
@@ -104,13 +104,13 @@ public class Services
 
                 db.Matches.Add(match);
                 db.SaveChanges();
+                return match.Id;
             }
-            return true;
         }
         catch
         {
-            return false;
-        }        
+            return -1; // Indica un error
+        }
     }
 
     public static List<Match> GetMatches()
@@ -166,7 +166,7 @@ public class Services
     }
 
     // Players
-    public static bool AddPlayer(Player_Dto playerDTO)
+    public static int AddPlayer(Player_Dto playerDTO)
     {
         try
         {
@@ -180,13 +180,13 @@ public class Services
 
                 db.Players.Add(player);
                 db.SaveChanges();
+                return player.Id;
             }
-            return true;
         }
         catch
         {
-            return false;
-        }                
+            return -1; // Indica un error
+        }
     }
 
     public static List<Player> GetPlayers()
@@ -246,7 +246,7 @@ public class Services
 
 
     // PlayerActions
-    public static bool AddPlayerAction(PlayerAction_Dto playerActionDTO)
+    public static int AddPlayerAction(PlayerAction_Dto playerActionDTO)
     {
         try
         {
@@ -260,18 +260,17 @@ public class Services
                     ActionPositionY = playerActionDTO.ActionPositionY,
                     DefinitionPlaceX = playerActionDTO.DefinitionPlaceX,
                     DefinitionPlaceY = playerActionDTO.DefinitionPlaceY,
-                    //Description = playerActionDTO.Description,
                     SanctionA = playerActionDTO.SanctionA
                 };
 
                 db.PlayerActions.Add(playerAction);
                 db.SaveChanges();
+                return playerAction.Id;
             }
-            return true;
         }
         catch
         {
-            return false;
+            return -1; // Indica un error
         }
     }
 
@@ -332,7 +331,7 @@ public class Services
 
 
     // PlayerMatches
-    public static bool AddPlayerMatch(PlayerMatch_Dto playerMatchDTO)
+    public static int AddPlayerMatch(PlayerMatch_Dto playerMatchDTO)
     {
         try
         {
@@ -347,12 +346,12 @@ public class Services
 
                 db.PlayerMatches.Add(playerMatch);
                 db.SaveChanges();
+                return playerMatch.Id;
             }
-            return true;
         }
         catch
         {
-            return false;
+            return -1; // Indica un error
         }
     }
 
@@ -412,7 +411,7 @@ public class Services
     }
 
     // Tournaments
-    public static bool AddTournament(Tournament_Dto tournamentDTO)
+    public static int AddTournament(Tournament_Dto tournamentDTO)
     {
         try
         {
@@ -426,12 +425,12 @@ public class Services
 
                 db.Tournaments.Add(tournament);
                 db.SaveChanges();
+                return tournament.Id;
             }
-            return true;
         }
         catch
         {
-            return false;
+            return -1; // Indica un error
         }
     }
 

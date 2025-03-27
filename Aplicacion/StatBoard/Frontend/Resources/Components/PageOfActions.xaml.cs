@@ -363,7 +363,7 @@ namespace Frontend.Resources.Components
                     CornerRadius = 10,
                     Opacity = 0.6
                 };
-                AbsoluteLayout.SetLayoutBounds(circle, new Rect(coo.X + 10, coo.Y, 20, 20));
+                AbsoluteLayout.SetLayoutBounds(circle, new Rect((double)(coo.X + 10), (double)coo.Y, 20, 20));
                 AbsoluteLayout.SetLayoutFlags(circle, AbsoluteLayoutFlags.None);
                 container.Children.Add(circle);
             }

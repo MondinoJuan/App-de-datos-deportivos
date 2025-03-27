@@ -7,24 +7,19 @@ namespace Frontend.Resources;
 
 public class SpecialServices
 {
-    public static int GetLastAction()
+    public static bool CleanDatabase()
     {
         using (var db = new StatBoard_DbContext())
         {
-            var lista = db.PlayerActions.ToList();
-
-            return lista.Last().Id;
+            db.Database.EnsureDeleted();
+            db.Database.EnsureCreated();
+            return true;
         }
     }
 
-    public static int GetLastTeam()
+    public static List<Player> GetPlayersOfATeam(List<int> playerIds)
     {
-        using (var db = new StatBoard_DbContext())
-        {
-            var lista = db.Clubes.ToList();
-
-            return lista.Last().Id;
-        }
+        return playerIds.Select(id => Services.GetPlayer(id)).Where(player => player != null).ToList();
     }
 
     public static PlayerMatch GetPlayerMatchWithIdPlayer(int idPlayer)

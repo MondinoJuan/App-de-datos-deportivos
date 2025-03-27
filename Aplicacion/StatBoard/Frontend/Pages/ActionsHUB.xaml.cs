@@ -1,4 +1,5 @@
 using Frontend.Resources;
+using Frontend.Resources.PDF_Pages;
 using Frontend.Resources.Modelos;
 using Frontend.Resources.DTOs;
 using Microsoft.Maui.Layouts;
@@ -9,7 +10,7 @@ public partial class ActionsHUB : ContentPage
 {
     private bool IsPlayerLocal { get; set; }
     private Player PlayerSeleccionado { get; set; } = new Player();
-    private Ending EndingSeleccionado { get; set; } = new Ending();
+    private Ending? EndingSeleccionado { get; set; }
     private Sanction? SanctionSeleccionada { get; set; }
 
     private float ActionPositionX { get; set; }
@@ -18,9 +19,34 @@ public partial class ActionsHUB : ContentPage
     private float? DefinitionPlaceX { get; set; }
     private float? DefinitionPlaceY { get; set; }
 
-    public ActionsHUB()
+    public Match Match { get; set; }
+    public Club TeamLocal { get; set; }
+    public Club TeamAway { get; set; }
+    public List<Player> PlayersLocal { get; set; }
+    public List<Player> PlayersAway { get; set; }
+
+
+    public ActionsHUB(int idMatch)
     {
         InitializeComponent();
+
+        Match = Services.GetMatch(idMatch);
+        BindingContext = this;
+    }
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        RecargarDatos();
+    }
+
+    private void RecargarDatos()
+    {
+        TeamLocal = Services.GetClub(Match.IdTeamLocal);
+        TeamAway = Services.GetClub(Match.IdTeamAway);
+        PlayersLocal = SpecialServices.GetPlayersOfATeam(TeamLocal.IdPlayers);
+        PlayersAway = SpecialServices.GetPlayersOfATeam(TeamAway.IdPlayers);
+        BindingContext = this;
     }
 
     private void OnPlayerAwayTapped(object sender, TappedEventArgs e)
@@ -50,37 +76,7 @@ public partial class ActionsHUB : ContentPage
         var picker = sender as Picker;
         if (picker != null && picker.SelectedItem != null)
         {
-            string selectedAction = "";
-            switch (picker.SelectedItem.ToString())
-            {
-                case "Gol":
-                    selectedAction = "Goal";
-                    break;
-                case "Foul":
-                    selectedAction = "Foul";
-                    break;
-                case "Atajada":
-                    selectedAction = "Save";
-                    break;
-                case "Errada":
-                    selectedAction = "Miss";
-                    break;
-                case "Perdida":
-                    selectedAction = "Steal_L";
-                    break;
-                case "Robo":
-                    selectedAction = "Steal_W";
-                    break;
-                case "Bloqueo":
-                    selectedAction = "Blocked";
-                    break;
-                default:
-                    break;
-            }
-            if (Enum.TryParse(selectedAction, out Ending actionValue))
-            {
-                EndingSeleccionado = actionValue;
-            }
+            EndingSeleccionado = Functions.StringAEnding(picker.SelectedItem.ToString());
         }
     }
     
@@ -139,7 +135,7 @@ public partial class ActionsHUB : ContentPage
 
             // Calcula la posición en la pantalla
             AbsoluteLayout.SetLayoutBounds(circle,
-                new Rect(coordenadasActualizadas[0].X, coordenadasActualizadas[0].Y, 20, 20));
+                new Rect((double)coordenadasActualizadas[0].X, (double)coordenadasActualizadas[0].Y, 20, 20));
             AbsoluteLayout.SetLayoutFlags(circle, AbsoluteLayoutFlags.None);
 
             // Añade el círculo al contenedor de marcas
@@ -177,7 +173,7 @@ public partial class ActionsHUB : ContentPage
 
             // Calcula la posición en la pantalla
             AbsoluteLayout.SetLayoutBounds(circle,
-                new Rect(coordenadasActualizadas[0].X, coordenadasActualizadas[0].Y, 20, 20));
+                new Rect((double)coordenadasActualizadas[0].X, (double)coordenadasActualizadas[0].Y, 20, 20));
             AbsoluteLayout.SetLayoutFlags(circle, AbsoluteLayoutFlags.None);
 
             // Añade el círculo al contenedor de marcas
@@ -193,7 +189,7 @@ public partial class ActionsHUB : ContentPage
         var nuevaAction = new PlayerAction_Dto
         {
             WhichHalf = swtHalfIndicator.IsToggled,
-            EndingA = EndingSeleccionado,
+            EndingA = (Ending)EndingSeleccionado,
             ActionPositionX = ActionPositionX,
             ActionPositionY = ActionPositionY,
             DefinitionPlaceX = DefinitionPlaceX,
@@ -232,13 +228,75 @@ public partial class ActionsHUB : ContentPage
 
         // Agregar el nuevo Label a la lista
         AccionesContainer.Children.Add(labelNuevaAccion);
-        Services.AddPlayerAction(nuevaAction);
+        var idNewAction = Services.AddPlayerAction(nuevaAction);
 
-        var actualizarPlayerMatch = SpecialServices.GetPlayerMatchWithIdPlayer(PlayerSeleccionado.Id);
+        var actualizarPlayerMatch = SpecialServices.GetPlayerMatchWithIdPlayer(PlayerSeleccionado.Id);          // Agregar que busque segun idMatch
         if (actualizarPlayerMatch != null)
         {
-            actualizarPlayerMatch.IdActions.Add(SpecialServices.GetLastAction());
+            actualizarPlayerMatch.IdActions.Add(idNewAction);
             Services.UpdatePlayerMatch(actualizarPlayerMatch);
         }
+    }
+
+    public async Task<bool> DeletePlayer()
+    {
+        var result = await DisplayAlert("Eliminar Jugador", "¿Estás seguro de que deseas eliminar este jugador?", "Sí", "No");
+        if (result)
+        {
+            var borro = Services.DeletePlayer(PlayerSeleccionado.Id);
+            if (!borro) return false;
+            if (IsPlayerLocal)
+            {
+                PlayersLocal.Remove(PlayerSeleccionado);
+                TeamLocal.IdPlayers.Remove(PlayerSeleccionado.Id);
+                Services.UpdateClub(TeamLocal);
+            }
+            else
+            {
+                PlayersAway.Remove(PlayerSeleccionado);
+                TeamAway.IdPlayers.Remove(PlayerSeleccionado.Id);
+                Services.UpdateClub(TeamAway);
+            }
+            RecargarDatos();
+            return true;
+        }
+        return false;
+    }
+
+    public async void GoModifyPlayer()
+    {
+        await Navigation.PushAsync(new CreateModify_Player(PlayerSeleccionado.Id, IsPlayerLocal));
+        return;
+    }
+
+    public async void CreoPDF()
+    {
+        var crearPDF = new CrearPDF_Android();
+        var creoPDF = await crearPDF.CrearPDF_A(Match.Id);
+        if (creoPDF)
+        {
+            Application.Current.MainPage.DisplayAlert("Partido finalizado", "Has finalizado el partido", "OK");
+            SpecialServices.CleanDatabase();
+            Application.Current.Quit();
+        }
+        else
+        {
+            Application.Current.MainPage.DisplayAlert("Error", "No se pudo crear el PDF", "OK");
+        }
+    }
+
+    public async void SalirSinGuardar()
+    {
+        var result = await DisplayAlert("Salir sin guardar", "Al salir los datos serán borrados", "OK", "Volver");
+        if (result)
+        {
+            SpecialServices.CleanDatabase();
+            Application.Current.Quit();
+        }
+    }
+
+    private void GoSummary(object sender, EventArgs e)
+    {
+        Navigation.PushAsync(new ShowMiddleGame(Match.Id));
     }
 }

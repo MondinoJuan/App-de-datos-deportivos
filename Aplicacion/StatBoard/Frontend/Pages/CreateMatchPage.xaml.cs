@@ -61,10 +61,10 @@ namespace Frontend.Pages
                         
             try
             {
-                var resultA = Services.AddClub(teamLocal);
-                var idTeamLocal = SpecialServices.GetLastTeam();
-                var resultB = Services.AddClub(teamAway);
-                var idTeamAway = SpecialServices.GetLastTeam();
+                var idTeamLocal = Services.AddClub(teamLocal);
+                //var idTeamLocal = SpecialServices.GetLastTeam();
+                var idTeamAway = Services.AddClub(teamAway);
+                //var idTeamAway = SpecialServices.GetLastTeam();
 
                 Match_Dto match = new Match_Dto
                 {
@@ -77,9 +77,9 @@ namespace Frontend.Pages
                     IdTeamAway = idTeamAway
                 };
 
-                var resultC = Services.AddMatch(match);
+                var idMatch_Creado = Services.AddMatch(match);
 
-                await Navigation.PushAsync(new MatchView(match));
+                await Navigation.PushAsync(new ActionsHUB(idMatch_Creado));
             }
             catch (Exception ex)
             {

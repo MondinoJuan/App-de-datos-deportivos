@@ -15,7 +15,6 @@ using Android.OS;
 using System.IO;
 using AndroidX.Core.Content;
 using AndroidX.Core.App;
-
 #endif
 
 namespace Frontend.Resources.PDF_Pages
@@ -385,11 +384,11 @@ namespace Frontend.Resources.PDF_Pages
                 {
                     if (end == Ending.Goal || end == Ending.Miss || end == Ending.Save)
                     {
-                        canvas.DrawText($"{end}: {temp.QuantityEnding}", 50, yPosition, SKTextAlign.Left, textFont, textPaint);
+                        canvas.DrawText($"{Functions.EndingAString(end)}: {temp.QuantityEnding}", 50, yPosition, SKTextAlign.Left, textFont, textPaint);
                     }
                     else
                     {
-                        canvas.DrawText($"{end}: {temp.QuantityEnding}", 50 + (imageWidth * 2) + 20, yPosition - 20, SKTextAlign.Left, textFont, textPaint);
+                        canvas.DrawText($"{Functions.EndingAString(end)}: {temp.QuantityEnding}", 50 + (imageWidth * 2) + 20, yPosition - 20, SKTextAlign.Left, textFont, textPaint);
                     }
                 }
             }
@@ -490,11 +489,11 @@ namespace Frontend.Resources.PDF_Pages
                 {
                     if (end == Ending.Goal || end == Ending.Miss || end == Ending.Save)
                     {
-                        canvas.DrawText($"{end}: {totalEndings}", 50, yPosition, SKTextAlign.Left, textFont, textPaint);
+                        canvas.DrawText($"{Functions.EndingAString(end)}: {totalEndings}", 50, yPosition, SKTextAlign.Left, textFont, textPaint);
                     }
                     else
                     {
-                        canvas.DrawText($"{end}: {totalEndings}", 50 + (imageWidth * 2) + 20, yPosition - 20, SKTextAlign.Left, textFont, textPaint);
+                        canvas.DrawText($"{Functions.EndingAString(end)}: {totalEndings}", 50 + (imageWidth * 2) + 20, yPosition - 20, SKTextAlign.Left, textFont, textPaint);
                     }
                 }
             }
@@ -644,7 +643,7 @@ namespace Frontend.Resources.PDF_Pages
                 {
                     foreach (var mark in marks)
                     {
-                        canvas.DrawCircle(mark.X, mark.Y, 10, paint); // Dibuja el punto en la imagen
+                        canvas.DrawCircle((float)mark.X, (float)mark.Y, 10, paint); // Dibuja el punto en la imagen
                     }
                 }
 

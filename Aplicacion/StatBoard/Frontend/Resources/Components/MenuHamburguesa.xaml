@@ -25,14 +25,22 @@
                      TranslationY="40"
                      Margin="0,40,0,0"
                      Shadow="4">
-            <Button Text="Finalizar partido"
-                    Clicked="OnFinalizarPartido"
-                    BackgroundColor="Transparent"
-                    TextColor="DarkGreen"/>
-            <Button Text="Salir sin guardar"
-                    Clicked="OnSalirSinGuardar"
-                    BackgroundColor="Transparent"
-                    TextColor="DarkRed"/>
+            <Button 
+                Text="Modificar jugador"
+                Clicked="OnGoModifyPlayer"
+                Style="{DynamicResource NavigationButton}"/>
+            <Button 
+                Text="Borrar jugador"
+                Clicked="OnDeletePlayer"
+                Style="{DynamicResource CancelButton}"/>
+            <Button 
+                Text="Finalizar partido"
+                Clicked="OnFinalizarPartido"
+                Style="{DynamicResource SaveButton}"/>
+            <Button 
+                Text="Salir sin guardar"
+                Clicked="OnSalirSinGuardar"
+                Style="{DynamicResource CancelButton}"/>
         </StackLayout>
 
         <!-- Área táctil para abrir/cerrar -->
@@ -41,6 +49,6 @@
                  HorizontalOptions="Start"
                  WidthRequest="40"
                  HeightRequest="40"
-                 GestureRecognizers="{Binding Source={x:Reference HamburgerMenu}, Path=TapGesture}"/>
+                 GestureRecognizers="{Binding Source={x:Reference MenuHamburguesa}, Path=TapGesture}"/>
     </Grid>
 </ContentView>

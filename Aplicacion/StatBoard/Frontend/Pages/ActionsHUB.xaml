@@ -180,9 +180,14 @@
                 <Label
                     Text="2do Tiempo"/>
 
+                
+                <!--Menu hamburguesa-->
                 <components:MenuHamburguesa 
                     VerticalOptions="Start" 
-                    HorizontalOptions="End" />
+                    HorizontalOptions="End" 
+                    IdMatch="{Binding Match.Id}"
+                    IdPlayer="{Binding PlayerSeleccionado.Id}"
+                    IsLocal="{Binding IsPlayerLocal}"/>
 
             </HorizontalStackLayout>
 

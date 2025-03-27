@@ -8,6 +8,75 @@ namespace Frontend.Resources
 {
     class Functions
     {
+        public static Ending? StringAEnding(string e)
+        {
+            string selectedAction = "";
+            switch (e)
+            {
+                case "Gol":
+                    selectedAction = "Goal";
+                    break;
+                case "Foul":
+                    selectedAction = "Foul";
+                    break;
+                case "Atajada":
+                    selectedAction = "Save";
+                    break;
+                case "Errada":
+                    selectedAction = "Miss";
+                    break;
+                case "Perdida":
+                    selectedAction = "Steal_L";
+                    break;
+                case "Robo":
+                    selectedAction = "Steal_W";
+                    break;
+                case "Bloqueo":
+                    selectedAction = "Blocked";
+                    break;
+                default:
+                    break;
+            }
+            if (Enum.TryParse(selectedAction, out Ending actionValue))
+            {
+                return actionValue;
+            }
+
+            return null;
+        }
+
+        public static string EndingAString (Ending e)
+        {
+            string selectedAction = "";
+            switch (e)
+            {
+                case Ending.Goal:
+                    selectedAction = "Gol";
+                    break;
+                case Ending.Foul:
+                    selectedAction = "Foul";
+                    break;
+                case Ending.Save:
+                    selectedAction = "Atajada";
+                    break;
+                case Ending.Miss:
+                    selectedAction = "Errada";
+                    break;
+                case Ending.Steal_L:
+                    selectedAction = "Perdida";
+                    break;
+                case Ending.Steal_W:
+                    selectedAction = "Robo";
+                    break;
+                case Ending.Blocked:
+                    selectedAction = "Bloqueo";
+                    break;
+                default:
+                    break;
+            }
+            return selectedAction;
+        }
+
         public static EventsData GetActionCountForPlayer(int playerId, Ending actionType)
         {
             var eventData = new EventsData()
@@ -44,7 +113,7 @@ namespace Frontend.Resources
                     });
 
                     // Guardar la posición de definición (si es válida)
-                    if (action.DefinitionPlaceX != 0 || action.DefinitionPlaceY != 0)
+                    if (action.DefinitionPlaceX != 0 && action.DefinitionPlaceY != 0 && action.DefinitionPlaceX != null && action.DefinitionPlaceY != null)
                     {
                         eventData.CooGoal.Add(new Coordenates
                         {

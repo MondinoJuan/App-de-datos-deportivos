@@ -23,8 +23,8 @@ namespace Frontend.Resources
 
     public struct Coordenates
     {
-        public float X { get; set; }
-        public float Y { get; set; }
+        public float? X { get; set; }
+        public float? Y { get; set; }
     }
 
     public class BaseViewModel : INotifyPropertyChanged

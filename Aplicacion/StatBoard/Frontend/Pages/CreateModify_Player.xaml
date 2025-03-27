@@ -43,25 +43,6 @@
                 Style="{StaticResource ErrorLabel}" 
                 IsVisible="{Binding EnableNumberErrorLabel}"/>
 
-            <!-- Switch Local/Visitante -->
-            <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
-                <Switch
-                    x:Name="swtLocalAway"
-                    IsToggled="False"
-                    Toggled="OnSwitchToggled"
-                    OnColor="#007ACC"
-                    ThumbColor="#FFA500" 
-                    IsVisible="{Binding InvModifyWarning}" />
-
-                <Label 
-                    x:Name="lblStatus" 
-                    Text="Local" 
-                    FontSize="16"
-                    VerticalOptions="Center" 
-                    IsVisible="{Binding InvModifyWarning}"/>
-
-            </HorizontalStackLayout>
-
             <!-- Botones -->
             <HorizontalStackLayout Spacing="10" Padding="10">
                 <Button 
