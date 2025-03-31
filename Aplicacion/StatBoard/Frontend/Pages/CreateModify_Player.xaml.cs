@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Frontend.Resources;
 using Frontend.Resources.Modelos;
-using Frontend.Resources.ViewModels;
+//using Frontend.Resources.ViewModels;
 
 namespace Frontend.Pages;
 

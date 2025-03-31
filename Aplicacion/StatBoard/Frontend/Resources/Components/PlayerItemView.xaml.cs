@@ -8,13 +8,13 @@ namespace Frontend.Resources.Components;
 
 public partial class PlayerItemView : ContentView
 {
-    public static readonly BindableProperty MatchViewProperty =
-        BindableProperty.Create(nameof(MatchSummary), typeof(MatchSummary), typeof(PlayerItemView));
+    public static readonly BindableProperty MatchSummaryProperty =
+            BindableProperty.Create(nameof(MatchSummary), typeof(MatchSummary), typeof(PlayerItemView), null);
 
     public MatchSummary MatchSummary
     {
-        get => (MatchSummary)GetValue(MatchViewProperty);
-        set => SetValue(MatchViewProperty, value);
+        get => (MatchSummary)GetValue(MatchSummaryProperty);
+        set => SetValue(MatchSummaryProperty, value);
     }
 
     public static readonly BindableProperty PlayerProperty =
@@ -47,7 +47,7 @@ public partial class PlayerItemView : ContentView
     {
         if (Player != null)
         {
-            await Navigation.PushAsync(new ActionCreate(Player.Id));
+            //await Navigation.PushAsync(new ActionCreate(Player.Id));
         }
     }
 
@@ -55,7 +55,7 @@ public partial class PlayerItemView : ContentView
     {
         if (Player != null)
         {
-            await Navigation.PushAsync(new CreateModify_Player(Player));
+            //await Navigation.PushAsync(new CreateModify_Player(Player));
         }
     }
 

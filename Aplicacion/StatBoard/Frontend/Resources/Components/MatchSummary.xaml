@@ -302,7 +302,7 @@
                     </Style>
                 </StackLayout.Style>
 
-                <Button 
+                <!--<Button 
                     x:Name="btnAddPlayer"
                     Text="Agregar jugador"
                     Style="{StaticResource AddButton}"
@@ -327,7 +327,7 @@
                     Text="Cancelar"
                     Style="{StaticResource CancelButton}"
                     Margin="10"
-                    Clicked="OnCancel" />
+                    Clicked="OnCancel" />-->
             </StackLayout>
 
         </VerticalStackLayout>

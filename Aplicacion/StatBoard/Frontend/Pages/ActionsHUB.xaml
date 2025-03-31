@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Frontend.Pages.ActionsHUB"
              Title="ActionsHUB"
-             xmlns:components="clr-namespace:Frontend.Resources.Components">
+             xmlns:components="clr-namespace:Frontend.Resources.Components"
+             x:Name="ActionsHUBInstance">
 
     <!--<ContentView.Resources>
         <ResourceDictionary>
@@ -185,9 +186,7 @@
                 <components:MenuHamburguesa 
                     VerticalOptions="Start" 
                     HorizontalOptions="End" 
-                    IdMatch="{Binding Match.Id}"
-                    IdPlayer="{Binding PlayerSeleccionado.Id}"
-                    IsLocal="{Binding IsPlayerLocal}"/>
+                    Actions_HUB="{Binding Source={x:Reference ActionsHUBInstance}}"/>
 
             </HorizontalStackLayout>
 

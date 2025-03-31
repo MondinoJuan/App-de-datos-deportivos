@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 
 using Frontend.Resources.DataAccess;
-using Frontend.Resources.ViewModels;
+//using Frontend.Resources.ViewModels;
 using Frontend.Pages;
 
 namespace Frontend;
@@ -21,15 +21,15 @@ public static class MauiProgram
 
         builder.Services.AddDbContext<StatBoard_DbContext>();
 
-        builder.Services.AddTransient<PlayerPage>();
-        builder.Services.AddTransient<ActionsPage>();
+        //builder.Services.AddTransient<PlayerPage>();
+        //builder.Services.AddTransient<ActionsPage>();
 
-        builder.Services.AddTransient<Players_ViewModel>();
-        builder.Services.AddTransient<Actions_ViewModel>();
-        builder.Services.AddTransient<MainViewModel>();
+        //builder.Services.AddTransient<Players_ViewModel>();
+        //builder.Services.AddTransient<Actions_ViewModel>();
+        //builder.Services.AddTransient<MainViewModel>();
 
-        Routing.RegisterRoute(nameof(PlayerPage), typeof(PlayerPage));
-        Routing.RegisterRoute(nameof(ActionsPage), typeof(ActionsPage));
+        //Routing.RegisterRoute(nameof(PlayerPage), typeof(PlayerPage));
+        //Routing.RegisterRoute(nameof(ActionsPage), typeof(ActionsPage));
 
 #if DEBUG
         builder.Logging.AddDebug();

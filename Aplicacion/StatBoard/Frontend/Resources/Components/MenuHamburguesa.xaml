@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Frontend.Resources.Components.MenuHamburguesa">
+             x:Class="Frontend.Resources.Components.MenuHamburguesa"
+             x:Name="MenuHamburguesaComponente">
+    
     <Grid HorizontalOptions="Center" VerticalOptions="Center">
 
         <!-- Ícono de hamburguesa (3 barras) -->
@@ -23,8 +25,7 @@
                      VerticalOptions="Start"
                      HorizontalOptions="End"
                      TranslationY="40"
-                     Margin="0,40,0,0"
-                     Shadow="4">
+                     Margin="0,40,0,0">
             <Button 
                 Text="Modificar jugador"
                 Clicked="OnGoModifyPlayer"
@@ -44,11 +45,15 @@
         </StackLayout>
 
         <!-- Área táctil para abrir/cerrar -->
-        <BoxView BackgroundColor="Transparent"
-                 VerticalOptions="Center"
-                 HorizontalOptions="Start"
-                 WidthRequest="40"
-                 HeightRequest="40"
-                 GestureRecognizers="{Binding Source={x:Reference MenuHamburguesa}, Path=TapGesture}"/>
+        <BoxView 
+            BackgroundColor="Transparent"
+            VerticalOptions="Center"
+            HorizontalOptions="Start"
+            WidthRequest="40"
+            HeightRequest="40">
+            <BoxView.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnHamburgerClicked" />
+            </BoxView.GestureRecognizers>
+        </BoxView>
     </Grid>
 </ContentView>
